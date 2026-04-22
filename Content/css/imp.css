@@ -102,7 +102,7 @@ input:-webkit-autofill:focus {
     font-weight: 400;
     text-transform: capitalize;
     height: 35px !important;
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Arial', sans-serif;
 }
 .highlights-area .single-middle-box form .input-box .ui-selectmenu-button{
     border-radius: 5px !important;    
@@ -162,7 +162,7 @@ input:-webkit-autofill:focus {
     font-weight: 400;
     text-transform: capitalize;
     height: 50px !important;
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Arial', sans-serif;
 }                                                                                                               
 .appointment-form form .input-box .ui-selectmenu-button:focus{
     outline: none;
@@ -216,7 +216,7 @@ input:-webkit-autofill:focus {
     font-weight: 400;
     text-transform: capitalize;
     height: 30px !important;
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Arial', sans-serif;
 }
 .state-select-box .ui-selectmenu-button:focus{
     outline: none;
@@ -274,7 +274,7 @@ input:-webkit-autofill:focus {
     font-size: 15px;
     font-weight: 400;
     text-transform: capitalize;
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Arial', sans-serif;
 }                                                                                                               
 .doctor-tab-box .input-box .ui-selectmenu-button:focus{
     outline: none;
@@ -330,7 +330,7 @@ input:-webkit-autofill:focus {
     font-size: 15px;
     font-weight: 400;
     text-transform: capitalize;
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Arial', sans-serif;
 }                                                                                                               
 .find-doctor-specialities .input-box .ui-selectmenu-button:focus{
     outline: none;
@@ -387,7 +387,7 @@ input:-webkit-autofill:focus {
     font-size: 15px;
     font-weight: 400;
     text-transform: capitalize;
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Arial', sans-serif;
 }                                                                                                               
 .appointment-form-left form .single-box .input-box .ui-selectmenu-button:focus{
     outline: none;
@@ -450,7 +450,7 @@ input:-webkit-autofill:focus {
     font-weight: 400;
     text-transform: capitalize;
     height: 50px !important;
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Arial', sans-serif;
     width: 100% !important;
 }
 .state-select-box2 .ui-selectmenu-button:focus{

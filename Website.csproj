@@ -143,6 +143,8 @@
     <Compile Include="Controllers\ModulesController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
+    <Compile Include="Daos\IBookingDao.cs" />
+    <Compile Include="Daos\IUserDao.cs" />
     <Compile Include="Daos\PostDao.cs" />
     <Compile Include="Daos\BookingDao.cs" />
     <Compile Include="Daos\DoctorDao.cs" />

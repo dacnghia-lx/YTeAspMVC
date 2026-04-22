@@ -5,12 +5,13 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using YTeAspMVC.Daos;
 
 
 
 namespace YTeAspMVC.Daos
 {
-    public class UserDao
+    public class UserDao : IUserDao
     {
         YTeDBContext myDb = new YTeDBContext();
         public bool checkLogin(string email, string password)

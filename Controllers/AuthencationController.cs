@@ -10,7 +10,18 @@ namespace YTeAspMVC.Controllers
 {
     public class AuthencationController : Controller
     {
-        UserDao userDao = new UserDao();
+        private readonly IUserDao userDao;
+
+        public AuthencationController()
+        {
+            userDao = new UserDao();
+        }
+
+        public AuthencationController(IUserDao _userDao)
+        {
+            this.userDao = _userDao;
+        }
+        //UserDao userDao = new UserDao();
         NumberDao numberDao = new NumberDao();
         BookingDao bookingDao = new BookingDao();
         // GET: Authencation
@@ -76,7 +87,30 @@ namespace YTeAspMVC.Controllers
         [HttpPost]
         public ActionResult Singup(User user)
         {
-            
+            // 1. Kiểm tra mật khẩu trống
+            if (string.IsNullOrEmpty(user.Password))
+            {
+                ViewBag.mess = "PasswordEmpty";
+                return View("Singup");
+            }
+
+            // 2. Kiểm tra độ dài mật khẩu
+            if (user.Password.Length < 6 || user.Password.Length > 100)
+            {
+                ViewBag.mess = "PasswordLengthError";
+                return View("Singup");
+            }
+
+            // 3. Validate Unicode
+            bool hasUnicodeinPassword = user.Password.Any(c => c > 127);
+            bool hasUnicodeinEmail = user.Email.Any(c => c > 127);
+            if (hasUnicodeinPassword || hasUnicodeinEmail)
+            {
+                ViewBag.mess = "UnicodeError";
+                return View("Singup");
+            }
+
+            // 4. Các logic cũ của bạn giữ nguyên
             bool checkExistUserName = userDao.checkExistEmail(user.Email);
             if (checkExistUserName)
             {

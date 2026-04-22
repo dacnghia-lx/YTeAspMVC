@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Website.Daos;
 
 namespace YTeAspMVC.Daos
 {
-    public class BookingDao
+    public class BookingDao : IBookingDao
     {
         YTeDBContext myDb = new YTeDBContext();
 

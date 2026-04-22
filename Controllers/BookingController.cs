@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Website.Daos;
 using YTeAspMVC.Daos;
 using YTeAspMVC.Models;
 using YTeAspMVC.Request;
@@ -11,8 +12,19 @@ namespace YTeAspMVC.Controllers
 {
     public class BookingController : Controller
     {
+        private readonly IBookingDao bookingDao;
 
-        BookingDao bookingDao = new BookingDao();
+        public BookingController()
+        {
+            bookingDao = new BookingDao();
+        }
+
+        public BookingController(IBookingDao _bookingDao)
+        {
+            this.bookingDao = _bookingDao;
+        }
+
+        //BookingDao bookingDao = new BookingDao();
         // GET: Booking
         public ActionResult Index(string mess)
         {                
@@ -44,6 +56,10 @@ namespace YTeAspMVC.Controllers
             bool check = bookingDao.CheckExistScheduleInDay(booking.Day, booking.Time, user.IdUser,booking.IdDoctor);
             if (check) {
                 booking.IdUser = user.IdUser;
+                if (string.IsNullOrWhiteSpace(booking.Reason))
+                {
+                    return RedirectToAction("HistoryBooking", "Authencation", new { mess = "2" });
+                }
                 bookingDao.Add(booking);
                 return RedirectToAction("HistoryBooking", "Authencation", new { mess = "1" });
             }

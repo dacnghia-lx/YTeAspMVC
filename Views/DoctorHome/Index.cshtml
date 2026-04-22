@@ -1,0 +1,196 @@
+﻿@{
+    ViewBag.Title = "Lịch Khám Của Tôi";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    
+    int currentMonth = ViewBag.CurrentMonth;
+    int currentYear = ViewBag.CurrentYear;
+    Dictionary<int, int> counts = ViewBag.BookingCounts as Dictionary<int, int> ?? new Dictionary<int, int>();
+    
+    DateTime firstDayOfMonth = new DateTime(currentYear, currentMonth, 1);
+    int daysInMonth = DateTime.DaysInMonth(currentYear, currentMonth);
+    
+    // Day of week: 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    int startDayOfWeek = (int)firstDayOfMonth.DayOfWeek;
+    
+    int prevMonth = currentMonth == 1 ? 12 : currentMonth - 1;
+    int prevYear = currentMonth == 1 ? currentYear - 1 : currentYear;
+    
+    int nextMonth = currentMonth == 12 ? 1 : currentMonth + 1;
+    int nextYear = currentMonth == 12 ? currentYear + 1 : currentYear;
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Lịch Khám Của Tôi</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Quản lý lịch khám theo tháng</li>
+    </ol>
+    
+    <div class="card mb-4 mt-4 shadow-sm border-0">
+        <div class="card-header d-flex justify-content-between align-items-center bg-white border-bottom">
+            <a href="@Url.Action("Index", "DoctorHome", new { month = prevMonth, year = prevYear })" class="btn btn-outline-primary btn-sm">
+                <i class="fas fa-chevron-left"></i> Tháng trước
+            </a>
+            <h4 class="mb-0 fw-bold text-primary">Tháng @currentMonth / @currentYear</h4>
+            <a href="@Url.Action("Index", "DoctorHome", new { month = nextMonth, year = nextYear })" class="btn btn-outline-primary btn-sm">
+                Tháng sau <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-bordered mb-0 text-center" style="table-layout: fixed; min-width: 800px;">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="text-danger py-3" style="width: 14.28%;">Chủ Nhật</th>
+                            <th class="py-3" style="width: 14.28%;">Thứ Hai</th>
+                            <th class="py-3" style="width: 14.28%;">Thứ Ba</th>
+                            <th class="py-3" style="width: 14.28%;">Thứ Tư</th>
+                            <th class="py-3" style="width: 14.28%;">Thứ Năm</th>
+                            <th class="py-3" style="width: 14.28%;">Thứ Sáu</th>
+                            <th class="text-primary py-3" style="width: 14.28%;">Thứ Bảy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            @for(int i = 0; i < startDayOfWeek; i++) {
+                                <td class="bg-light"></td>
+                            }
+                            
+                            @{
+                                int currentDayOfWeek = startDayOfWeek;
+                            }
+                            
+                            @for(int day = 1; day <= daysInMonth; day++) {
+                                if (currentDayOfWeek == 7) {
+                                    @:</tr><tr>
+                                    currentDayOfWeek = 0;
+                                }
+                                
+                                int count = counts.ContainsKey(day) ? counts[day] : 0;
+                                string bgClass = count > 0 ? "bg-info text-white" : "";
+                                string textClass = currentDayOfWeek == 0 ? "text-danger" : (currentDayOfWeek == 6 ? "text-primary" : "text-dark");
+                                if (count > 0) { textClass = "text-white"; }
+                                
+                                <td class="p-2 position-relative @(count > 0 ? "border-info" : "")" style="height: 120px; vertical-align: top; @(count > 0 ? "background-color: rgba(13, 202, 240, 0.1); cursor: pointer;" : "")" @(count > 0 ? $"onclick=showBookings({day},{currentMonth},{currentYear})" : "")>
+                                    <div class="text-end mb-2">
+                                        <span class="fw-bold @textClass" style="font-size: 1.2rem;">@day</span>
+                                    </div>
+                                    @if(count > 0) {
+                                        <div class="badge bg-primary text-white p-2 mt-1 shadow-sm rounded d-block text-truncate">
+                                            <i class="fas fa-calendar-check me-1"></i> @count lịch khám
+                                        </div>
+                                    }
+                                </td>
+                                
+                                currentDayOfWeek++;
+                            }
+                            
+                            @while(currentDayOfWeek < 7) {
+                                <td class="bg-light"></td>
+                                currentDayOfWeek++;
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal chi tiết lịch khám -->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header bg-primary text-white border-0">
+        <h5 class="modal-title fw-bold" id="bookingModalLabel"><i class="fas fa-list-ul me-2"></i>Chi tiết lịch hẹn ngày <span id="modalDateStr" class="text-warning"></span></h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover mb-0 text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th class="py-3">Tên khách hàng</th>
+                        <th class="py-3">Ngày đặt lịch</th>
+                        <th class="py-3">Giờ</th>
+                        <th class="py-3">Lý do khám</th>
+                        <th class="py-3">Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody id="bookingTableBody">
+                    <!-- Dữ liệu load qua Ajax -->
+                </tbody>
+            </table>
+        </div>
+        <div id="loadingSpinner" class="text-center d-none py-5">
+            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="mt-2 text-primary fw-bold">Đang tải dữ liệu...</div>
+        </div>
+      </div>
+      <div class="modal-footer border-top-0 bg-light">
+        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function showBookings(day, month, year) {
+        $('#modalDateStr').text(day + '/' + month + '/' + year);
+        
+        $('#bookingTableBody').empty();
+        $('#loadingSpinner').removeClass('d-none');
+        
+        var bookingModalEl = document.getElementById('bookingModal');
+        var bookingModal = bootstrap.Modal.getInstance(bookingModalEl);
+        if (!bookingModal) {
+            bookingModal = new bootstrap.Modal(bookingModalEl);
+        }
+        bookingModal.show();
+
+        $.ajax({
+            url: '/DoctorHome/GetBookingsByDay',
+            type: 'POST',
+            data: { day: day, month: month, year: year },
+            success: function (res) {
+                $('#loadingSpinner').addClass('d-none');
+                if (res.success) {
+                    var html = '';
+                    if (res.data.length > 0) {
+                        $.each(res.data, function (i, item) {
+                            var statusBadge = '';
+                            if (item.Status === 'Chờ duyệt') {
+                                statusBadge = '<span class="badge bg-warning text-dark px-3 py-2 rounded-pill">' + item.Status + '</span>';
+                            } else if (item.Status === 'Đã duyệt / Chờ khám') {
+                                statusBadge = '<span class="badge bg-info text-white px-3 py-2 rounded-pill">' + item.Status + '</span>';
+                            } else if (item.Status === 'Đã khám xong') {
+                                statusBadge = '<span class="badge bg-success px-3 py-2 rounded-pill">' + item.Status + '</span>';
+                            } else {
+                                statusBadge = '<span class="badge bg-secondary px-3 py-2 rounded-pill">' + item.Status + '</span>';
+                            }
+
+                            html += '<tr class="align-middle">' +
+                                '<td class="fw-bold text-dark">' + item.CustomerName + '</td>' +
+                                '<td><i class="far fa-calendar-alt text-muted me-1"></i> ' + item.BookingDay + '</td>' +
+                                '<td class="text-danger fw-bold fs-5"><i class="far fa-clock me-1"></i> ' + item.Time + '</td>' +
+                                '<td class="text-start">' + item.Reason + '</td>' +
+                                '<td>' + statusBadge + '</td>' +
+                                '</tr>';
+                        });
+                    } else {
+                        html = '<tr><td colspan="5" class="text-muted py-4">Không có lịch hẹn nào</td></tr>';
+                    }
+                    $('#bookingTableBody').html(html);
+                } else {
+                    $('#bookingTableBody').html('<tr><td colspan="5" class="text-danger py-4">' + res.message + '</td></tr>');
+                }
+            },
+            error: function () {
+                $('#loadingSpinner').addClass('d-none');
+                $('#bookingTableBody').html('<tr><td colspan="5" class="text-danger py-4">Đã có lỗi xảy ra khi tải dữ liệu từ máy chủ.</td></tr>');
+            }
+        });
+    }
+</script>

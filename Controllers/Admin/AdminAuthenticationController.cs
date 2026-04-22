@@ -1,4 +1,4 @@
-﻿using YTeAspMVC.Daos;
+using YTeAspMVC.Daos;
 using YTeAspMVC.Models;
 using System;
 using System.Collections.Generic;
@@ -75,7 +75,7 @@ namespace YTeAspMVC.Controllers.Admin
             {
                 var userInformation = doctorDao.getUserByEmail(user.Email);
                 Session.Add("DOCTOR", userInformation);
-                return RedirectToAction("Index", "AdminHome");
+                return RedirectToAction("Index", "DoctorHome");
 
             }
             else

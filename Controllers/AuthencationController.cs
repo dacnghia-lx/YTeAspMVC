@@ -44,17 +44,6 @@ namespace YTeAspMVC.Controllers
             return View();
         }
 
-        public ActionResult HistoryNumber()
-        {
-            User user = (User)Session["USER"];
-            return View();
-        }
-
-        public ActionResult Print(int id)
-        {
-            return View();
-        }
-
         public ActionResult HistoryBooking(string mess)
         {
             User user = (User)Session["USER"];
@@ -71,7 +60,7 @@ namespace YTeAspMVC.Controllers
             {
                 var userInformation = userDao.getUserByEmail(user.Email);
                 Session.Add("USER", userInformation);
-                return RedirectToAction("/Home/Index");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
@@ -80,6 +69,7 @@ namespace YTeAspMVC.Controllers
             }
 
         }
+
 
         [HttpPost]
         public ActionResult Singup(User user)

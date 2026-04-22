@@ -32,7 +32,6 @@ namespace YTeAspMVC.Controllers
         [HttpPost]
         public ActionResult Advise(Advise advise)
         {
-
             advise.Created = DateTime.Now.ToString();
             postDao.AddAdvise(advise);
             ViewBag.Msg = "1";
@@ -42,14 +41,12 @@ namespace YTeAspMVC.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }

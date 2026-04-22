@@ -22,7 +22,6 @@ namespace YTeAspMVC.Controllers
             this.userDao = _userDao;
         }
         //UserDao userDao = new UserDao();
-        NumberDao numberDao = new NumberDao();
         BookingDao bookingDao = new BookingDao();
         // GET: Authencation
         public ActionResult Login()
@@ -45,19 +44,6 @@ namespace YTeAspMVC.Controllers
             return View();
         }
 
-        public ActionResult HistoryNumber()
-        {
-            User user = (User)Session["USER"];
-            ViewBag.List = numberDao.GetNumberByUser(user.IdUser);
-            return View();
-        }
-
-        public ActionResult Print(int id)
-        {
-            ViewBag.Number = numberDao.GetById(id);
-            return View();
-        }
-
         public ActionResult HistoryBooking(string mess)
         {
             User user = (User)Session["USER"];
@@ -74,7 +60,7 @@ namespace YTeAspMVC.Controllers
             {
                 var userInformation = userDao.getUserByEmail(user.Email);
                 Session.Add("USER", userInformation);
-                return RedirectToAction("Index", "Home");
+                return Redirect("/Home/Index");
             }
             else
             {
@@ -83,6 +69,7 @@ namespace YTeAspMVC.Controllers
             }
 
         }
+
 
         [HttpPost]
         public ActionResult Singup(User user)
@@ -138,29 +125,6 @@ namespace YTeAspMVC.Controllers
         {
             Session.Remove("User");
             return Redirect("/Home/Index");
-        }
-
-        [HttpGet]
-        public ActionResult NumberOnline()
-        {
-            User user = (User)Session["USER"];
-            bool check = numberDao.CheckUserNumberDay(user.IdUser);
-            if (!check)
-            {
-                return RedirectToAction("Index", "Home", new { mess = "2" });
-            }
-            else {
-                int numberInt = numberDao.GetNumberToday();
-                var numberAdd = new Number()
-                {
-                    NumberInt = numberInt + 1,
-                    Day = DateTime.Now.Date.ToString(),
-                    IdUser = user.IdUser
-                };
-                numberDao.Add(numberAdd);
-                return RedirectToAction("HistoryNumber", "Authencation", new { mess = "1" });
-            }
-          
         }
     }
 }

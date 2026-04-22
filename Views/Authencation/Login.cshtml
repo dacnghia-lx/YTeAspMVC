@@ -1,79 +1,124 @@
-﻿
-@{
-    ViewBag.Title = "Login";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Đăng nhập | HealthCare+";
 }
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght%40400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/Content/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/Content/css/auth-page.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
 
-<section class="breadcrumb-area" style="background-image: url(/Content/images/resources/breadcrumb-bg.jpg);">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="inner-content clearfix">
-                    <div class="title float-left">
-                        <h2>Đăng nhập</h2>
-                    </div>
-                    <div class="breadcrumb-menu float-right">
-                        <ul class="clearfix">
-                            <li><a href="/Home/Index">Home</a></li>
-                            <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
-                            <li class="active">Đăng nhập</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 @if (ViewBag.mess == "Error")
 {
-
-    <div class="toast" data-delay="1000" style="position:fixed; top: 100PX; left: 10PX;z-index: 2000;width: 300px">
-        <script>
-            swal({
-                title: 'Email hoặc mật khẩu không đúng!',
-                /* text: 'Redirecting...', */
-                icon: 'error',
-                timer: 3000,
-                buttons: true,
-                type: 'success'
-            })
-        </script>
-    </div>
+    <script>
+        swal({ title: 'Thông tin không đúng!', text: 'Email hoặc mật khẩu không chính xác.', icon: 'error', button: 'Thử lại' });
+    </script>
 }
-<!--End breadcrumb area-->
-<!--Start Contact info map area-->
-<!--End Contact info map area-->
-<!--Start contact form area-->
-<section class="contact-form-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="contact-form">
-                    <div class="contact-title">
-                        <h2>Đăng nhập</h2>
-                    </div>
-                    <form name="contact_form" class="default-form" action="/Authencation/Login" method="post">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="input-box">
-                                    <input type="email" class="form-control" name="Email" placeholder="Email*" required>
-                                </div>
-                                <div class="input-box">
-                                    <input type="password" style="height: 55px; padding: 0 30px;" class="form-control" name="Password" placeholder="Mật khẩu*" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="button-box">
-                                    <button class="btn-one" type="submit">Đăng nhập</button>
-                                </div>
-                            </div>
 
-                        </div>
-                    </form>
+<div class="hcp-auth-wrapper">
+
+    <!-- ───── LEFT PANEL ───── -->
+    <div class="hcp-auth-left" style="background-image: url('/Content/images/slides/v1-3.jpg');">
+        <a href="/" class="hcp-auth-brand">
+            <span class="brand-icon"><i class="fa fa-heartbeat"></i></span>
+            HealthCare+
+        </a>
+
+        <div>
+            <p class="hcp-auth-tagline">Nền tảng y tế tin cậy</p>
+            <h1 class="hcp-auth-heading">Sức khỏe của bạn<br>là ưu tiên hàng đầu</h1>
+            <p style="font-size:15px;opacity:.75;margin-bottom:36px;line-height:1.6;">
+                Kết nối với bác sĩ chuyên khoa, đặt lịch khám và<br>theo dõi sức khỏe mọi lúc, mọi nơi.
+            </p>
+
+            <!-- Stats -->
+            <div class="hcp-auth-stats">
+                <div class="hcp-stat-item">
+                    <span class="hcp-stat-label"><i class="fa fa-user-o"></i> Bệnh nhân</span>
+                    <span class="hcp-stat-value">10.000+</span>
+                </div>
+                <div class="hcp-stat-item">
+                    <span class="hcp-stat-label"><i class="fa fa-star-o"></i> Đánh giá</span>
+                    <span class="hcp-stat-value">4.9 / 5</span>
+                </div>
+                <div class="hcp-stat-item">
+                    <span class="hcp-stat-label"><i class="fa fa-shield"></i> Bảo mật</span>
+                    <span class="hcp-stat-value">100%</span>
                 </div>
             </div>
+        </div>
 
+        <div class="hcp-auth-left-footer">
+            <i class="fa fa-lock"></i>
+            <span>Dữ liệu được bảo mật theo tiêu chuẩn y tế quốc tế</span>
         </div>
     </div>
-</section>
 
+    <!-- ───── RIGHT PANEL ───── -->
+    <div class="hcp-auth-right">
+        <div class="hcp-auth-form-box">
+            <h2 class="hcp-form-title">Đăng nhập</h2>
+            <p class="hcp-form-subtitle">Chưa có tài khoản? <a href="/Authencation/Singup">Tạo tài khoản mới</a></p>
+
+            <form action="/Authencation/Login" method="post">
+
+                <!-- Email -->
+                <label class="hcp-field-label">Email</label>
+                <div class="hcp-field-wrap">
+                    <i class="fa fa-envelope-o hcp-field-icon-left"></i>
+                    <input type="email" name="Email" class="hcp-auth-input" placeholder="ten&#64;email.com" required>
+                </div>
+
+                <!-- Mật khẩu -->
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <label class="hcp-field-label">Mật khẩu</label>
+                    <a href="#" class="hcp-forgot-link">Quên mật khẩu?</a>
+                </div>
+                <div class="hcp-field-wrap">
+                    <i class="fa fa-lock hcp-field-icon-left"></i>
+                    <input type="password" name="Password" id="loginPwd" class="hcp-auth-input" placeholder="Nhập mật khẩu" required>
+                    <i class="fa fa-eye-slash hcp-field-icon-right" id="toggleLoginPwd"></i>
+                </div>
+
+                <button type="submit" class="hcp-auth-btn" style="margin-top:8px;">
+                    Đăng nhập <i class="fa fa-arrow-right"></i>
+                </button>
+
+                <div class="hcp-or-sep"><span>HOẶC</span></div>
+
+                <a href="#" class="hcp-google-btn">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="20">
+                    Tiếp tục với Google
+                </a>
+
+                <div class="hcp-security-note">
+                    <i class="fa fa-lock"></i>
+                    Thông tin được mã hóa và bảo mật tuyệt đối
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('toggleLoginPwd').addEventListener('click', function () {
+    const input = document.getElementById('loginPwd');
+    if (input.type === 'password') {
+        input.type = 'text';
+        this.className = 'fa fa-eye hcp-field-icon-right';
+    } else {
+        input.type = 'password';
+        this.className = 'fa fa-eye-slash hcp-field-icon-right';
+    }
+});
+</script>
+</body>
+</html>

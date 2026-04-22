@@ -1,0 +1,378 @@
+/* Profile Page CSS - HealthCare+ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --primary-green: #4caf7d;
+    --primary-dark: #1a2e23;
+    --bg-light: #f8faf9;
+    --border-light: #e8f0eb;
+    --text-muted: #64748b;
+    --white: #ffffff;
+}
+
+/* ───── PAGE WRAPPER ───── */
+.hcp-profile-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.hcp-profile-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+/* ───── SIDEBAR ───── */
+.hcp-profile-sidebar {
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(26, 46, 35, 0.05);
+    padding: 30px 20px;
+    position: sticky;
+    top: 100px;
+}
+
+.hcp-profile-nav {
+    list-style: none;
+    margin-top: 20px;
+}
+
+.hcp-nav-item {
+    margin-bottom: 8px;
+}
+
+.hcp-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    color: var(--text-muted);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.hcp-nav-link i {
+    width: 20px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.hcp-nav-link:hover {
+    background: var(--bg-light);
+    color: var(--primary-green);
+}
+
+.hcp-nav-link.active {
+    background: rgba(76, 175, 125, 0.1);
+    color: var(--primary-green);
+}
+
+.hcp-nav-link.active i {
+    color: var(--primary-green);
+}
+
+.hcp-nav-divider {
+    height: 1px;
+    background: var(--border-light);
+    margin: 20px 0;
+}
+
+.hcp-logout-btn {
+    color: #ef4444 !important;
+}
+
+.hcp-logout-btn:hover {
+    background: #fef2f2;
+}
+
+/* ───── CONTENT AREA ───── */
+.hcp-profile-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Banner & Header */
+.hcp-profile-header-card {
+    background: var(--white);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(26, 46, 35, 0.05);
+}
+
+.hcp-profile-banner {
+    height: 160px;
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    position: relative;
+}
+
+.hcp-profile-info-row {
+    padding: 0 40px 40px;
+    margin-top: -50px;
+    display: flex;
+    align-items: flex-end;
+    gap: 30px;
+    position: relative;
+    z-index: 2;
+}
+
+.hcp-profile-avatar-wrap {
+    position: relative;
+}
+
+.hcp-profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 5px solid var(--white);
+    background: var(--primary-green);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.hcp-profile-user-summary h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--primary-dark);
+    margin-bottom: 4px;
+}
+
+.hcp-user-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: rgba(76, 175, 125, 0.1);
+    color: var(--primary-green);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Profile Form Card */
+.hcp-profile-card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(26, 46, 35, 0.05);
+}
+
+.hcp-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.hcp-card-header h3 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--primary-dark);
+}
+
+.hcp-edit-toggle-btn {
+    background: var(--bg-light);
+    color: var(--primary-green);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.hcp-edit-toggle-btn:hover {
+    background: var(--primary-green);
+    color: var(--white);
+}
+
+/* Form Styling */
+.hcp-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.hcp-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.hcp-form-group.full-width {
+    grid-column: span 2;
+}
+
+.hcp-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.hcp-label span.req {
+    color: var(--primary-green);
+}
+
+.hcp-input-wrap {
+    position: relative;
+}
+
+.hcp-input-wrap>i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 14px;
+    pointer-events: none;
+}
+
+.hcp-profile-input {
+    width: 100%;
+    height: 48px;
+    background: #f0f2f5;
+    /* Slightly darker for readonly */
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 0 90px 0 40px;
+    font-size: 14px;
+    color: var(--primary-dark);
+    transition: all 0.3s;
+}
+
+.hcp-profile-input:not([readonly]):not([disabled]) {
+    background: var(--white);
+    border-color: #d1d9d4;
+}
+
+.hcp-profile-input:focus {
+    border-color: var(--primary-green);
+    background: var(--white);
+    box-shadow: 0 0 0 4px rgba(76, 175, 125, 0.1);
+    outline: none;
+}
+
+.hcp-profile-select {
+    padding-left: 40px;
+    cursor: pointer;
+}
+
+.hcp-verified-badge {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary-green);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(76, 175, 125, 0.1);
+    padding: 4px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+.hcp-verified-badge i {
+    position: static !important;
+    transform: none !important;
+    font-size: 12px !important;
+    color: inherit !important;
+}
+
+/* Buttons */
+.hcp-profile-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.hcp-save-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 30px;
+    background: var(--primary-green);
+    color: var(--white);
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 8px 20px rgba(76, 175, 125, 0.2);
+}
+
+.hcp-save-btn:hover {
+    background: #3d9e6e;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(76, 175, 125, 0.3);
+}
+
+/* ───── TAB SYSTEM ───── */
+.hcp-tab-pane {
+    display: none;
+}
+
+.hcp-tab-pane.active {
+    display: block;
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ───── RESPONSIVE ───── */
+@media (max-width: 992px) {
+    .hcp-profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hcp-profile-sidebar {
+        position: relative;
+        top: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .hcp-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hcp-form-group.full-width {
+        grid-column: span 1;
+    }
+
+    .hcp-profile-info-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}

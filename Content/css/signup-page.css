@@ -1,0 +1,324 @@
+/* Signup Page Premium Styles - HealthCare+ */
+:root {
+    --primary-green: #4caf7d;
+    --primary-dark: #1a2e23;
+    --text-muted: #64748b;
+    --bg-light: #fafafa;
+    --border-color: #eef3f0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    overflow-x: hidden;
+}
+
+.hcp-signup-wrapper {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Left Panel - Visuals */
+.hcp-signup-left {
+    flex: 0 0 45%;
+    position: relative;
+    background: url('/Content/images/slides/v1-3.jpg') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 60px;
+    color: #ffffff;
+}
+
+.hcp-signup-left::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(26, 46, 35, 0.9) 0%, rgba(76, 175, 125, 0.7) 100%);
+    z-index: 1;
+}
+
+.hcp-signup-left>* {
+    position: relative;
+    z-index: 2;
+}
+
+.hcp-brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+    text-decoration: none !important;
+}
+
+.hcp-brand-logo i {
+    width: 40px;
+    height: 40px;
+    background: #ffffff;
+    color: var(--primary-green);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.hcp-signup-hero-text h1 {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 32px;
+}
+
+.hcp-signup-benefits {
+    list-style: none;
+}
+
+.hcp-benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    font-size: 16px;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.hcp-benefit-item i {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.hcp-signup-footer {
+    font-size: 14px;
+    opacity: 0.7;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Right Panel - Form */
+.hcp-signup-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    background: #ffffff;
+}
+
+.hcp-signup-form-container {
+    max-width: 520px;
+    width: 100%;
+}
+
+.hcp-form-header {
+    margin-bottom: 40px;
+}
+
+.hcp-form-header h2 {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--primary-dark);
+    margin-bottom: 8px;
+}
+
+.hcp-form-header p {
+    color: var(--text-muted);
+}
+
+.hcp-form-header a {
+    color: var(--primary-green);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.hcp-form-header a:hover {
+    text-decoration: underline;
+}
+
+.hcp-input-group-row {
+    display: flex;
+    gap: 20px;
+}
+
+.hcp-input-group-row>div {
+    flex: 1;
+}
+
+.hcp-input-box {
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.hcp-input-box i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.hcp-input-box input,
+.hcp-input-box select {
+    width: 100%;
+    height: 54px;
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 0 16px 0 48px;
+    font-size: 15px;
+    color: var(--primary-dark);
+    transition: all 0.3s;
+    outline: none;
+}
+
+.hcp-input-box input:focus,
+.hcp-input-box select:focus {
+    border-color: var(--primary-green);
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(76, 175, 125, 0.08);
+}
+
+.hcp-input-box input:focus+i {
+    color: var(--primary-green);
+}
+
+.hcp-terms {
+    margin-bottom: 32px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.hcp-terms input {
+    margin-top: 4px;
+    accent-color: var(--primary-green);
+}
+
+.hcp-terms a {
+    color: var(--primary-green);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.hcp-signup-btn {
+    width: 100%;
+    height: 56px;
+    background: var(--primary-green);
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(76, 175, 125, 0.2);
+}
+
+.hcp-signup-btn:hover {
+    background: #3d9e6e;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 125, 0.3);
+}
+
+.hcp-social-sep {
+    text-align: center;
+    margin: 32px 0;
+    position: relative;
+}
+
+.hcp-social-sep::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: var(--border-color);
+    z-index: 1;
+}
+
+.hcp-social-sep span {
+    position: relative;
+    z-index: 2;
+    background: #ffffff;
+    padding: 0 16px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #cbd5e1;
+}
+
+.hcp-google-btn {
+    width: 100%;
+    height: 56px;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--primary-dark);
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.hcp-google-btn:hover {
+    background: var(--bg-light);
+    border-color: #cbd5e1;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+    .hcp-signup-left {
+        flex: 0 0 40%;
+        padding: 40px;
+    }
+}
+
+@media (max-width: 991px) {
+    .hcp-signup-wrapper {
+        flex-direction: column;
+    }
+
+    .hcp-signup-left {
+        flex: 0 0 auto;
+        padding: 60px 40px;
+    }
+
+    .hcp-signup-right {
+        padding: 60px 20px;
+    }
+}

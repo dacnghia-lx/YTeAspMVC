@@ -1,49 +1,100 @@
-﻿
+﻿<style>
+    /* Custom styling cho Sidebar Bớt đơn điệu */
+    .custom-sidebar {
+        background: linear-gradient(180deg, #1e2125 0%, #2b3035 100%) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    }
+    
+    .custom-sidebar .nav-link {
+        color: rgba(255, 255, 255, 0.65) !important;
+        padding: 0.85rem 1.2rem;
+        transition: all 0.3s ease;
+        border-left: 4px solid transparent;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+    }
+    
+    .custom-sidebar .nav-link:hover {
+        color: #fff !important;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-left: 4px solid #0dcaf0;
+    }
+
+    .custom-sidebar .sb-nav-link-icon {
+        color: rgba(255, 255, 255, 0.4) !important;
+        margin-right: 0.75rem;
+        width: 1.5rem;
+        text-align: center;
+        transition: color 0.3s ease;
+    }
+
+    .custom-sidebar .nav-link:hover .sb-nav-link-icon {
+        color: #0dcaf0 !important;
+    }
+    
+    .sidebar-heading {
+        color: rgba(255, 255, 255, 0.3);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        padding: 1.5rem 1rem 0.5rem 1.2rem;
+        letter-spacing: 1px;
+    }
+</style>
+
 <div id="layoutSidenav_nav">
      @{ var userInfomatiom = (YTeAspMVC.Models.User)Session["ADMIN"]; }
-    <nav style="background-color: #CCCCCC !important" class="sb-sidenav accordion " id="sidenavAccordion">
+    <nav class="sb-sidenav accordion custom-sidebar" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
-            <div class="nav">
+            <div class="nav mt-3">
+                
+                <div class="sidebar-heading">Chung</div>
+                
                 <a class="nav-link collapsed" href="@(userInfomatiom != null ? "/AdminHome/Index" : "/DoctorHome/Index")">
-                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Bảng điều khiển
                 </a>
 
                 @if (userInfomatiom == null)
                 {
+                    <div class="sidebar-heading">Công Việc Bác Sĩ</div>
                     <a class="nav-link collapsed" href="/AdminBooking/Doctor">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        <div class="sb-nav-link-icon"><i class="far fa-calendar-check"></i></div>
                         Danh sách lịch hẹn
                     </a>
                     <a class="nav-link collapsed" href="/AdminAdvise/Index">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        <div class="sb-nav-link-icon"><i class="far fa-question-circle"></i></div>
                         Danh sách câu hỏi
                     </a>
                 }
                 else
                 {
+                    <div class="sidebar-heading">Hệ thống Y Tế</div>
                     <a class="nav-link collapsed" href="/AdminDoctor/Index">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-user-md"></i></div>
                         Quản lý bác sĩ
                     </a>
                     <a class="nav-link collapsed" href="/AdminService/Index">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-briefcase-medical"></i></div>
                         Quản lý dịch vụ
                     </a>
                     <a class="nav-link collapsed" href="/AdminPost/Index">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        <div class="sb-nav-link-icon"><i class="far fa-newspaper"></i></div>
                         Quản lý tin tức
                     </a>
+                    
+                    <div class="sidebar-heading">Khách hàng & Đặt lịch</div>
                     <a class="nav-link collapsed" href="/AdminUser/Index">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                         Quản lý người dùng
                     </a>
                     <a class="nav-link collapsed" href="/AdminBooking/Index">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-calendar-alt"></i></div>
                         Quản lý lịch hẹn
                     </a>
                     <a class="nav-link collapsed" href="/AdminBooking/History">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-history"></i></div>
                         Lịch sử lịch hẹn
                     </a>
                 }
@@ -51,7 +102,3 @@
         </div>
     </nav>
 </div>
-
-
-
-

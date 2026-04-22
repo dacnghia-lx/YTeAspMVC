@@ -1,75 +1,164 @@
-﻿
+﻿@using System
+@using System.Linq
+@using System.Text.RegularExpressions
+@using System.Web
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Tin tức sức khỏe";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var postList = (ViewBag.List as IEnumerable<YTeAspMVC.Models.Post>) ?? Enumerable.Empty<YTeAspMVC.Models.Post>();
+    var firstPost = postList.FirstOrDefault();
+    var restPosts = postList.Skip(1).ToList();
+
+    var badges = new[] { "Phổ biến", "Mới", "Nổi bật", "Xu hướng", "Đề xuất", "Mới" };
+    var badgeCls = new[] { "popular", "new", "featured", "trending", "popular", "new" };
+    var categories = new[] { "Dinh dưỡng", "Tâm lý", "Tim mạch", "Nhi khoa", "Sức khỏe tổng quát", "Công nghệ y tế" };
+    var readMins = new[] { 6, 5, 8, 4, 7, 6 };
+    var viewCounts = new[] { 12540, 9840, 11320, 8760, 10250, 13110 };
+
+    Func<string, string> stripHtml = html =>
+    {
+        if (String.IsNullOrWhiteSpace(html))
+        {
+            return String.Empty;
+        }
+
+        var decoded = HttpUtility.HtmlDecode(html);
+        var plain = Regex.Replace(decoded ?? String.Empty, "<.*?>", " ");
+        plain = Regex.Replace(plain, @"\s+", " ").Trim();
+        return plain;
+    };
+
+    Func<string, int, string> excerpt = (html, length) =>
+    {
+        var plain = stripHtml(html);
+        if (plain.Length <= length)
+        {
+            return plain;
+        }
+
+        return plain.Substring(0, length).TrimEnd() + "...";
+    };
+
+    Func<string, string> displayDate = created =>
+    {
+        DateTime parsed;
+        return DateTime.TryParse(created, out parsed) ? parsed.ToString("dd/MM/yyyy") : created;
+    };
 }
 
-<section class="breadcrumb-area" style="background-image: url(/Content/images//resources/breadcrumb-bg.jpg);">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="inner-content clearfix">
-                    <div class="title float-left">
-                        <h2>Tin tức sức khỏe</h2>
-                    </div>
-                    <div class="breadcrumb-menu float-right">
-                        <ul class="clearfix">
-                            <li><a href="/Home/Index">Trang chủ</a></li>
-                            <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
-                            <li class="active">Tin tức</li>
-                        </ul>
-                    </div>
-                </div>
+<link rel="stylesheet" href="~/Content/css/news-page.css" />
+
+<div style="background:#f7f8f6; padding: 48px 20px 0;">
+    <div style="max-width: 1240px; margin: 0 auto; display: flex; align-items: flex-start; justify-content: space-between; border-bottom: 1px solid #eef1f4; padding-bottom: 30px; margin-bottom: -28px;">
+        <div>
+            <div style="font-size: 13px; color: #4caf7d; margin-bottom: 20px; display: inline-flex; align-items: center;">
+                <a href="/Home/Index" style="color: #95dfa8; text-decoration: none; font-weight: 500;">Trang chủ</a>
+                <span style="margin: 0 8px; color: #6f7f93; font-size: 11px;">❯</span>
+                <span style="color: #6f7f93; font-weight: 500;">Tin tức sức khỏe</span>
             </div>
+            <h1 style="font-size: 36px; font-weight: 800; color: #12305a; margin: 0 0 14px; display: block;">Tin tức sức khỏe</h1>
+            <p style="font-size: 16px; color: #6f7f93; margin: 0; line-height: 1.6;">Cập nhật kiến thức y tế, lời khuyên sức khỏe từ các chuyên gia hàng đầu</p>
         </div>
     </div>
-</section>
-<!--Start blog area-->
-<section id="blog-area" class="blog-default-area">
-    <div class="container">
-        <div class="row">
-            @foreach (var post in ViewBag.List)
-            {
-                <!--Start single blog post-->
-                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                    <div class="single-blog-post">
-                        <div class="img-holder">
-                            <img src="~/Content/images/@post.Image" style="height : 250px !important" alt="Awesome Image">
-                            <div class="categorie-button">
-                                <a class="btn-one" href="#">Tin tức</a>
-                            </div>
+</div>
+
+<div class="np-wrap">
+    <div class="np-container">
+        @if (firstPost != null)
+        {
+            <section class="np-featured">
+                <div class="np-section-head np-section-head-featured">
+                    <h2>
+                        <i class="fa fa-line-chart"></i>
+                        Bài viết nổi bật
+                    </h2>
+                </div>
+
+                <article class="np-featured-card">
+                    <a class="np-featured-media" href="/Post/Detail/@firstPost.IdPost" aria-label="@firstPost.Title">
+                        <img src="~/Content/images/@firstPost.Image" alt="@firstPost.Title" />
+                    </a>
+
+                    <div class="np-featured-content">
+                        <div class="np-featured-tags">
+                            <span class="np-tag np-tag-blue">Công nghệ y tế</span>
+                            <span class="np-tag np-tag-green">Nổi bật</span>
                         </div>
-                        <div class="text-holder">
-                            <div class="meta-box">
-                                <div class="author-thumb">
-                                    <img src="https://cdn2.iconfinder.com/data/icons/user-avatars-3/100/Doctor-512.png" alt="Image">
-                                </div>
-                                <ul class="meta-info">
-                                    <li><a href="#">Đăng bởi quản trị viên</a></li>
-                                    <li><a href="#">@String.Format("{0:dd-MM-yyyy}", post.Created)</a></li>
-                                </ul>
-                            </div>
-                            <h3 class="blog-title"><a href="/Post/Detail/@post.IdPost">@post.Title</a></h3>
-                            <div class="readmore-button">
-                                <a class="btn-two" href="/Post/Detail/@post.IdPost"><span class="flaticon-next"></span>Xem thêm</a>
-                            </div>
+
+                        <a class="np-featured-title" href="/Post/Detail/@firstPost.IdPost">@firstPost.Title</a>
+
+                        <p class="np-featured-desc">@excerpt(firstPost.Description, 210)</p>
+
+                        <div class="np-featured-meta">
+                            <span><i class="fa fa-calendar-o"></i> @displayDate(firstPost.Created)</span>
+                            <span><i class="fa fa-clock-o"></i> 8 phút đọc</span>
+                            <span><i class="fa fa-eye"></i> 12.540</span>
                         </div>
+
+                        <a class="np-featured-btn" href="/Post/Detail/@firstPost.IdPost">
+                            Đọc bài viết
+                            <i class="fa fa-angle-right"></i>
+                        </a>
                     </div>
+                </article>
+            </section>
+        }
+
+        <section class="np-latest">
+            <div class="np-section-head">
+                <h2>
+                    <i class="fa fa-bookmark-o"></i>
+                    Bài viết mới nhất
+                </h2>
+                <span class="np-count-badge">@restPosts.Count</span>
+            </div>
+
+            @if (!restPosts.Any())
+            {
+                <div class="np-empty">
+                    <i class="fa fa-newspaper-o"></i>
+                    <h3>Chưa có bài viết nào</h3>
+                    <p>Quay lại sau để xem các bài viết mới.</p>
                 </div>
             }
-                <!--End single blog post-->
-                <!--Start single blog post-->
+            else
+            {
+                <div class="np-grid">
+                    @{
+                        var idx = 0;
+                    }
+                    @foreach (var post in restPosts)
+                    {
+                        var i = idx % badges.Length;
+                        var badge = badges[i];
+                        var badgeClass = badgeCls[i];
+                        var category = categories[i];
+                        var mins = readMins[i];
+                        var views = viewCounts[i];
+                        idx++;
 
-            </div>
-        <div class="row">
-            <div class="col-md-12">
-                <ul class="post-pagination text-center">
-                    <li class="float-left"><a class="left" href="#"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
-                    <li class="text-center">1 of 4</li>
-                    <li class="float-right"><a class="right" href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
-                </ul>
-            </div>
-        </div>
+                        <a class="np-card" href="/Post/Detail/@post.IdPost">
+                            <div class="np-card-media">
+                                <img src="~/Content/images/@post.Image" alt="@post.Title" />
+                                <span class="np-card-badge @badgeClass">@badge</span>
+                            </div>
+
+                            <div class="np-card-content">
+                                <span class="np-card-category">@category</span>
+                                <span class="np-card-title">@post.Title</span>
+                                <p class="np-card-excerpt">@excerpt(post.Description, 120)</p>
+
+                                <div class="np-card-meta">
+                                    <span><i class="fa fa-calendar-o"></i> @displayDate(post.Created)</span>
+                                    <span><i class="fa fa-clock-o"></i> @mins phút đọc</span>
+                                    <span><i class="fa fa-eye"></i> @String.Format("{0:N0}", views)</span>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                </div>
+            }
+        </section>
     </div>
-</section>
-
+</div>

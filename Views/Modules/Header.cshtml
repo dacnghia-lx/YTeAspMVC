@@ -1,130 +1,375 @@
-﻿
-<header class="header-style2-area stricky">
-    <div class="container">
-        @{ var userInfomatiom = (YTeAspMVC.Models.User)Session["USER"];
-            var active = (string)Session["Active"];}
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12">
-                <div class="inner-content clearfix">
-                    <div class="header-style2-logo float-left">
-                        <a href="/Home/Index">
-                            <img src="~/Content/images/resources/logo.png" alt="Awesome Logo" style="width : 240px;height : 50px">
-                        </a>
-                    </div>
-                    <div class="header-middle clearfix float-left">
-                        <nav class="main-menu style1 style2 clearfix">
-                            <div class="navbar-header clearfix">
-                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>
-                            </div>
-                            <div class="navbar-collapse collapse clearfix">
-                                <ul class="navigation clearfix">
-                                    @if(active == "Home")
-                                    {
-                                        <li class="dropdown current">
-                                            <a href="/Home/Index">Trang chủ</a>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li class="dropdown">
-                                            <a href="/Home/Index">Trang chủ</a>
-                                        </li>
-                                    }
+﻿@{
+    var userInfomatiom = (YTeAspMVC.Models.User)Session["USER"];
+    var active = (string)Session["Active"];
 
-                                    @if (active == "Doctor")
-                                    {
-                                        <li class="current"><a href="/Doctor/Index">Bác sĩ</a></li>
-                                    }
-                                    else
-                                    {
-                                        <li><a href="/Doctor/Index">Bác sĩ</a></li>
-                                    }
+    // Get initials and short name for the premium header bar
+    string initials = "U";
+    string shortName = "";
+    if (userInfomatiom != null && !string.IsNullOrEmpty(userInfomatiom.FullName))
+    {
+        var names = userInfomatiom.FullName.Trim().Split(' ');
+        if (names.Length > 1)
+        {
+            initials = (names[0][0].ToString() + names[names.Length - 1][0].ToString()).ToUpper();
+            shortName = names[names.Length - 1]; // Use last name as short name
+        }
+        else
+        {
+            initials = names[0][0].ToString().ToUpper();
+            shortName = names[0];
+        }
+    }
+}
 
+<style>
+    /* ─── Figma Navbar ─── */
+    .hcp-navbar {
+        position: sticky;
+        top: 0;
+        z-index: 3000;
+        background: #ffffff;
+        border-bottom: 1px solid #e8f0ea;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
 
-                                    @if (active == "New")
-                                    {
-                                        <li class="dropdown current">
-                                            <a href="/Post/Index">Tin Tức</a>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li class="dropdown">
-                                            <a href="/Post/Index">Tin Tức</a>
-                                        </li>
-                                    }
-                                    @if (active == "Service")
-                                    {
-                                        <li class="dropdown current">
-                                            <a href="/Service/Index">Dịch vụ</a>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li class="dropdown">
-                                            <a href="/Service/Index">Dịch vụ</a>
-                                        </li>
-                                    }
+    .hcp-navbar-inner {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 80px;
+        height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        font-family: 'Inter', sans-serif;
+    }
 
-                                    @if (active == "Advice")
-                                    {
-                                        <li class="dropdown current">
-                                            <a href="/Home/Advise">Tư vấn</a>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li class="dropdown">
-                                            <a href="/Home/Advise">Tư vấn</a>
-                                        </li>
-                                    }
+    /* Logo */
+    .hcp-nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        flex-shrink: 0;
+    }
 
+    .hcp-nav-logo-icon {
+        width: 34px;
+        height: 34px;
+        background: #4caf7d;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 16px;
+    }
 
-                                    @if (userInfomatiom == null)
-                                    {
-                                        if (active == "Singup")
-                                        {
-                                            <li class=" current"><a href="/Authencation/Singup">Đăng ký</a></li>
-                                        }
-                                        else
-                                        {
-                                            <li><a href="/Authencation/Singup">Đăng ký</a></li>
-                                        }
-                                        if (active == "Login")
-                                        {
-                                            <li class=" current"><a href="/Authencation/Login">Đăng nhập</a></li>
-                                        }
-                                        else
-                                        {
-                                            <li><a href="/Authencation/Login">Đăng nhập</a></li>
-                                        }
+    .hcp-nav-logo-text {
+        font-size: 18px;
+        font-weight: 800;
+        color: #1a1a1a;
+        letter-spacing: -.02em;
+    }
 
-                                    }
-                                    else
-                                    {
-                                        <li class="dropdown">
-                                            <a>@userInfomatiom.FullName</a>
-                                            <ul>
-                                                <li><a href="/Authencation/Information">Cập nhập thông tin</a></li>
-                                                <li><a href="/Authencation/HistoryNumber">Lịch sử bốc số</a></li>
-                                                <li><a href="/Authencation/HistoryBooking">Lịch sử lịch hẹn</a></li>
-                                                <li><a href="/Authencation/Logout">Đăng xuất</a></li>
-                                            </ul>
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-                        </nav>
-                    </div>
-                    @*<div class="header-style2-button float-right">
-                        <a href="#"><span class="icon-date"></span>Appointment</a>
-                    </div>*@
+    /* Navigation links */
+    .hcp-nav-links {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .hcp-nav-links a {
+        display: block;
+        padding: 10px 18px;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 500;
+        color: #4a5e53;
+        text-decoration: none;
+        transition: background .15s, color .15s;
+    }
+
+    .hcp-nav-links a:hover {
+        background: #f0f5f2;
+        color: #1a2e23;
+        text-decoration: none;
+    }
+
+    .hcp-nav-links li.hcp-active a {
+        background: #4caf7d;
+        color: #ffffff;
+        font-weight: 700;
+    }
+
+    /* Redesigned User dropdown (Logged-in) */
+    .hcp-nav-user {
+        position: relative;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .hcp-nav-user > a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 6px 12px 6px 6px;
+        border: 1px solid #e3ede6;
+        border-radius: 30px;
+        background: #ffffff;
+        color: #1a1a1a;
+        text-decoration: none !important;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all .2s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .hcp-nav-user > a:hover {
+        border-color: #4caf7d;
+        background: #f9fdfa;
+        box-shadow: 0 4px 12px rgba(76, 175, 125, 0.08);
+    }
+
+    .hcp-user-avatar {
+        width: 36px;
+        height: 36px;
+        background: #4caf7d;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+    }
+
+    .hcp-nav-user-dropdown {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: calc(100% + 12px);
+        background: #ffffff;
+        border: 1px solid #e3ede6;
+        border-radius: 18px;
+        box-shadow: 0 16px 48px rgba(0,0,0,0.12);
+        min-width: 220px;
+        padding: 8px;
+        z-index: 100;
+        list-style: none;
+        margin: 0;
+        animation: hcp-fade-down 0.2s ease-out;
+    }
+
+    @@keyframes hcp-fade-down {
+        from { opacity: 0; transform: translateY(-8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hcp-nav-user:hover .hcp-nav-user-dropdown { display: block; }
+
+    /* Dropdown Header Styling */
+    .hcp-dropdown-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 20px 16px;
+        background: #f8faf9;
+        border-radius: 18px 18px 0 0;
+    }
+
+    .hcp-dropdown-avatar {
+        width: 48px;
+        height: 48px;
+        font-size: 16px;
+        flex-shrink: 0;
+    }
+
+    .hcp-dropdown-user-info {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .hcp-dropdown-name {
+        font-size: 15px;
+        font-weight: 700;
+        color: #1a2e23;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .hcp-dropdown-email {
+        font-size: 12px;
+        color: #64748b;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .hcp-nav-user-dropdown::before {
+        content: '';
+        position: absolute;
+        top: -15px;
+        left: 0;
+        right: 0;
+        height: 15px;
+    }
+
+    .hcp-nav-user-dropdown li a {
+        display: flex;
+        align-items: center;
+        padding: 10px 14px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #2a3d32;
+        text-decoration: none !important;
+        transition: background .14s;
+    }
+
+    .hcp-nav-user-dropdown li a:hover {
+        background: #f0f5f2;
+        color: #4caf7d;
+    }
+
+    .hcp-nav-user-dropdown li.divider {
+        height: 1px;
+        background: #f0f0f0;
+        margin: 6px 14px;
+    }
+
+    /* Auth buttons */
+    .hcp-nav-auth {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-shrink: 0;
+    }
+
+    .hcp-btn-ghost {
+        padding: 8px 16px;
+        background: transparent;
+        color: #1a2e23;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: opacity .15s;
+    }
+
+    .hcp-btn-ghost:hover {
+        opacity: 0.7;
+        text-decoration: none;
+        color: #1a2e23;
+    }
+
+    .hcp-btn-solid {
+        height: 44px;
+        padding: 0 28px;
+        border: 0;
+        border-radius: 12px;
+        background: #4caf7d;
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 700;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        transition: all .2s;
+        box-shadow: 0 4px 12px rgba(76, 175, 125, 0.2);
+    }
+
+    .hcp-btn-solid:hover {
+        background: #3d9e6e;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(76, 175, 125, 0.3);
+        color: #ffffff;
+    }
+
+    /* Override old header styles */
+    .header-style2-area { display: none !important; }
+</style>
+
+<nav class="hcp-navbar">
+    <div class="hcp-navbar-inner">
+
+        <!-- Logo -->
+        <a class="hcp-nav-logo" href="/Home/Index">
+            <span class="hcp-nav-logo-icon"><i class="fa fa-heartbeat"></i></span>
+            <span class="hcp-nav-logo-text">HealthCare+</span>
+        </a>
+
+        <!-- Nav links -->
+        <ul class="hcp-nav-links">
+            <li class="@(active == "Home" ? "hcp-active" : "")">
+                <a href="/Home/Index">Trang chủ</a>
+            </li>
+            <li class="@(active == "Doctor" ? "hcp-active" : "")">
+                <a href="/Doctor/Index">Bác sĩ</a>
+            </li>
+            <li class="@(active == "New" ? "hcp-active" : "")">
+                <a href="/Post/Index">Tin tức</a>
+            </li>
+            <li class="@(active == "Service" ? "hcp-active" : "")">
+                <a href="/Service/Index">Dịch vụ</a>
+            </li>
+            <li class="@(active == "Advice" ? "hcp-active" : "")">
+                <a href="/Home/Advise">Tư vấn</a>
+            </li>
+        </ul>
+
+        <!-- Auth / User -->
+        <div class="hcp-header-right">
+            @if (userInfomatiom == null)
+            {
+                <div class="hcp-nav-auth">
+                    <a class="hcp-btn-ghost" href="/Authencation/Singup">
+                        <i class="fa fa-user-circle-o" style="font-size:18px"></i> Đăng ký
+                    </a>
+                    <a class="hcp-btn-solid" href="/Authencation/Login">Đăng nhập</a>
                 </div>
-            </div>
+            }
+            else
+            {
+                <div class="hcp-nav-user">
+                    <a>
+                        <div class="hcp-user-avatar">@initials</div>
+                        <span class="hcp-user-name">@shortName</span>
+                        <i class="fa fa-angle-down" style="font-size:14px;opacity:.5;margin-left:4px"></i>
+                    </a>
+                    <ul class="hcp-nav-user-dropdown" style="padding: 0;">
+                        <!-- Dropdown Header -->
+                        <li class="hcp-dropdown-header">
+                            <div class="hcp-user-avatar hcp-dropdown-avatar">@initials</div>
+                            <div class="hcp-dropdown-user-info">
+                                <div class="hcp-dropdown-name">@userInfomatiom.FullName</div>
+                                <div class="hcp-dropdown-email">@userInfomatiom.Email</div>
+                            </div>
+                        </li>
+                        <li class="divider" style="margin: 0;"></li>
+                        
+                        <!-- Dropdown Menu -->
+                        <div style="padding: 8px;">
+                            <li><a href="/Authencation/Information"><i class="fa fa-user" style="width:20px;margin-right:12px;color:#1a2e23"></i>Hồ sơ cá nhân</a></li>
+                            <li><a href="/Authencation/HistoryBooking"><i class="fa fa-calendar-check-o" style="width:20px;margin-right:12px;color:#1a2e23"></i>Lịch hẹn của tôi</a></li>
+                            
+                            <li class="divider"></li>
+                            <li><a href="/Authencation/Logout" style="color:#e05252"><i class="fa fa-sign-out" style="width:20px;margin-right:12px"></i>Đăng xuất</a></li>
+                        </div>
+                    </ul>
+                </div>
+            }
         </div>
+
     </div>
-</header>
+</nav>

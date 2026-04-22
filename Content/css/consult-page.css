@@ -1,0 +1,546 @@
+/* ============================================================
+   consult-page.css  –  Trang tư vấn trực tuyến
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+/* ─── Base ─── */
+.cp-wrap *,
+.cp-wrap *::before,
+.cp-wrap *::after {
+    box-sizing: border-box;
+}
+
+.cp-wrap *:not(i):not([class*="fa"]) {
+    font-family: 'Inter', sans-serif;
+}
+
+.cp-wrap i,
+.cp-wrap .fa {
+    font-family: 'FontAwesome' !important;
+}
+
+.cp-wrap {
+    background: #f4f6f5;
+}
+
+.cp-container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ═══════════════════════════════════
+   HERO BANNER
+═══════════════════════════════════ */
+.cp-hero {
+    background: linear-gradient(160deg, #eef6f1, #f8faf9);
+    padding: 48px 0 36px;
+    border-bottom: 1px solid #e2ede6;
+}
+
+.cp-breadcrumb {
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+.cp-breadcrumb a {
+    color: #4caf7d;
+    text-decoration: none;
+}
+
+.cp-breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.cp-breadcrumb span {
+    margin: 0 6px;
+    color: #8fa699;
+}
+
+.cp-breadcrumb em {
+    color: #7a8e83;
+    font-style: normal;
+}
+
+.cp-hero-title {
+    font-size: 34px;
+    font-weight: 900;
+    color: #1a2e23;
+    margin: 0 0 10px;
+    line-height: 1.2;
+}
+
+.cp-hero-sub {
+    font-size: 15px;
+    color: #6b7c72;
+    margin: 0;
+    line-height: 1.7;
+}
+
+/* ═══════════════════════════════════
+   MAIN LAYOUT (left + sidebar)
+═══════════════════════════════════ */
+.cp-body {
+    padding: 44px 0 60px;
+}
+
+.cp-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 28px;
+    align-items: start;
+}
+
+/* ═══════════════════════════════════
+   SECTION LABEL
+═══════════════════════════════════ */
+.cp-section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    color: #4caf7d;
+    text-transform: uppercase;
+    margin: 0 0 8px;
+}
+
+.cp-section-title {
+    font-size: 19px;
+    font-weight: 800;
+    color: #1a2e23;
+    margin: 0 0 18px;
+}
+
+/* ═══════════════════════════════════
+   METHOD CARDS (3 horizontal)
+═══════════════════════════════════ */
+.cp-methods {
+    margin-bottom: 28px;
+}
+
+.cp-method-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+.cp-method-card {
+    background: #fff;
+    border: 2px solid #e2ede6;
+    /* Giữ cố định 2px để không bị nhảy layout */
+    border-radius: 16px;
+    padding: 20px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: all .2s ease;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.cp-method-card:hover {
+    border-color: #9bd7b8;
+    background: #f8faf9;
+    transform: translateY(-2px);
+}
+
+.cp-method-card.active {
+    border-color: #4caf7d;
+    /* Chỉ đổi màu, không đổi độ dày */
+    background: #eefaf2;
+    box-shadow: 0 8px 24px rgba(76, 175, 125, .16);
+}
+
+.cp-method-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: #e6f5ec;
+    color: #4caf7d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.cp-method-card:nth-child(2) .cp-method-icon {
+    background: #e8eeff;
+    color: #5b6cf0;
+}
+
+.cp-method-card:nth-child(3) .cp-method-icon {
+    background: #fef0e8;
+    color: #e07c3a;
+}
+
+.cp-method-text strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a2e23;
+    margin-bottom: 3px;
+}
+
+.cp-method-text span {
+    font-size: 12px;
+    color: #8fa699;
+}
+
+/* ═══════════════════════════════════
+   SPECIALTY GRID (6 cards)
+═══════════════════════════════════ */
+.cp-specialties {
+    margin-bottom: 28px;
+}
+
+.cp-spec-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.cp-spec-btn {
+    background: #fff;
+    border: 2px solid #e2ede6;
+    /* Giữ cố định 2px */
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a2e23;
+    transition: all .2s ease;
+    position: relative;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.cp-spec-btn:hover {
+    border-color: #9bd7b8;
+    background: #f8faf9;
+}
+
+.cp-spec-btn.active {
+    border-color: #4caf7d;
+    /* Chỉ đổi màu */
+    background: #eefaf2;
+    color: #0e3e2a;
+    box-shadow: 0 4px 12px rgba(76, 175, 125, .1);
+}
+
+.cp-spec-btn i {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: #e6f5ec;
+    color: #4caf7d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════
+   QUESTION FORM
+═══════════════════════════════════ */
+.cp-form-card {
+    background: #fff;
+    border: 1px solid #e2ede6;
+    border-radius: 20px;
+    padding: 28px;
+}
+
+.cp-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.cp-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cp-field label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a2e23;
+}
+
+.cp-field input,
+.cp-field textarea {
+    border: 1.5px solid #dde8e3;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 14px;
+    color: #1a2e23;
+    background: #f8faf9;
+    outline: none;
+    transition: border-color .18s, box-shadow .18s;
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+}
+
+.cp-field input:focus,
+.cp-field textarea:focus {
+    border-color: #4caf7d;
+    box-shadow: 0 0 0 3px rgba(76, 175, 125, .12);
+    background: #fff;
+}
+
+.cp-field textarea {
+    min-height: 130px;
+    resize: vertical;
+    margin-bottom: 14px;
+}
+
+.cp-privacy-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: #e6f5ec;
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+}
+
+.cp-privacy-box i {
+    color: #4caf7d;
+    font-size: 16px;
+    margin-top: 1px;
+    flex-shrink: 0;
+}
+
+.cp-privacy-box p {
+    font-size: 12.5px;
+    color: #4a6b56;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.cp-submit-btn {
+    width: 100%;
+    height: 52px;
+    border: 0;
+    border-radius: 14px;
+    background: #4caf7d;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background .18s, transform .18s;
+    text-decoration: none;
+}
+
+.cp-submit-btn:hover {
+    background: #3d9e6e;
+    transform: translateY(-1px);
+}
+
+/* ═══════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════ */
+.cp-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.cp-sidebar-card {
+    background: #fff;
+    border: 1px solid #e2ede6;
+    border-radius: 18px;
+    padding: 22px 20px;
+}
+
+.cp-sidebar-card h3 {
+    font-size: 15px;
+    font-weight: 800;
+    color: #1a2e23;
+    margin: 0 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cp-sidebar-card h3 i {
+    color: #4caf7d;
+    font-size: 14px;
+}
+
+/* Benefits list */
+.cp-benefit-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.cp-benefit-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13.5px;
+    color: #4a6b56;
+    line-height: 1.5;
+}
+
+.cp-benefit-list li i {
+    color: #4caf7d;
+    font-size: 14px;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+/* Star Rating widget */
+.cp-rating-widget {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.cp-rating-score {
+    font-size: 36px;
+    font-weight: 900;
+    color: #1a2e23;
+    line-height: 1;
+}
+
+.cp-rating-stars {
+    color: #f5c842;
+    font-size: 15px;
+    letter-spacing: 2px;
+}
+
+.cp-rating-sub {
+    font-size: 12px;
+    color: #8fa699;
+    margin-top: 3px;
+}
+
+/* FAQ accordion */
+.cp-faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cp-faq-item {
+    border: 1px solid #e8f0ea;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.cp-faq-q {
+    padding: 12px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a2e23;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    background: #f8faf9;
+    transition: background .15s;
+}
+
+.cp-faq-q:hover {
+    background: #f0faf4;
+}
+
+.cp-faq-q i {
+    color: #4caf7d;
+    font-size: 11px;
+    transition: transform .2s;
+}
+
+.cp-faq-item.open .cp-faq-q i {
+    transform: rotate(90deg);
+}
+
+.cp-faq-a {
+    font-size: 12.5px;
+    color: #6b7c72;
+    line-height: 1.65;
+    padding: 0 14px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .25s ease, padding .25s;
+}
+
+.cp-faq-item.open .cp-faq-a {
+    max-height: 200px;
+    padding: 10px 14px 14px;
+}
+
+/* ═══════════════════════════════════
+   SUCCESS TOAST OVERRIDE
+═══════════════════════════════════ */
+.cp-success-toast {
+    display: none;
+    background: #e6f5ec;
+    border: 1px solid #a8d5b5;
+    border-radius: 14px;
+    padding: 14px 18px;
+    color: #1a5e36;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    align-items: center;
+    gap: 10px;
+}
+
+.cp-success-toast.show {
+    display: flex;
+}
+
+/* ═══════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════ */
+@media (max-width: 1024px) {
+    .cp-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .cp-sidebar {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .cp-method-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cp-spec-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cp-form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .cp-sidebar {
+        grid-template-columns: 1fr;
+    }
+
+    .cp-hero-title {
+        font-size: 26px;
+    }
+}

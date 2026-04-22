@@ -15,6 +15,19 @@ namespace YTeAspMVC.Daos
             return myDb.Posts.ToList();
         }
 
+        public List<Post> Search(string keyword)
+        {
+            if (String.IsNullOrWhiteSpace(keyword))
+            {
+                return GetAll();
+            }
+
+            return myDb.Posts.Where(x =>
+                x.Title.Contains(keyword) ||
+                x.Description.Contains(keyword)
+            ).ToList();
+        }
+
         public Post GetPost(int id)
         {
             return myDb.Posts.FirstOrDefault(x => x.IdPost == id);

@@ -1,8 +1,108 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<img src="~/Content/images/slides/v2-1x.jpg" />
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Dashboard</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Tổng quan hệ thống</li>
+    </ol>
+    
+    <div class="row">
+        <!-- Tổng các tài khoản người dùng -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-primary text-white mb-4 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="text-white-50 small text-uppercase fw-bold mb-1">Tài khoản người dùng</div>
+                            <div class="fs-2 fw-bold">@ViewBag.TotalUsers</div>
+                        </div>
+                        <i class="fas fa-users fa-3x opacity-50"></i>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between border-0" style="background-color: rgba(0,0,0,0.1);">
+                    <a class="small text-white stretched-link text-decoration-none" href="/AdminUser/Index">Xem chi tiết</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Số lịch khám cần duyệt -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-warning text-white mb-4 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="text-white-50 small text-uppercase fw-bold mb-1">Lịch khám cần duyệt</div>
+                            <div class="fs-2 fw-bold">@ViewBag.PendingBookings</div>
+                        </div>
+                        <i class="fas fa-calendar-alt fa-3x opacity-50"></i>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between border-0" style="background-color: rgba(0,0,0,0.1);">
+                    <a class="small text-white stretched-link text-decoration-none" href="/AdminBooking/Index">Xem chi tiết</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
 
+        <!-- Số lịch khám đã duyệt -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-success text-white mb-4 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="text-white-50 small text-uppercase fw-bold mb-1">Lịch khám đã duyệt</div>
+                            <div class="fs-2 fw-bold">@ViewBag.ApprovedBookings</div>
+                        </div>
+                        <i class="fas fa-calendar-check fa-3x opacity-50"></i>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between border-0" style="background-color: rgba(0,0,0,0.1);">
+                    <a class="small text-white stretched-link text-decoration-none" href="/AdminBooking/Index">Xem chi tiết</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Số lượng bác sĩ -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-info text-white mb-4 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="text-white-50 small text-uppercase fw-bold mb-1">Bác sĩ</div>
+                            <div class="fs-2 fw-bold">@ViewBag.TotalDoctors</div>
+                        </div>
+                        <i class="fas fa-user-md fa-3x opacity-50"></i>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between border-0" style="background-color: rgba(0,0,0,0.1);">
+                    <a class="small text-white stretched-link text-decoration-none" href="/AdminDoctor/Index">Xem chi tiết</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Số lượng tin tức -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-danger text-white mb-4 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="text-white-50 small text-uppercase fw-bold mb-1">Tin tức</div>
+                            <div class="fs-2 fw-bold">@ViewBag.TotalPosts</div>
+                        </div>
+                        <i class="fas fa-newspaper fa-3x opacity-50"></i>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between border-0" style="background-color: rgba(0,0,0,0.1);">
+                    <a class="small text-white stretched-link text-decoration-none" href="/AdminPost/Index">Xem chi tiết</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

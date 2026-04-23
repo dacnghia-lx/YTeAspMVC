@@ -11,9 +11,10 @@ namespace YTeAspMVC.Controllers
     {
         PostDao postDao = new PostDao();
         // GET: Post
-        public ActionResult Index()
+        public ActionResult Index(string keyword)
         {
-            ViewBag.List = postDao.GetAll();
+            ViewBag.List = String.IsNullOrWhiteSpace(keyword) ? postDao.GetAll() : postDao.Search(keyword);
+            ViewBag.Keyword = keyword;
             Session.Add("Active", "New");
             return View();
         }

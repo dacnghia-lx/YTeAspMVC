@@ -1,0 +1,454 @@
+/* Auth Pages Shared CSS - HealthCare+ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: #f5f7fa;
+    overflow-x: hidden;
+}
+
+/* Wrapper */
+.hcp-auth-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ───── LEFT PANEL ───── */
+.hcp-auth-left {
+    flex: 0 0 46%;
+    position: relative;
+    background: no-repeat center center / cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 48px 56px;
+    color: #fff;
+    overflow: hidden;
+}
+
+.hcp-auth-left::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, rgba(26, 46, 35, .88) 0%, rgba(76, 175, 125, .72) 100%);
+    z-index: 1;
+}
+
+.hcp-auth-left>* {
+    position: relative;
+    z-index: 2;
+}
+
+/* Logo */
+.hcp-auth-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: 800;
+    color: #fff;
+    text-decoration: none !important;
+}
+
+.hcp-auth-brand .brand-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, .2);
+    border: 1px solid rgba(255, 255, 255, .3);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+/* Tagline */
+.hcp-auth-tagline {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    opacity: .65;
+    margin-bottom: 20px;
+}
+
+.hcp-auth-heading {
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 36px;
+}
+
+/* Benefit list */
+.hcp-auth-benefits {
+    list-style: none;
+}
+
+.hcp-auth-benefit {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.hcp-benefit-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, .12);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.hcp-benefit-text strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.hcp-benefit-text span {
+    font-size: 13px;
+    opacity: .7;
+}
+
+/* Stats row (Login) */
+.hcp-auth-stats {
+    display: flex;
+    gap: 32px;
+}
+
+.hcp-stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.hcp-stat-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: .6;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.hcp-stat-value {
+    font-size: 26px;
+    font-weight: 800;
+}
+
+/* Footer */
+.hcp-auth-left-footer {
+    font-size: 13px;
+    opacity: .55;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ───── RIGHT PANEL ───── */
+.hcp-auth-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+    background: #f5f7fa;
+}
+
+.hcp-auth-form-box {
+    width: 100%;
+    max-width: 480px;
+    background: #fff;
+    border-radius: 24px;
+    padding: 48px;
+    box-shadow: 0 4px 40px rgba(0, 0, 0, .06);
+}
+
+/* Form header */
+.hcp-form-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1a2e23;
+    margin-bottom: 6px;
+}
+
+.hcp-form-subtitle {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 32px;
+}
+
+.hcp-form-subtitle a {
+    color: #4caf7d;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.hcp-form-subtitle a:hover {
+    text-decoration: underline;
+}
+
+/* Field label */
+.hcp-field-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a2e23;
+    margin-bottom: 8px;
+}
+
+.hcp-field-label .req {
+    color: #4caf7d;
+}
+
+.hcp-field-wrap {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+/* Two-column row */
+.hcp-field-row {
+    display: flex;
+    gap: 16px;
+}
+
+.hcp-field-row>.hcp-field-col {
+    flex: 1;
+}
+
+/* Input */
+.hcp-auth-input {
+    width: 100%;
+    height: 50px;
+    background: #fafafa;
+    border: 1px solid #e8f0eb;
+    border-radius: 12px;
+    padding: 0 44px 0 44px;
+    font-size: 14px;
+    color: #1a2e23;
+    transition: all .25s;
+    outline: none;
+}
+
+.hcp-auth-input::placeholder {
+    color: #b0bec5;
+}
+
+.hcp-auth-input:focus {
+    border-color: #4caf7d;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(76, 175, 125, .1);
+}
+
+.hcp-auth-input.no-icon {
+    padding-left: 16px;
+}
+
+/* Field icons */
+.hcp-field-icon-left,
+.hcp-field-icon-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 15px;
+    color: #64748b;
+    pointer-events: none;
+    transition: color .25s;
+}
+
+.hcp-field-icon-left {
+    left: 15px;
+}
+
+.hcp-field-icon-right {
+    right: 15px;
+    pointer-events: all;
+    cursor: pointer;
+}
+
+.hcp-field-wrap:focus-within .hcp-field-icon-left {
+    color: #4caf7d;
+}
+
+/* Select override */
+.hcp-auth-input.is-select {
+    appearance: none;
+    cursor: pointer;
+}
+
+/* Forgot link */
+.hcp-forgot-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: #4caf7d;
+    text-decoration: none;
+    float: right;
+    margin-top: 2px;
+}
+
+.hcp-forgot-link:hover {
+    text-decoration: underline;
+}
+
+/* Terms */
+.hcp-terms-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 24px;
+    line-height: 1.55;
+}
+
+.hcp-terms-wrap input {
+    accent-color: #4caf7d;
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+.hcp-terms-wrap a {
+    color: #4caf7d;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* Primary button */
+.hcp-auth-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 52px;
+    background: #4caf7d;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .3s;
+    box-shadow: 0 4px 14px rgba(76, 175, 125, .25);
+    text-decoration: none;
+}
+
+.hcp-auth-btn:hover {
+    background: #3d9e6e;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(76, 175, 125, .35);
+}
+
+/* Separator */
+.hcp-or-sep {
+    text-align: center;
+    position: relative;
+    margin: 24px 0;
+}
+
+.hcp-or-sep::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e8f0eb;
+}
+
+.hcp-or-sep span {
+    position: relative;
+    background: #fff;
+    padding: 0 14px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #b0bec5;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+/* Google btn */
+.hcp-google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 50px;
+    background: #fff;
+    border: 1px solid #e8f0eb;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a2e23;
+    cursor: pointer;
+    transition: all .2s;
+    text-decoration: none;
+}
+
+.hcp-google-btn:hover {
+    background: #fafafa;
+    border-color: #c8d9cf;
+}
+
+/* Security note */
+.hcp-security-note {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+    .hcp-auth-left {
+        flex: 0 0 42%;
+        padding: 40px;
+    }
+}
+
+@media (max-width: 960px) {
+    .hcp-auth-wrapper {
+        flex-direction: column;
+    }
+
+    .hcp-auth-left {
+        min-height: 320px;
+    }
+
+    .hcp-auth-right {
+        padding: 40px 20px;
+    }
+
+    .hcp-auth-form-box {
+        padding: 32px 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hcp-field-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .hcp-auth-heading {
+        font-size: 28px;
+    }
+}

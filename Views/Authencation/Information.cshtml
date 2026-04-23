@@ -1,111 +1,248 @@
-﻿
+﻿@using YTeAspMVC.Models
 @{
-    ViewBag.Title = "Information";
+    ViewBag.Title = "Thông tin cá nhân | HealthCare+";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    User user = ViewBag.User;
+    
+    // Get initials for avatar
+    string initials = "";
+    if (!string.IsNullOrEmpty(user.FullName))
+    {
+        var names = user.FullName.Trim().Split(' ');
+        if (names.Length > 0)
+        {
+            initials = names[0][0].ToString().ToUpper();
+            if (names.Length > 1) { initials += names[names.Length - 1][0].ToString().ToUpper(); }
+        }
+    }
 }
 
-<section class="breadcrumb-area" style="background-image: url(/Content/images/resources/breadcrumb-bg.jpg);">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="inner-content clearfix">
-                    <div class="title float-left">
-                        <h2>Thông tin cá nhân</h2>
+<link rel="stylesheet" href="/Content/css/profile-page.css">
+
+@if (ViewBag.mess == "Success")
+{
+    <script>
+        swal({
+            title: 'Cập nhật thành công!',
+            text: 'Thông tin tài khoản của bạn đã được lưu lại.',
+            icon: 'success',
+            button: 'Đóng'
+        });
+    </script>
+}
+
+<div class="hcp-profile-container">
+    <div class="hcp-profile-grid">
+        
+        <!-- ───── SIDEBAR ───── -->
+        <aside class="hcp-profile-sidebar">
+            <h4 style="font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; padding: 0 16px;">Tài khoản</h4>
+            <ul class="hcp-profile-nav">
+                <li class="hcp-nav-item">
+                    <a class="hcp-nav-link active" data-tab="tab-profile">
+                        <i class="fa fa-user"></i>
+                        Thông tin cá nhân
+                    </a>
+                </li>
+                <li class="hcp-nav-item">
+                    <a class="hcp-nav-link" data-tab="tab-security">
+                        <i class="fa fa-lock"></i>
+                        Đổi mật khẩu
+                    </a>
+                </li>
+                
+                <div class="hcp-nav-divider"></div>
+                
+                <li class="hcp-nav-item">
+                    <a href="/Authencation/Logout" class="hcp-nav-link hcp-logout-btn">
+                        <i class="fa fa-sign-out"></i>
+                        Đăng xuất
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- ───── CONTENT ───── -->
+        <main class="hcp-profile-content">
+            
+            <!-- Header Card -->
+            <div class="hcp-profile-header-card">
+                <div class="hcp-profile-banner"></div>
+                <div class="hcp-profile-info-row">
+                    <div class="hcp-profile-avatar-wrap">
+                        <div class="hcp-profile-avatar">
+                            @initials
+                        </div>
                     </div>
-                    <div class="breadcrumb-menu float-right">
-                        <ul class="clearfix">
-                            <li><a href="/Home/Index">Home</a></li>
-                            <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
-                            <li class="active">Thông tin cá nhân</li>
-                        </ul>
+                    <div class="hcp-profile-user-summary">
+                        <h2>@user.FullName</h2>
+                        <div class="hcp-user-badge">
+                            <i class="fa fa-shield"></i>
+                            Thành viên
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-@if (ViewBag.mess == "Success")
-{
-    <div class="toast" data-delay="1000" style="position:fixed; top: 100PX; left: 40PX;z-index: 2000;width: 300px">
 
-        <script>
-            swal({
-                title: 'Cập nhập thành công!',
-                /* text: 'Redirecting...', */
-                icon: 'success',
-                timer: 3000,
-                buttons: true,
-                type: 'success'
-            })
-        </script>
-    </div>
-}
-
-<!--End breadcrumb area-->
-<!--Start Contact info map area-->
-<!--End Contact info map area-->
-<!--Start contact form area-->
-<section class="contact-form-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="contact-form">
-                    <div class="contact-title">
-                        <h2>Thông tin cá nhân</h2>
+            <!-- Tab: Personal Profile -->
+            <div id="tab-profile" class="hcp-tab-pane active">
+                <div class="hcp-profile-card">
+                    <div class="hcp-card-header">
+                        <h3>Thông tin cá nhân</h3>
+                        <button type="button" class="hcp-edit-toggle-btn" id="btn-edit-profile">
+                            <i class="fa fa-pencil"></i> Chỉnh sửa
+                        </button>
                     </div>
-                    <form name="contact_form" class="default-form" action="/Authencation/Update" method="post">
-                        <div class="row">
-                            <input type="hidden" name="IdUser" value="@ViewBag.User.IdUser">
-                            <div class="col-md-6">
-                                <div class="input-box">
-                                    <input type="text" class="form-control" name="FullName" value="@ViewBag.User.FullName" required>
-                                </div>
-                                <div class="input-box">
-                                    <input type="email" class="form-control" name="Email" value="@ViewBag.User.Email" required>
-                                </div>
-                                <div class="input-box">
-                                    <input type="text" class="form-control" name="Password" value="@ViewBag.User.Password" required>
+
+                    <form action="/Authencation/Update" method="post" id="form-profile">
+                        <input type="hidden" name="IdUser" value="@user.IdUser">
+                        <input type="hidden" name="Password" value="@user.Password"> <!-- Keep password for this form -->
+
+                        <div class="hcp-form-grid">
+                            <!-- Full Name -->
+                            <div class="hcp-form-group">
+                                <label class="hcp-label">Họ và tên <span class="req">*</span></label>
+                                <div class="hcp-input-wrap">
+                                    <i class="fa fa-user"></i>
+                                    <input type="text" name="FullName" value="@user.FullName" class="hcp-profile-input" required readonly>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="input-box">
-                                    <input type="text" class="form-control" name="Address" value="@ViewBag.User.Address" required>
-                                </div>
-                                <div class="input-box">
-                                    <select class="form-control" name="Gender">
-                                        @if (ViewBag.User.Gender == "Nam")
-                                        {
-                                            <option value="Nam" selected>Nam</option>
-                                            <option value="Nữ">Nữ</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="Nam">Nam</option>
-                                            <option value="Nữ" selected>Nữ</option>
-                                        }
 
+                            <!-- Email -->
+                            <div class="hcp-form-group">
+                                <label class="hcp-label">Email <span class="req">*</span></label>
+                                <div class="hcp-input-wrap">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <input type="email" name="Email" value="@user.Email" class="hcp-profile-input" required readonly>
+                                    <span class="hcp-verified-badge"><i class="fa fa-check-circle"></i> Đã xác thực</span>
+                                </div>
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="hcp-form-group">
+                                <label class="hcp-label">Số điện thoại <span class="req">*</span></label>
+                                <div class="hcp-input-wrap">
+                                    <i class="fa fa-phone"></i>
+                                    <input type="text" name="PhoneNumber" value="@user.PhoneNumber" class="hcp-profile-input" required readonly>
+                                </div>
+                            </div>
+
+                            <!-- Gender -->
+                            <div class="hcp-form-group">
+                                <label class="hcp-label">Giới tính</label>
+                                <div class="hcp-input-wrap">
+                                    <i class="fa fa-venus-mars"></i>
+                                    <select name="Gender" class="hcp-profile-input hcp-profile-select" disabled>
+                                        <option value="Nam" @(user.Gender == "Nam" ? "selected" : "")>Nam</option>
+                                        <option value="Nữ" @(user.Gender == "Nữ" ? "selected" : "")>Nữ</option>
                                     </select>
                                 </div>
-                                <div class="input-box mt-5">
-                                    <input type="text" class="form-control" name="PhoneNumber" required value="@ViewBag.User.PhoneNumber">
-                                </div>
                             </div>
 
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="button-box">
-                                    <button class="btn-one" type="submit">Cập nhập</button>
+                            <!-- Address -->
+                            <div class="hcp-form-group full-width">
+                                <label class="hcp-label">Địa chỉ liên lạc <span class="req">*</span></label>
+                                <div class="hcp-input-wrap">
+                                    <i class="fa fa-map-marker"></i>
+                                    <input type="text" name="Address" value="@user.Address" class="hcp-profile-input" required readonly>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="hcp-profile-actions" style="display: none;" id="profile-save-actions">
+                            <button type="submit" class="hcp-save-btn">
+                                <i class="fa fa-save"></i> Lưu lịch sử
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
 
-        </div>
+            <!-- Tab: Security (Change Password) -->
+            <div id="tab-security" class="hcp-tab-pane">
+                <div class="hcp-profile-card">
+                    <div class="hcp-card-header">
+                        <h3>Đổi mật khẩu</h3>
+                    </div>
+
+                    <form action="/Authencation/Update" method="post">
+                        <input type="hidden" name="IdUser" value="@user.IdUser">
+                        <input type="hidden" name="FullName" value="@user.FullName">
+                        <input type="hidden" name="Email" value="@user.Email">
+                        <input type="hidden" name="PhoneNumber" value="@user.PhoneNumber">
+                        <input type="hidden" name="Address" value="@user.Address">
+                        <input type="hidden" name="Gender" value="@user.Gender">
+
+                        <div class="hcp-form-grid">
+                            <div class="hcp-form-group full-width">
+                                <label class="hcp-label">Mật khẩu hiện tại</label>
+                                <div class="hcp-input-wrap">
+                                    <i class="fa fa-lock"></i>
+                                    <input type="password" class="hcp-profile-input" placeholder="Nhập mật khẩu hiện tại" required>
+                                </div>
+                            </div>
+                            <div class="hcp-form-group">
+                                <label class="hcp-label">Mật khẩu mới</label>
+                                <div class="hcp-input-wrap">
+                                    <i class="fa fa-shield"></i>
+                                    <input type="password" name="Password" class="hcp-profile-input" placeholder="Nhập mật khẩu mới" required>
+                                </div>
+                            </div>
+                            <div class="hcp-form-group">
+                                <label class="hcp-label">Xác nhận mật khẩu mới</label>
+                                <div class="hcp-input-wrap">
+                                    <i class="fa fa-shield"></i>
+                                    <input type="password" class="hcp-profile-input" placeholder="Nhập lại mật khẩu mới" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hcp-profile-actions">
+                            <button type="submit" class="hcp-save-btn">
+                                <i class="fa fa-refresh"></i> Cập nhật mật khẩu
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </main>
     </div>
-</section>
+</div>
 
+<script>
+    $(document).ready(function() {
+        // Tab Switching
+        $('.hcp-nav-link[data-tab]').on('click', function() {
+            const tabId = $(this).data('tab');
+            
+            // Update active link
+            $('.hcp-nav-link').removeClass('active');
+            $(this).addClass('active');
+            
+            // Show corresponding tab
+            $('.hcp-tab-pane').removeClass('active');
+            $('#' + tabId).addClass('active');
+        });
 
+        // Toggle Edit Mode for Profile
+        $('#btn-edit-profile').on('click', function() {
+            const isEditing = $(this).hasClass('is-editing');
+            const inputs = $('#form-profile .hcp-profile-input');
+            const saveBtn = $('#profile-save-actions');
 
+            if (!isEditing) {
+                // Switch to Edit Mode
+                $(this).addClass('is-editing').html('<i class="fa fa-times"></i> Hủy');
+                inputs.not('[name="Email"]').prop('readonly', false).prop('disabled', false); // Keep email readonly if business rule
+                saveBtn.fadeIn();
+            } else {
+                // Cancel Edit Mode
+                $(this).removeClass('is-editing').html('<i class="fa fa-pencil"></i> Chỉnh sửa');
+                inputs.prop('readonly', true).prop('disabled', true);
+                saveBtn.fadeOut();
+                // Optionally reset form values here
+            }
+        });
+    });
+</script>

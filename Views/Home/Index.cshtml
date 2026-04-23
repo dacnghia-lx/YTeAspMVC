@@ -1,240 +1,182 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "HealthCare+ | Đặt lịch khám nhanh, chăm sóc tận tâm";
 }
-@Html.Action("MainSlider", "Modules");
 
-
-<section class="welcome-area sec-pd1">
-    @if(ViewBag.Msg != null && ViewBag.Msg == "2")
-    {
-    <div class="toast" data-delay="1000" style="position:fixed; top: 100PX; left: 40PX;z-index: 2000;width: 300px">
-
-        <script>
-            swal({
-                title: 'Bạn đã lấy số cho ngày hôm nay rồi!',
-                /* text: 'Redirecting...', */
-                icon: 'error',
-                timer: 3000,
-                buttons: true,
-                type: 'error'
-            })
-        </script>
-    </div>
-    }
+<!-- Hero Section -->
+<section class="hcp-home-hero">
     <div class="container">
-        <div class="sec-title max-width text-center">
-            <h1>Website Y Tế</h1>
-            <h3>Nơi đưa đến cho bạn các dịch vụ y tế hiện tại, tin tức sức khỏe mới nhất</h3>
-        </div>
-        <div class="row">
-            <!--Start Single Welcome Box-->
-            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                <div class="single-welcome-box text-center">
-                    <div class="icon-holder">
-                        <img src="~/Content/images/icon/icon-1.png" alt="Icon" style="height : 100px">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="hcp-hero-content">
+                    <div class="hcp-hero-tagline">
+                        <i class="fa fa-hospital-o"></i> Chào mừng đến với Website Y Tế
                     </div>
-                    <div class="text-holder">
-                        <h3>Tin tức</h3>
-                        <p>Cập nhập các tin tức mới nhất về sức khỏe, các mẹo hay để chăm sóc sức khỏe.</p>
-                        <a class="btn-one" href="/Post/Index">Xem thêm</a>
+                    <h1 class="hcp-hero-title">
+                        Chăm Sóc Sức Khỏe<br>
+                        <span>Chuyên Nghiệp & Tận Tâm</span>
+                    </h1>
+                    <p class="hcp-hero-desc">
+                        Kết nối bạn với đội ngũ bác sĩ chuyên khoa hàng đầu. Đặt lịch khám dễ dàng, nhanh chóng và an toàn ngay tại nhà.
+                    </p>
+                    <div class="hcp-hero-cta">
+                        <a href="/Home/Advise" class="hcp-btn-solid" style="height: 50px; padding: 0 32px; font-size: 16px;">Đặt lịch khám</a>
                     </div>
-                </div>
-            </div>
-            <!--End Single Welcome Box-->
-            <!--Start Single Welcome Box-->
-            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                <div class="single-welcome-box text-center">
-                    <div class="icon-holder">
-                        <img src="~/Content/images/icon/icon-2.png" alt="Icon" style="height : 100px">
-                    </div>
-                    <div class="text-holder">
-                        <h3>Dịch vụ</h3>
-                        <p>Cung cấp các dịch hiện đại, tiện nghi, an toàn sức khỏe và dễ dàng sử dụng với mọi người.</p>
-                        <a class="btn-one" href="/Service/Index">Xem thêm</a>
-                    </div>
-                </div>
-            </div>
-            <!--End Single Welcome Box-->
-            <!--Start Single Welcome Box-->
-            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                <div class="single-welcome-box text-center">
-                    <div class="icon-holder">
-                        <img src="~/Content/images/icon/icon-3.png" alt="Icon" style="height : 100px">
-                    </div>
-                    <div class="text-holder">
-                        <h3>Bác sĩ</h3>
-                        <p>Hội tụ các bác sĩ chuyên khoa, kĩ năng giỏi và thân thiện hòa đồng với bệnh nhân.</p>
-                        <a class="btn-one" href="/Doctor/Index">Xem thêm</a>
-                    </div>
-                </div>
-            </div>
-            <!--End Single Welcome Box-->
-        </div>
-    </div>
-</section>
-<!--End Welcome area-->
-<!--Start fact counter area-->
-
-<!--End fact counter area-->
-<!--Start About Area-->
-<!--End services style2 area-->
-<!--Start Appointment Area-->
-<!--End Appointment Area-->
-<!--Start team area-->
-<section class="team-area">
-    <div class="container">
-        <div class="sec-title text-center">
-            <h1>Top 3 bác sĩ </h1>
-        </div>
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="team-carousel owl-carousel owl-theme">
-                    @foreach (var doctor in ViewBag.Doctor)
-                    {
-                        <!--Start single item member-->
-                        <div class="single-team-member">
-                            <div class="img-holder">
-                                <img src="~/Content/images/@doctor.Image" alt="Awesome Image" style="height : 350px !important">
-                                <div class="overlay-style-one"></div>
-                                <div class="text-holder text-center">
-                                    <h3>@doctor.FullName</h3>
-                                    <span>@doctor.Specialist</span>
-                                    <div class="button">
-                                        <a class="btn-one" href="#">Đặt Lịch</a>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="hcp-hero-features">
+                        <div class="hcp-hero-feature-item">
+                            <i class="fa fa-check-circle"></i>
+                            <span>Thông tin được bảo mật</span>
                         </div>
-                    }
-                    <!--End single item member-->
-                    <!--End single item member-->
-                    <!--Start single item member-->
-                    <!--End single item member-->
-
+                        <div class="hcp-hero-feature-item">
+                            <i class="fa fa-check-circle"></i>
+                            <span>Bác sĩ được chứng nhận</span>
+                        </div>
+                        <div class="hcp-hero-feature-item">
+                            <i class="fa fa-check-circle"></i>
+                            <span>Hỗ trợ 24/7</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="hcp-hero-image-wrap">
+                    <img src="~/Content/images/slides/v1-3.jpg" alt="Doctor Hero">
                 </div>
             </div>
         </div>
     </div>
 </section>
-<!--End team area-->
-<!--Start Work area-->
-<!--End Testimonial Sec style2-->
-<!--Start Warranties sec-->
-<!--End Warranties sec-->
-<!--Start latest blog area-->
-<section class="latest-blog-area sec-pd1 pd-btm60" style="margin-top : -150px !important">
-    <div class="container inner-content">
-        <div class="sec-title max-width text-center">
-            <h1>Top 3 Dịch vụ y tế</h1>
+
+<!-- Nav Entry Cards -->
+<section class="hcp-nav-cards-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="hcp-nav-entry-card">
+                    <div class="hcp-nav-card-icon">
+                        <i class="fa fa-newspaper-o"></i>
+                    </div>
+                    <h3 class="hcp-nav-card-title">Tin tức</h3>
+                    <p class="hcp-nav-card-desc">Cập nhật các tin tức mới nhất về sức khỏe, các mẹo hay để chăm sóc sức khỏe.</p>
+                    <a href="/Post/Index" class="hcp-nav-card-btn">XEM THÊM</a>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="hcp-nav-entry-card">
+                    <div class="hcp-nav-card-icon">
+                        <i class="fa fa-stethoscope"></i>
+                    </div>
+                    <h3 class="hcp-nav-card-title">Dịch vụ</h3>
+                    <p class="hcp-nav-card-desc">Cung cấp các dịch hiện đại, tiện nghi, an toàn sức khỏe và dễ dàng sử dụng.</p>
+                    <a href="/Service/Index" class="hcp-nav-card-btn">XEM THÊM</a>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="hcp-nav-entry-card">
+                    <div class="hcp-nav-card-icon">
+                        <i class="fa fa-user-md"></i>
+                    </div>
+                    <h3 class="hcp-nav-card-title">Bác sĩ</h3>
+                    <p class="hcp-nav-card-desc">Hội tụ các bác sĩ chuyên khoa, kĩ năng giỏi và thân thiện hòa đồng.</p>
+                    <a href="/Doctor/Index" class="hcp-nav-card-btn">XEM THÊM</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Top Doctors -->
+<section class="hcp-home-section">
+    <div class="container">
+        <div class="hcp-section-header">
+            <h2 class="hcp-section-title">Top 3 bác sĩ</h2>
+            <p class="hcp-section-subtitle">Đội ngũ chuyên gia tận tâm, giàu kinh nghiệm</p>
+        </div>
+        <div class="row">
+            @foreach (var doctor in ViewBag.Doctor)
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="hcp-doctor-card-home">
+                        <div class="hcp-doctor-img-home">
+                            <img src="~/Content/images/@doctor.Image" alt="@doctor.FullName">
+                        </div>
+                        <div class="hcp-doctor-info-home">
+                            <h3 class="hcp-doctor-name-home">@doctor.FullName</h3>
+                            <p class="hcp-doctor-spec-home">@doctor.Specialist</p>
+                            <a href="/Doctor/Index" class="hcp-doctor-btn-home">Đặt Lịch</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Top Services -->
+<section class="hcp-home-section">
+    <div class="container">
+        <div class="hcp-section-header">
+            <h2 class="hcp-section-title">Top 3 Dịch vụ y tế</h2>
+            <p class="hcp-section-subtitle">Dịch vụ đa dạng, tiêu chuẩn quốc tế</p>
         </div>
         <div class="row">
             @foreach (var service in ViewBag.Service)
             {
-                <!--Start single blog post-->
-                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                    <div class="single-blog-post">
-                        <div class="img-holder">
-                            <img src="~/Content/images/@service.Image" style="height : 250px !important" alt="Awesome Image">
-                            <div class="categorie-button">
-                                <a class="btn-one" href="#">Dịch vụ</a>
-                            </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="hcp-content-card">
+                        <div class="hcp-content-img">
+                            <img src="~/Content/images/@service.Image" alt="@service.Name">
+                            <span class="hcp-content-badge">Dịch vụ</span>
                         </div>
-                        <div class="text-holder">
-                            <div class="meta-box">
-                                <div class="author-thumb">
-                                    <img src="https://cdn2.iconfinder.com/data/icons/user-avatars-3/100/Doctor-512.png" alt="Image">
-                                </div>
-                                <ul class="meta-info">
-                                    <li><a href="#">Đăng bởi quản trị viên</a></li>
-                                    <li><a href="#">@String.Format("{0:dd-MM-yyyy}", service.Created)</a></li>
-                                </ul>
+                        <div class="hcp-content-body">
+                            <div class="hcp-content-meta">
+                                <img src="https://cdn2.iconfinder.com/data/icons/user-avatars-3/100/Doctor-512.png" class="hcp-author-avatar" alt="Admin">
+                                <span class="hcp-meta-text">Quản trị viên • @String.Format("{0:dd/MM/yyyy}", service.Created)</span>
                             </div>
-                            <h3 class="blog-title"><a href="/Service/Detail/@service.IdService">@service.Name</a></h3>
-
-                            <div class="readmore-button">
-                                <a class="btn-two" href="/Service/Detail/@service.IdService"><span class="flaticon-next"></span>Xem thêm</a>
+                            <h3 class="hcp-content-title">@service.Name</h3>
+                            <div class="hcp-content-footer">
+                                <a href="/Service/Detail/@service.IdService" class="hcp-link-more">Tìm hiểu thêm <i class="fa fa-long-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--End single blog post-->
             }
         </div>
     </div>
 </section>
-<!--End latest blog area-->
-<section class="latest-blog-area sec-pd1 pd-btm60" style="margin-top : -150px !important">
-    <div class="container inner-content">
-        <div class="sec-title max-width text-center">
-            <h1>Tin tức sức khỏe mới nhất</h1>
+
+<!-- Latest News -->
+<section class="hcp-home-section">
+    <div class="container">
+        <div class="hcp-section-header">
+            <h2 class="hcp-section-title">Tin tức sức khỏe mới nhất</h2>
+            <p class="hcp-section-subtitle">Cập nhật kiến thức y khoa bổ ích mỗi ngày</p>
         </div>
         <div class="row">
             @foreach (var post in ViewBag.Post)
             {
-                <!--Start single blog post-->
-                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                    <div class="single-blog-post">
-                        <div class="img-holder">
-                            <img src="~/Content/images/@post.Image" style="height : 250px !important" alt="Awesome Image">
-                            <div class="categorie-button">
-                                <a class="btn-one" href="#">Tin tức</a>
-                            </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="hcp-content-card">
+                        <div class="hcp-content-img">
+                            <img src="~/Content/images/@post.Image" alt="@post.Title">
+                            <span class="hcp-content-badge">Tin tức</span>
                         </div>
-                        <div class="text-holder">
-                            <div class="meta-box">
-                                <div class="author-thumb">
-                                    <img src="https://cdn2.iconfinder.com/data/icons/user-avatars-3/100/Doctor-512.png" alt="Image">
-                                </div>
-                                <ul class="meta-info">
-                                    <li><a href="#">Đăng bởi quản trị viên</a></li>
-                                    <li><a href="#">@String.Format("{0:dd-MM-yyyy}", post.Created)</a></li>
-                                </ul>
+                        <div class="hcp-content-body">
+                            <div class="hcp-content-meta">
+                                <img src="https://cdn2.iconfinder.com/data/icons/user-avatars-3/100/Doctor-512.png" class="hcp-author-avatar" alt="Admin">
+                                <span class="hcp-meta-text">Quản trị viên • @String.Format("{0:dd/MM/yyyy}", post.Created)</span>
                             </div>
-                            <h3 class="blog-title"><a href="/Post/Detail/@post.IdPost">@post.Title</a></h3>
-
-                            <div class="readmore-button">
-                                <a class="btn-two" href="/Post/Detail/@post.IdPost"><span class="flaticon-next"></span>Xem thêm</a>
+                            <h3 class="hcp-content-title">@post.Title</h3>
+                            <div class="hcp-content-footer">
+                                <a href="/Post/Detail/@post.IdPost" class="hcp-link-more">Xem thêm <i class="fa fa-long-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--End single blog post-->
             }
+        </div>
+    </div>
+</section>
 
-        </div>
-    </div>
-</section>
-<!--Start Brand area-->
-<section class="brand-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <ul class="brand">
-                    <!--Start single item-->
-                    <li class="single-item">
-                        <a href="#"><img src="~/Content/images/brand/1.png" alt="Awesome Brand Image"></a>
-                    </li>
-                    <!--End single item-->
-                    <!--Start single item-->
-                    <li class="single-item">
-                        <a href="#"><img src="~/Content/images/brand/2.png" alt="Awesome Brand Image"></a>
-                    </li>
-                    <!--End single item-->
-                    <!--Start single item-->
-                    <li class="single-item">
-                        <a href="#"><img src="~/Content/images/brand/3.png" alt="Awesome Brand Image"></a>
-                    </li>
-                    <!--End single item-->
-                    <!--Start single item-->
-                    <li class="single-item">
-                        <a href="#"><img src="~/Content/images/brand/4.png" alt="Awesome Brand Image"></a>
-                    </li>
-                    <!--End single item-->
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
 <script>
     $(document).ready(function () {
         $.ajax({

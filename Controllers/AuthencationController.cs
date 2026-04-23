@@ -39,6 +39,10 @@ namespace YTeAspMVC.Controllers
         public ActionResult Information(string msg)
         {
             User user = (User)Session["USER"];
+            if (user == null)
+            {
+                return RedirectToAction("Login");
+            }
             ViewBag.mess = msg;
             ViewBag.User = userDao.getById(user.IdUser);
             return View();
@@ -47,6 +51,10 @@ namespace YTeAspMVC.Controllers
         public ActionResult HistoryBooking(string mess)
         {
             User user = (User)Session["USER"];
+            if (user == null)
+            {
+                return RedirectToAction("Login");
+            }
             ViewBag.Msg = mess;
             ViewBag.List = bookingDao.GetBookingByUser(user.IdUser);
             return View();
@@ -123,7 +131,7 @@ namespace YTeAspMVC.Controllers
         }
         public ActionResult Logout()
         {
-            Session.Remove("User");
+            Session.Remove("USER");
             return Redirect("/Home/Index");
         }
     }

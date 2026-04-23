@@ -1,115 +1,220 @@
-﻿
-@{
-    ViewBag.Title = "Advise";
+﻿@{
+    ViewBag.Title = "Tư vấn trực tuyến";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var userInfo = (YTeAspMVC.Models.User)Session["USER"];
 }
 
-@{ var userInfomatiom = (YTeAspMVC.Models.User)Session["USER"]; }
-<section class="breadcrumb-area" style="background-image: url(/Content/images/resources/breadcrumb-bg.jpg);">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="inner-content clearfix">
-                    <div class="title float-left">
-                        <h2>Tư vấn</h2>
+<link rel="stylesheet" href="~/Content/css/consult-page.css" />
+
+<div class="cp-wrap">
+
+    <!-- ══════════ HERO ══════════ -->
+    <section class="cp-hero">
+        <div class="cp-container">
+            <div class="cp-breadcrumb">
+                <a href="/Home/Index">Trang chủ</a>
+                <span>›</span>
+                <em>Tư vấn trực tuyến</em>
+            </div>
+            <h1 class="cp-hero-title">Tư vấn trực tuyến 24/7</h1>
+            <p class="cp-hero-sub">Đặt câu hỏi cho đội ngũ bác sĩ chuyên khoa — miễn phí, nhanh chóng và bảo mật tuyệt đối.</p>
+        </div>
+    </section>
+
+    <!-- ══════════ BODY ══════════ -->
+    <div class="cp-body">
+        <div class="cp-container">
+
+            @if (ViewBag.Msg == "1")
+            {
+                <div class="cp-success-toast show">
+                    <i class="fa fa-check-circle"></i>
+                    Câu hỏi của bạn đã được gửi thành công! Chúng tôi sẽ phản hồi trong vòng 24 giờ.
+                </div>
+            }
+
+            <div class="cp-layout">
+
+                <!-- ── LEFT COLUMN ── -->
+                <div>
+                    <!-- 1. Consultation method -->
+                    <div class="cp-methods">
+                        <p class="cp-section-label">Bước 1</p>
+                        <h2 class="cp-section-title">Chọn hình thức tư vấn</h2>
+                        <div class="cp-method-grid">
+                            <div class="cp-method-card active" onclick="selectMethod(this)">
+                                <div class="cp-method-icon"><i class="fa fa-comments"></i></div>
+                                <div class="cp-method-text">
+                                    <strong>Chat văn bản</strong>
+                                    <span>Nhắn tin với bác sĩ</span>
+                                </div>
+                            </div>
+                            <div class="cp-method-card" onclick="selectMethod(this)">
+                                <div class="cp-method-icon"><i class="fa fa-video-camera"></i></div>
+                                <div class="cp-method-text">
+                                    <strong>Video call</strong>
+                                    <span>Gặp mặt trực tiếp qua video</span>
+                                </div>
+                            </div>
+                            <div class="cp-method-card" onclick="selectMethod(this)">
+                                <div class="cp-method-icon"><i class="fa fa-phone"></i></div>
+                                <div class="cp-method-text">
+                                    <strong>Gọi điện thoại</strong>
+                                    <span>Tư vấn qua cuộc gọi</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="breadcrumb-menu float-right">
-                        <ul class="clearfix">
-                            <li><a href="/Home/Index">Home</a></li>
-                            <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
-                            <li class="active">Tư vấn</li>
+
+                    <!-- 2. Specialty -->
+                    <div class="cp-specialties">
+                        <p class="cp-section-label">Bước 2</p>
+                        <h2 class="cp-section-title">Chọn chuyên khoa</h2>
+                        <div class="cp-spec-grid">
+                            <button type="button" class="cp-spec-btn active" onclick="selectSpec(this)">
+                                <i class="fa fa-stethoscope"></i> Nội tổng quát
+                            </button>
+                            <button type="button" class="cp-spec-btn" onclick="selectSpec(this)">
+                                <i class="fa fa-heartbeat"></i> Tim mạch
+                            </button>
+                            <button type="button" class="cp-spec-btn" onclick="selectSpec(this)">
+                                <i class="fa fa-user-md"></i> Thần kinh
+                            </button>
+                            <button type="button" class="cp-spec-btn" onclick="selectSpec(this)">
+                                <i class="fa fa-child"></i> Nhi khoa
+                            </button>
+                            <button type="button" class="cp-spec-btn" onclick="selectSpec(this)">
+                                <i class="fa fa-smile-o"></i> Tâm lý
+                            </button>
+                            <button type="button" class="cp-spec-btn" onclick="selectSpec(this)">
+                                <i class="fa fa-tint"></i> Nội tiết
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 3. Question Form -->
+                    <div>
+                        <p class="cp-section-label">Bước 3</p>
+                        <h2 class="cp-section-title">Thông tin &amp; câu hỏi của bạn</h2>
+                        <div class="cp-form-card">
+                            <form action="/Home/Advise" method="post">
+                                <div class="cp-form-row">
+                                    <div class="cp-field">
+                                        <label for="cp-fullname">Họ và tên <span style="color:#e87070">*</span></label>
+                                        <input type="text" id="cp-fullname" name="FullName" placeholder="Nhập họ tên đầy đủ"
+                                               value="@(userInfo != null ? userInfo.FullName : "")" required />
+                                    </div>
+                                    <div class="cp-field">
+                                        <label for="cp-email">Email <span style="color:#e87070">*</span></label>
+                                        <input type="email" id="cp-email" name="Email" placeholder="Nhập địa chỉ email"
+                                               value="@(userInfo != null ? userInfo.Email : "")" required />
+                                    </div>
+                                </div>
+                                <div class="cp-field">
+                                    <label for="cp-question">Mô tả triệu chứng / câu hỏi <span style="color:#e87070">*</span></label>
+                                    <textarea id="cp-question" name="Question"
+                                              placeholder="Mô tả chi tiết triệu chứng, thời gian xuất hiện, và bất kỳ thông tin y tế nào liên quan..." required></textarea>
+                                </div>
+                                <div class="cp-privacy-box">
+                                    <i class="fa fa-shield"></i>
+                                    <p>Thông tin của bạn được bảo mật 100%. Chúng tôi cam kết không chia sẻ dữ liệu với bên thứ ba và tuân thủ đầy đủ các quy định về bảo vệ thông tin cá nhân.</p>
+                                </div>
+                                <button type="submit" class="cp-submit-btn">
+                                    <i class="fa fa-paper-plane"></i>
+                                    Gửi câu hỏi tư vấn
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── SIDEBAR ── -->
+                <aside class="cp-sidebar">
+
+                    <!-- Benefits -->
+                    <div class="cp-sidebar-card">
+                        <h3><i class="fa fa-check-circle"></i> Lợi ích tư vấn trực tuyến</h3>
+                        <ul class="cp-benefit-list">
+                            <li><i class="fa fa-clock-o"></i> Tiết kiệm thời gian, không cần xếp hàng chờ đợi</li>
+                            <li><i class="fa fa-moon-o"></i> Hỗ trợ 24/7, kể cả cuối tuần và ngày lễ</li>
+                            <li><i class="fa fa-user-md"></i> Đội ngũ 500+ bác sĩ chuyên khoa được xác minh</li>
+                            <li><i class="fa fa-shield"></i> Bảo mật thông tin tuyệt đối</li>
+                            <li><i class="fa fa-bolt"></i> Phản hồi nhanh trong vòng 15 phút</li>
                         </ul>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-@if (ViewBag.Msg == "1")
-{
-    <div class="toast" data-delay="1000" style="position:fixed; top: 100PX; left: 40PX;z-index: 2000;width: 300px">
-        <script>
-            swal({
-                title: 'Gửi câu hỏi thành công!',
-                /* text: 'Redirecting...', */
-                icon: 'success',
-                timer: 3000,
-                buttons: true,
-                type: 'success'
-            })
-        </script>
-    </div>
-}
-<!--End breadcrumb area-->
-<!--Start Contact info map area-->
-<!--End Contact info map area-->
-<!--Start contact form area-->
-<section class="contact-form-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="contact-form">
-                    @if (userInfomatiom != null)
-                    {
-                        <form name="contact_form" class="default-form" action="/Home/Advise" method="post">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="input-box">
-                                        <input type="text" class="form-control" name="FullName" value="@userInfomatiom.FullName" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="input-box">
-                                        <input type="email" class="form-control" name="Email" value="@userInfomatiom.Email" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="input-box">
-                                        <textarea class="form-control" name="Question" placeholder="Nội dung câu hỏi" required></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="button-box">
-                                        <button class="btn-one" type="submit">Gửi câu hỏi</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    }
-                    else
-                    {
-                        <form name="contact_form" class="default-form" action="/Home/Advise" method="post">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="input-box">
-                                        <input type="text" class="form-control" name="FullName" placeholder="Họ tên" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="input-box">
-                                        <input type="email" class="form-control" name="Email" placeholder="Email" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="input-box">
-                                        <textarea class="form-control" name="Question" placeholder="Nội dung câu hỏi" required></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="button-box">
-                                        <button class="btn-one" type="submit">Gửi câu hỏi</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
+                    <!-- Rating -->
+                    <div class="cp-sidebar-card">
+                        <h3><i class="fa fa-star"></i> Đánh giá dịch vụ</h3>
+                        <div class="cp-rating-widget">
+                            <div class="cp-rating-score">4.9</div>
+                            <div>
+                                <div class="cp-rating-stars">★★★★★</div>
+                                <div class="cp-rating-sub" style="color:#1a2e23;font-weight:600;font-size:13px">Xuất sắc</div>
+                                <div class="cp-rating-sub">Dựa trên 10.000+ đánh giá</div>
+                            </div>
+                        </div>
+                        <div style="margin-top:14px;display:flex;flex-direction:column;gap:6px">
+                            @foreach (var row in new[] {
+                                new { Stars="5 sao", Pct=82 },
+                                new { Stars="4 sao", Pct=11 },
+                                new { Stars="3 sao", Pct=5  },
+                                new { Stars="2 sao", Pct=2  }
+                            })
+                            {
+                                <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#8fa699">
+                                    <span style="width:42px;flex-shrink:0">@row.Stars</span>
+                                    <div style="flex:1;background:#e8f0ea;border-radius:999px;height:6px;overflow:hidden">
+                                        <div style="width:@(row.Pct)%;background:#4caf7d;height:100%;border-radius:999px"></div>
+                                    </div>
+                                    <span style="width:28px;text-align:right">@(row.Pct)%</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- FAQ -->
+                    <div class="cp-sidebar-card">
+                        <h3><i class="fa fa-question-circle"></i> Câu hỏi thường gặp</h3>
+                        <div class="cp-faq-list">
+                            @{
+                                var faqs = new[] {
+                                    new { Q="Dịch vụ tư vấn có miễn phí không?", A="Có, dịch vụ đặt câu hỏi tư vấn cơ bản hoàn toàn miễn phí. Phí chỉ áp dụng với tư vấn chuyên sâu theo lịch hẹn riêng." },
+                                    new { Q="Bác sĩ có chuyên môn cao không?", A="100% bác sĩ trên nền tảng đã được xác minh bằng cấp, chứng chỉ hành nghề và có ít nhất 5 năm kinh nghiệm." },
+                                    new { Q="Thông tin của tôi có được bảo mật?", A="Chúng tôi tuân thủ các tiêu chuẩn bảo mật y tế quốc tế. Dữ liệu của bạn được mã hóa và không chia sẻ với bên thứ ba." },
+                                    new { Q="Bao lâu tôi nhận được phản hồi?", A="Thông thường trong vòng 15 phút với tư vấn chat. Với video/điện thoại, bạn sẽ được xếp lịch trong vòng 1 giờ." }
+                                };
+                                foreach (var faq in faqs) {
+                            <div class="cp-faq-item">
+                                <div class="cp-faq-q" onclick="toggleFaq(this)">
+                                    <span>@faq.Q</span>
+                                    <i class="fa fa-angle-right"></i>
+                                </div>
+                                <div class="cp-faq-a">@faq.A</div>
+                            </div>
+                                }
+                            }
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function selectMethod(el) {
+    document.querySelectorAll('.cp-method-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+}
+function selectSpec(el) {
+    document.querySelectorAll('.cp-spec-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+}
+function toggleFaq(btn) {
+    var item = btn.parentElement;
+    item.classList.toggle('open');
+}
+</script>

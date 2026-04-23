@@ -1,0 +1,398 @@
+/* Home Page Custom Styles - HealthCare+ */
+
+.hcp-home-hero {
+    background: linear-gradient(135deg, #f0f9f4 0%, #ffffff 100%);
+    padding: 80px 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.hcp-home-hero::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background: #e6f4ed;
+    border-radius: 50%;
+    z-index: 0;
+    opacity: 0.6;
+}
+
+.hcp-home-hero .container {
+    position: relative;
+    z-index: 1;
+}
+
+.hcp-hero-tagline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #e6f4ed;
+    color: #4caf7d;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+.hcp-hero-title {
+    font-size: 52px;
+    font-weight: 800;
+    color: #1a2e23;
+    line-height: 1.1;
+    margin-bottom: 24px;
+}
+
+.hcp-hero-title span {
+    color: #4caf7d;
+}
+
+.hcp-hero-desc {
+    font-size: 18px;
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 32px;
+    max-width: 540px;
+}
+
+.hcp-hero-cta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.hcp-hero-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.hcp-hero-feature-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #2a3d32;
+    font-weight: 500;
+}
+
+.hcp-hero-feature-item i {
+    color: #4caf7d;
+}
+
+.hcp-hero-image-wrap {
+    position: relative;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+}
+
+.hcp-hero-image-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Nav Entry Cards */
+.hcp-nav-cards-section {
+    margin-top: -60px;
+    margin-bottom: 80px;
+}
+
+.hcp-nav-entry-card {
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 24px;
+    border: 1px solid #eef3f0;
+    text-align: center;
+    transition: all .3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hcp-nav-entry-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(76, 175, 125, 0.08);
+    border-color: #4caf7d;
+}
+
+.hcp-nav-card-icon {
+    width: 80px;
+    height: 80px;
+    background: #f0f9f4;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4caf7d;
+    font-size: 32px;
+    margin-bottom: 24px;
+    transition: all .3s ease;
+}
+
+.hcp-nav-entry-card:hover .hcp-nav-card-icon {
+    background: #4caf7d;
+    color: #fff;
+}
+
+.hcp-nav-card-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a2e23;
+    margin-bottom: 12px;
+}
+
+.hcp-nav-card-desc {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.5;
+    margin-bottom: 24px;
+    flex-grow: 1;
+}
+
+.hcp-nav-card-btn {
+    padding: 10px 24px;
+    background: #f0f9f4;
+    color: #4caf7d;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all .2s;
+}
+
+.hcp-nav-entry-card:hover .hcp-nav-card-btn {
+    background: #4caf7d;
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Base Listing Section */
+.hcp-section-header {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.hcp-section-title {
+    font-size: 36px;
+    font-weight: 800;
+    color: #1a2e23;
+    margin-bottom: 12px;
+}
+
+.hcp-section-subtitle {
+    font-size: 16px;
+    color: #64748b;
+}
+
+/* Doctor Cards Home */
+.hcp-doctor-card-home {
+    background: #fff;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid #eef3f0;
+    transition: all .3s ease;
+}
+
+.hcp-doctor-card-home:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+}
+
+.hcp-doctor-img-home {
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hcp-doctor-img-home img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hcp-doctor-info-home {
+    padding: 24px;
+    text-align: center;
+}
+
+.hcp-doctor-name-home {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a2e23;
+    margin-bottom: 4px;
+}
+
+.hcp-doctor-spec-home {
+    font-size: 14px;
+    color: #4caf7d;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.hcp-doctor-btn-home {
+    display: inline-block;
+    padding: 12px 30px;
+    background: #1a2e23;
+    color: #fff;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background .2s;
+}
+
+.hcp-doctor-btn-home:hover {
+    background: #4caf7d;
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Generic Content Card (Service/News) */
+.hcp-content-card {
+    background: #fff;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid #eef3f0;
+    transition: all .3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.hcp-content-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+}
+
+.hcp-content-img {
+    height: 220px;
+    position: relative;
+}
+
+.hcp-content-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hcp-content-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: #4caf7d;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.hcp-content-body {
+    padding: 24px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.hcp-content-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.hcp-author-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.hcp-meta-text {
+    font-size: 13px;
+    color: #64748b;
+}
+
+.hcp-content-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a2e23;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.hcp-content-footer {
+    margin-top: auto;
+}
+
+.hcp-link-more {
+    color: #4caf7d;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.hcp-link-more:hover {
+    gap: 10px;
+    text-decoration: none;
+    color: #3d9e6e;
+}
+
+/* Sections padding */
+.hcp-home-section {
+    padding: 100px 0;
+}
+
+.hcp-home-section:nth-child(even) {
+    background: #f8faf9;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    .hcp-hero-title {
+        font-size: 42px;
+    }
+
+    .hcp-nav-cards-section {
+        margin-top: 40px;
+    }
+}
+
+@media (max-width: 767px) {
+    .hcp-hero-title {
+        font-size: 34px;
+    }
+
+    .hcp-home-hero {
+        padding: 60px 0;
+        text-align: center;
+    }
+
+    .hcp-hero-desc {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hcp-hero-cta {
+        justify-content: center;
+    }
+
+    .hcp-hero-features {
+        justify-content: center;
+    }
+}

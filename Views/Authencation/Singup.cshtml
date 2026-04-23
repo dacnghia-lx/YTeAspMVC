@@ -1,116 +1,174 @@
-﻿
-@{
-    ViewBag.Title = "Singup";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Tạo tài khoản | HealthCare+";
 }
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght%40400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/Content/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/Content/css/auth-page.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
 
-<section class="breadcrumb-area" style="background-image: url(/Content/images/resources/breadcrumb-bg.jpg);">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="inner-content clearfix">
-                    <div class="title float-left">
-                        <h2>Đăng ký</h2>
-                    </div>
-                    <div class="breadcrumb-menu float-right">
-                        <ul class="clearfix">
-                            <li><a href="/Home/Index">Home</a></li>
-                            <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
-                            <li class="active">Đăng ký</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 @if (ViewBag.mess == "Success")
 {
-    <div class="toast" data-delay="1000" style="position:fixed; top: 100PX; left: 40PX;z-index: 2000;width: 300px">
-
-        <script>
-            swal({
-                title: 'Đăng ký thành công!',
-                /* text: 'Redirecting...', */
-                icon: 'success',
-                timer: 3000,
-                buttons: true,
-                type: 'success'
-            })
-        </script>
-    </div>
+    <script>
+        swal({ title: 'Đăng ký thành công!', text: 'Chào mừng bạn đến với HealthCare+', icon: 'success', button: 'Đăng nhập ngay' })
+        .then(() => { window.location.href = '/Authencation/Login'; });
+    </script>
 }
-
 @if (ViewBag.mess == "ErrorExist")
 {
-
-    <div class="toast" data-delay="1000" style="position:fixed; top: 100PX; left: 10PX;z-index: 2000;width: 300px">
-        <script>
-            swal({
-                title: 'Email người dùng đã tồn tại!',
-                /* text: 'Redirecting...', */
-                icon: 'error',
-                timer: 3000,
-                buttons: true,
-                type: 'success'
-            })
-        </script>
-    </div>
+    <script>
+        swal({ title: 'Email đã tồn tại!', text: 'Vui lòng sử dụng địa chỉ email khác.', icon: 'error', button: 'Thử lại' });
+    </script>
 }
-<!--End breadcrumb area-->
-<!--Start Contact info map area-->
-<!--End Contact info map area-->
-<!--Start contact form area-->
-<section class="contact-form-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="contact-form">
-                    <div class="contact-title">
-                        <h2>Đăng ký thành viên</h2>
+
+<div class="hcp-auth-wrapper">
+
+    <!-- ───── LEFT PANEL ───── -->
+    <div class="hcp-auth-left" style="background-image: url('/Content/images/slides/v1-3.jpg');">
+        <a href="/" class="hcp-auth-brand">
+            <span class="brand-icon"><i class="fa fa-heartbeat"></i></span>
+            HealthCare+
+        </a>
+
+        <div>
+            <p class="hcp-auth-tagline">Tất cả trong một nền tảng</p>
+            <h1 class="hcp-auth-heading">Tham gia cộng đồng<br>chăm sóc sức khỏe</h1>
+
+            <ul class="hcp-auth-benefits">
+                <li class="hcp-auth-benefit">
+                    <div class="hcp-benefit-icon"><i class="fa fa-calendar-check-o"></i></div>
+                    <div class="hcp-benefit-text">
+                        <strong>Đặt lịch nhanh chóng</strong>
+                        <span>Hẹn khám chuyên khoa chỉ trong vài cú chạm</span>
                     </div>
-                    <form name="contact_form" class="default-form" action="/Authencation/Singup" method="post">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="input-box">
-                                    <input type="text" class="form-control" name="FullName"  placeholder="Họ tên*" required>
-                                </div>
-                                <div class="input-box">
-                                    <input type="email" class="form-control" name="Email"  placeholder="Email*" required>
-                                </div>
-                                <div class="input-box">
-                                    <input type="password" class="form-control" name="Password"  placeholder="Mật khẩu" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-box">
-                                    <input type="text" class="form-control" name="Address"  placeholder="Địa chỉ*" required>
-                                </div>
-                                <div class="input-box">
-                                    <select class="form-control" name="Gender">
-                                        <option selected value="">-- Chọn giới tính --</option>
-                                        <option value="Nam">Nam</option>
-                                        <option value="Nữ">Nữ</option>
-                                    </select>
-                                </div>
-                                <div class="input-box mt-5">
-                                    <input type="text" class="form-control" name="PhoneNumber" required placeholder="Số điện thoại">
-                                </div>
-                            </div>
+                </li>
+                <li class="hcp-auth-benefit">
+                    <div class="hcp-benefit-icon"><i class="fa fa-comments-o"></i></div>
+                    <div class="hcp-benefit-text">
+                        <strong>Tư vấn trực tuyến</strong>
+                        <span>Chat hoặc video call với bác sĩ mọi lúc</span>
+                    </div>
+                </li>
+                <li class="hcp-auth-benefit">
+                    <div class="hcp-benefit-icon"><i class="fa fa-bell-o"></i></div>
+                    <div class="hcp-benefit-text">
+                        <strong>Nhắc nhở thông minh</strong>
+                        <span>Không bao giờ bỏ lỡ lịch khám hay uống thuốc</span>
+                    </div>
+                </li>
+                <li class="hcp-auth-benefit">
+                    <div class="hcp-benefit-icon"><i class="fa fa-shield"></i></div>
+                    <div class="hcp-benefit-text">
+                        <strong>Bảo mật y tế</strong>
+                        <span>Dữ liệu được mã hóa theo tiêu chuẩn quốc tế</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
 
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="button-box">
-                                    <button class="btn-one" type="submit">Đăng ký</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
+        <div class="hcp-auth-left-footer">
+            <i class="fa fa-lock"></i>
+            <span>Dữ liệu được bảo mật theo tiêu chuẩn y tế quốc tế</span>
         </div>
     </div>
-</section>
 
+    <!-- ───── RIGHT PANEL ───── -->
+    <div class="hcp-auth-right">
+        <div class="hcp-auth-form-box">
+            <h2 class="hcp-form-title">Tạo tài khoản</h2>
+            <p class="hcp-form-subtitle">Đã có tài khoản? <a href="/Authencation/Login">Đăng nhập</a></p>
+            <form action="/Authencation/Singup" method="post">
+                <!-- Họ và tên -->
+                <label class="hcp-field-label">Họ và tên <span class="req">*</span></label>
+                <div class="hcp-field-wrap">
+                    <i class="fa fa-user hcp-field-icon-left"></i>
+                    <input type="text" name="FullName" class="hcp-auth-input" placeholder="Nguyễn Văn A" required>
+                </div>
+
+                <!-- Email & Điện thoại -->
+                <div class="hcp-field-row">
+                    <div class="hcp-field-col">
+                        <label class="hcp-field-label">Email <span class="req">*</span></label>
+                        <div class="hcp-field-wrap">
+                            <i class="fa fa-envelope-o hcp-field-icon-left"></i>
+                            <input type="email" name="Email" class="hcp-auth-input" placeholder="email&#64;..." required>
+                        </div>
+                    </div>
+                    <div class="hcp-field-col">
+                        <label class="hcp-field-label">Điện thoại</label>
+                        <div class="hcp-field-wrap">
+                            <i class="fa fa-phone hcp-field-icon-left"></i>
+                            <input type="text" name="PhoneNumber" class="hcp-auth-input" placeholder="09xx...">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mật khẩu -->
+                <label class="hcp-field-label">Mật khẩu <span class="req">*</span></label>
+                <div class="hcp-field-wrap">
+                    <i class="fa fa-lock hcp-field-icon-left"></i>
+                    <input type="password" name="Password" id="signupPwd" class="hcp-auth-input" placeholder="Tạo mật khẩu" required>
+                    <i class="fa fa-eye-slash hcp-field-icon-right" id="toggleSignupPwd"></i>
+                </div>
+
+                <!-- Xác nhận mật khẩu -->
+                <label class="hcp-field-label">Xác nhận mật khẩu <span class="req">*</span></label>
+                <div class="hcp-field-wrap">
+                    <i class="fa fa-lock hcp-field-icon-left"></i>
+                    <input type="password" name="ConfirmPassword" id="confirmPwd" class="hcp-auth-input" placeholder="Nhập lại mật khẩu" required>
+                    <i class="fa fa-eye-slash hcp-field-icon-right" id="toggleConfirmPwd"></i>
+                </div>
+
+                <!-- Trường ẩn giữ nguyên dữ liệu -->
+                <input type="hidden" name="Address" value="Chưa cập nhật">
+                <input type="hidden" name="Gender" value="Chưa cập nhật">
+
+                <!-- Terms -->
+                <div class="hcp-terms-wrap">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">
+                        Tôi đồng ý với <a href="#">Điều khoản dịch vụ</a> và <a href="#">Chính sách bảo mật</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="hcp-auth-btn">
+                    Tạo tài khoản <i class="fa fa-arrow-right"></i>
+                </button>
+
+                <div class="hcp-or-sep"><span>HOẶC</span></div>
+
+                <a href="#" class="hcp-google-btn">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="20">
+                    Đăng ký với Google
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function togglePwd(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fa fa-eye hcp-field-icon-right';
+    } else {
+        input.type = 'password';
+        icon.className = 'fa fa-eye-slash hcp-field-icon-right';
+    }
+}
+document.getElementById('toggleSignupPwd').addEventListener('click', () => togglePwd('signupPwd', 'toggleSignupPwd'));
+document.getElementById('toggleConfirmPwd').addEventListener('click', () => togglePwd('confirmPwd', 'toggleConfirmPwd'));
+</script>
+</body>
+</html>

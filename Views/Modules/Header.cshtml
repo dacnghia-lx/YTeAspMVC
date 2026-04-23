@@ -110,6 +110,7 @@
                                             <a>@userInfomatiom.FullName</a>
                                             <ul>
                                                 <li><a href="/Authencation/Information">Cập nhập thông tin</a></li>
+                                                <li><a href="/Authencation/HistoryNumber">Lịch sử bốc số</a></li>
                                                 <li><a href="/Authencation/HistoryBooking">Lịch sử lịch hẹn</a></li>
                                                 <li><a href="/Authencation/Logout">Đăng xuất</a></li>
                                             </ul>
@@ -117,13 +118,21 @@
                                     }
                                 </ul>
                             </div>
-                        </nav>
-                    </div>
-                    @*<div class="header-style2-button float-right">
-                        <a href="#"><span class="icon-date"></span>Appointment</a>
-                    </div>*@
+                        </li>
+                        <li class="divider" style="margin: 0;"></li>
+                        
+                        <!-- Dropdown Menu -->
+                        <div style="padding: 8px;">
+                            <li><a href="/Authencation/Information"><i class="fa fa-user" style="width:20px;margin-right:12px;color:#1a2e23"></i>Thông tin cá nhân</a></li>
+                            <li><a href="/Authencation/HistoryBooking"><i class="fa fa-calendar-check-o" style="width:20px;margin-right:12px;color:#1a2e23"></i>Lịch hẹn của tôi</a></li>
+                            
+                            <li class="divider"></li>
+                            <li><a href="/Authencation/Logout" style="color:#e05252"><i class="fa fa-sign-out" style="width:20px;margin-right:12px"></i>Đăng xuất</a></li>
+                        </div>
+                    </ul>
                 </div>
-            </div>
+            }
         </div>
+
     </div>
-</header>
+</nav>

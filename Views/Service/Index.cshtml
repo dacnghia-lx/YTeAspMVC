@@ -1,74 +1,230 @@
-﻿
+﻿@using System.Globalization
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Dịch vụ y tế";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var serviceList = (ViewBag.List as IEnumerable<YTeAspMVC.Models.Service>) ?? Enumerable.Empty<YTeAspMVC.Models.Service>();
+    var count = serviceList.Count();
+
+    // Cycle data for visual variety
+    var icons     = new[] { "fa-bolt", "fa-heartbeat", "fa-flask", "fa-stethoscope", "fa-ambulance", "fa-eye" };
+    var badges    = new[] { "Phổ biến", "Tiết kiệm", "Nổi bật", "Phổ biến", "Tiết kiệm", "Nổi bật" };
+    var badgeCls  = new[] { "",        "tiemkiem",    "",        "",          "tiemkiem",   ""        };
+    var featured  = new[] { true, false, false, false, false, false };
+    var durations = new[] { "15-30 phút", "45-60 phút", "Trọn gói", "20-40 phút", "60-90 phút", "Toàn diện" };
+
+    // Specialty section data (static – for display)
+    var specs = new[] {
+        new { Name="Da liễu - Thẩm mỹ", Icon="fa-leaf",       Desc="Điều trị các bệnh lý về da, làm đẹp, trẻ hóa da chuyên sâu.", Doctors=12, Img="/Content/images/638031072716192256Khoa-da-liễu-thẩm-mỹ-bệnh-viện-199-1024x683.jpg" },
+        new { Name="Tai Mũi Họng",      Icon="fa-stethoscope",Desc="Khám, nội soi và điều trị tận gốc các bệnh lý về tai, mũi, họng.", Doctors=15, Img="/Content/images/638031075642313169Nội-soi-tai-mũi-họng-Đà-Nẵng-600x314.jpg" },
+        new { Name="Chẩn đoán hình ảnh",Icon="fa-camera",     Desc="Siêu âm, X-quang, MRI với công nghệ và thiết bị hiện đại.", Doctors=18, Img="/Content/images/638228943880883485phong-kham-chan-doan-hinh-anh-bs-duong-xuan-thuc.jpg" },
+        new { Name="Cơ xương khớp",     Icon="fa-wheelchair", Desc="Chẩn đoán và điều trị chấn thương, phục hồi chức năng và vật lý trị liệu.", Doctors=16, Img="/Content/images/638031074471741956Bong-gân-600x400.jpg" }
+    };
 }
 
-<section class="breadcrumb-area" style="background-image: url(/Content/images//resources/breadcrumb-bg.jpg);">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="inner-content clearfix">
-                    <div class="title float-left">
-                        <h2>Dịch vụ y tế</h2>
+<link rel="stylesheet" href="~/Content/css/service-page.css" />
+
+<div class="sp-wrap">
+
+    <!-- ══════════ HERO ══════════ -->
+    <section class="sp-hero">
+        <div class="sp-container">
+            <div class="sp-breadcrumb">
+                <a href="/Home/Index">Trang chủ</a>
+                <span>›</span>
+                <span style="color:#7a8e83">Dịch vụ</span>
+            </div>
+            <h1>Dịch vụ y tế toàn diện</h1>
+            <p class="sp-hero-sub">HealthCare+ cung cấp đầy đủ các dịch vụ chăm sóc sức khỏe từ khám tổng quát đến chuyên khoa sâu, giúp bạn tiếp cận y tế chất lượng cao một cách tiện lợi và nhanh chóng.</p>
+        </div>
+    </section>
+
+    <!-- ══════════ STATS BANNER ══════════ -->
+    <div class="sp-stats-banner">
+        <div class="sp-container">
+            <div class="sp-stats-inner">
+                <div class="sp-stat-item">
+                    <div class="sp-stat-icon"><i class="fa fa-user-md"></i></div>
+                    <div class="sp-stat-text">
+                        <strong>500+</strong>
+                        <span>Bác sĩ chuyên khoa</span>
                     </div>
-                    <div class="breadcrumb-menu float-right">
-                        <ul class="clearfix">
-                            <li><a href="/Home/Index">Trang chủ</a></li>
-                            <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
-                            <li class="active">Dịch vụ</li>
-                        </ul>
+                </div>
+                <div class="sp-stat-item">
+                    <div class="sp-stat-icon"><i class="fa fa-certificate"></i></div>
+                    <div class="sp-stat-text">
+                        <strong>50+</strong>
+                        <span>Chuyên khoa</span>
+                    </div>
+                </div>
+                <div class="sp-stat-item">
+                    <div class="sp-stat-icon"><i class="fa fa-star"></i></div>
+                    <div class="sp-stat-text">
+                        <strong>4.9/5</strong>
+                        <span>Đánh giá trung bình</span>
+                    </div>
+                </div>
+                <div class="sp-stat-item">
+                    <div class="sp-stat-icon"><i class="fa fa-shield"></i></div>
+                    <div class="sp-stat-text">
+                        <strong>100%</strong>
+                        <span>Bác sĩ được xác minh</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
-<!--Start blog area-->
-<section id="blog-area" class="blog-default-area">
-    <div class="container">
-        <div class="row">
-            @foreach (var service in ViewBag.List)
-            {
-                <!--Start single blog post-->
-                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                    <div class="single-blog-post">
-                        <div class="img-holder">
-                            <img src="~/Content/images/@service.Image" style="height : 250px !important" alt="Awesome Image">
-                            <div class="categorie-button">
-                                <a class="btn-one" href="#">Dịch vụ</a>
+
+    <!-- ══════════ SERVICE PACKAGES ══════════ -->
+    <section class="sp-packages">
+        <div class="sp-container">
+            <div class="sp-section-header">
+                <h2>Gói dịch vụ khám bệnh</h2>
+                <p>Lựa chọn gói dịch vụ phù hợp với nhu cầu của bạn</p>
+            </div>
+
+            <div class="sp-packages-grid">
+                @if (!serviceList.Any())
+                {
+                    <div style="grid-column:1/-1;text-align:center;padding:48px;color:#8fa699">
+                        <i class="fa fa-medkit" style="font-size:40px;display:block;margin-bottom:14px;color:#c8dcd1"></i>
+                        <p style="margin:0">Chưa có dịch vụ nào. Vui lòng quay lại sau.</p>
+                    </div>
+                }
+                else
+                {
+                    var idx = 0;
+                    foreach (var svc in serviceList)
+                    {
+                        var i      = idx % icons.Length;
+                        var icon   = icons[i];
+                        var badge  = badges[i];
+                        var bCls   = badgeCls[i];
+                        var isFeat = featured[i];
+                        var dur    = durations[i];
+                        idx++;
+                        <div class="sp-pkg-card @(isFeat ? "featured" : "")">
+                            <span class="sp-pkg-badge @bCls">@badge</span>
+                            <div class="sp-pkg-icon">
+                                <i class="fa @icon"></i>
+                            </div>
+                            <h3 class="sp-pkg-name">@svc.Name</h3>
+                            @{
+                                var rawHtml = HttpUtility.HtmlDecode(svc.Content ?? "");
+                                var plainText = System.Text.RegularExpressions.Regex.Replace(rawHtml, "<.*?>", String.Empty);
+                            }
+                            <p class="sp-pkg-desc">@plainText</p>
+                            <div class="sp-pkg-footer">
+                                <span class="sp-pkg-price">
+                                    Từ <span>@String.Format("{0:N0}", svc.Price)đ</span>
+                                </span>
+                                <span class="sp-pkg-duration">
+                                    <i class="fa fa-clock-o"></i> @dur
+                                </span>
+                            </div>
+                            <a class="sp-pkg-btn" href="/Service/Detail/@svc.IdService">
+                                Đặt lịch ngay &rarr;
+                            </a>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ SPECIALTY GRID ══════════ -->
+    <section class="sp-specialty">
+        <div class="sp-container">
+            <div class="sp-section-header">
+                <h2>Chuyên khoa đa dạng</h2>
+                <p>Đội ngũ bác sĩ chuyên môn cao trên 50+ lĩnh vực y tế</p>
+            </div>
+            <div class="sp-specialty-grid">
+                @foreach (var sp in specs)
+                {
+                    <a class="sp-spec-card" href="/Doctor/Index">
+                        <div class="sp-spec-img">
+                            <img src="@sp.Img" alt="@sp.Name" />
+                            <span class="sp-spec-label">
+                                <i class="fa @sp.Icon"></i> @sp.Name
+                            </span>
+                        </div>
+                        <div class="sp-spec-body">
+                            <p>@sp.Desc</p>
+                            <div class="sp-spec-footer">
+                                <span class="sp-spec-count">@sp.Doctors bác sĩ</span>
+                                <span class="sp-spec-link">Đặt lịch <i class="fa fa-angle-right"></i></span>
                             </div>
                         </div>
-                        <div class="text-holder">
-                            <div class="meta-box">
-                                <div class="author-thumb">
-                                    <img src="https://cdn2.iconfinder.com/data/icons/user-avatars-3/100/Doctor-512.png" alt="Image">
-                                </div>
-                                <ul class="meta-info">
-                                    <li><a href="#">Đăng bởi quản trị viên</a></li>
-                                    <li><a href="#">@String.Format("{0:dd-MM-yyyy}", service.Created)</a></li>
-                                </ul>
+                    </a>
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ WHY CHOOSE US ══════════ -->
+    <section class="sp-why">
+        <div class="sp-container">
+            <div class="sp-why-inner">
+                <div>
+                    <div class="sp-section-header" style="text-align:left;margin-bottom:28px">
+                        <h2>Tại sao chọn HealthCare+?</h2>
+                    </div>
+                    <div class="sp-why-list">
+                        <div class="sp-why-item">
+                            <div class="sp-why-icon"><i class="fa fa-shield"></i></div>
+                            <div class="sp-why-text">
+                                <h4>Bác sĩ được xác minh &amp; chứng nhận</h4>
+                                <p>Toàn bộ đội ngũ bác sĩ đều được xác minh chứng chỉ hành nghề và thẩm định qua quy trình nghiêm ngặt.</p>
                             </div>
-                            <h3 class="blog-title"><a href="/Service/Detail/@service.IdService">@service.Name</a></h3>
-                            <div class="readmore-button">
-                                <a class="btn-two" href="/Service/Detail/@service.IdService"><span class="flaticon-next"></span>Xem thêm</a>
+                        </div>
+                        <div class="sp-why-item">
+                            <div class="sp-why-icon"><i class="fa fa-clock-o"></i></div>
+                            <div class="sp-why-text">
+                                <h4>Phản hồi nhanh trong 15 phút</h4>
+                                <p>Hệ thống thông minh kết nối bạn với bác sĩ phù hợp nhanh nhất có thể.</p>
+                            </div>
+                        </div>
+                        <div class="sp-why-item">
+                            <div class="sp-why-icon"><i class="fa fa-star-o"></i></div>
+                            <div class="sp-why-text">
+                                <h4>Đánh giá minh bạch từ bệnh nhân thực</h4>
+                                <p>Tất cả đánh giá đều từ bệnh nhân thực đã trải nghiệm dịch vụ, không có đánh giá giả.</p>
+                            </div>
+                        </div>
+                        <div class="sp-why-item">
+                            <div class="sp-why-icon"><i class="fa fa-bolt"></i></div>
+                            <div class="sp-why-text">
+                                <h4>Tiện lợi – Đặt lịch mọi lúc, mọi nơi</h4>
+                                <p>Đặt lịch khám chỉ trong vài phút qua ứng dụng hoặc website, không cần xếp hàng chờ đợi.</p>
                             </div>
                         </div>
                     </div>
                 </div>
-
-            }
-
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <ul class="post-pagination text-center">
-                    <li class="float-left"><a class="left" href="#"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
-                    <li class="text-center">1 of 4</li>
-                    <li class="float-right"><a class="right" href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
-                </ul>
+                <div class="sp-why-image">
+                    <img src="~/Content/images/638031072228599090Xét-nghiệm-covid-19-1024x726.jpg" alt="HealthCare+ Facility" />
+                    <div class="sp-why-image-badge">
+                        <i class="fa fa-check-circle"></i>
+                        <div>
+                            <strong>Đã xác minh</strong>
+                            <span>500+ bác sĩ chứng nhận</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
+    <!-- ══════════ CTA ══════════ -->
+    <section class="sp-cta">
+        <div class="sp-container">
+            <div class="sp-cta-inner">
+                <h2>Bắt đầu hành trình sức khỏe</h2>
+                <p>Hơn 50.000 bệnh nhân đã tin tưởng HealthCare+. Đặt lịch ngay hôm nay để trải nghiệm dịch vụ y tế chất lượng cao.</p>
+                <a class="sp-cta-btn" href="/Doctor/Index">
+                    Đặt lịch khám ngay <i class="fa fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+</div>

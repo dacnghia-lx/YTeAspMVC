@@ -1,278 +1,463 @@
-﻿
+﻿@using System.Globalization
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Bác sĩ";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var userInfomatiom = (YTeAspMVC.Models.User)Session["USER"];
+    var doctorList = (ViewBag.List as IEnumerable<YTeAspMVC.Models.Doctor>) ?? Enumerable.Empty<YTeAspMVC.Models.Doctor>();
+    var doctorCount = doctorList.Count();
+
+    // Dữ liệu đa dạng cho từng thẻ bác sĩ (xoay vòng theo index)
+    var expYears   = new[] { 15, 10, 12, 8, 18, 6, 14, 9, 20, 7 };
+    var starFull   = new[] { 4, 5, 4, 3, 5, 4, 5, 4, 5, 3 };
+    var hasHalf    = new[] { true, false, true, false, false, true, false, true, false, true };
+    var reviewCnt  = new[] { 142, 186, 98, 73, 234, 56, 124, 167, 312, 44 };
 }
 
-<section class="breadcrumb-area" style="background-image: url(/Content/images//resources/breadcrumb-bg.jpg);">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="inner-content clearfix">
-                    <div class="title float-left">
-                        <h2>Danh sách bác sĩ</h2>
-                    </div>
-                    <div class="breadcrumb-menu float-right">
-                        <ul class="clearfix">
-                            <li><a href="/Home/Index">Trang chủ</a></li>
-                            <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
-                            <li class="active">Bác sĩ</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+@* Link CSS riêng *@
+<link rel="stylesheet" href="~/Content/css/doctor-page.css" />
+
+@* Thông báo đặt lịch *@
 @if (ViewBag.Msg == "1")
 {
-
-    <div class="toast" data-delay="1000" style="position:fixed; top: 100PX; left: 10PX;z-index: 2000;width: 300px">
-        <script>
-            swal({
-                title: 'Đặt lịch thành công',
-                /* text: 'Redirecting...', */
-                icon: 'success',
-                timer: 3000,
-                buttons: true,
-                type: 'success'
-            })
-        </script>
-    </div>
+    <script>$(function(){ swal({ title: 'Đặt lịch thành công!', icon: 'success', timer: 3000, button: false }); });</script>
 }
 @if (ViewBag.Msg == "2")
 {
-
-    <div class="toast" data-delay="1000" style="position:fixed; top: 100PX; left: 10PX;z-index: 2000;width: 300px">
-        <script>
-            swal({
-                title: 'Đặt lịch không thành công',
-                /* text: 'Redirecting...', */
-                icon: 'error',
-                timer: 3000,
-                buttons: true,
-                type: 'error'
-            })
-        </script>
-    </div>
+    <script>$(function(){ swal({ title: 'Đặt lịch không thành công', text: 'Khung giờ đã được đặt hoặc có lỗi xảy ra.', icon: 'error', timer: 3000, button: false }); });</script>
 }
-<section class="doctor-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-4 col-lg-8">
-                <div class="doctor-sidebar">
-                    <!--Start Single Sidebar-->
-                    <div class="single-sidebar">
-                        <div class="doctor-tab-box tabs-box">
-                            <ul class="tab-btns tab-buttons clearfix">
-                                <li data-tab="#doctor" class="tab-btn left"><span>Tìm kiếm bác sĩ</span></li>
 
-                            </ul>
-                            <div class="tabs-content">
-                                <div class="tab" id="doctor">
-                                    <form name="doctor-form" action="/Doctor/Index" method="post">
-                                        <div class="row">
-                                            <div class="col-xl-12 col-lg-12">
-                                                <div class="input-box">
-                                                    <input type="text" name="namedoctor" class="form-control" placeholder="Nhập tên bác sĩ" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xl-12">
-                                                <div class="button-box">
-                                                    <button class="btn-one" type="submit">Tìm kiếm</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End Single Sidebar-->
-                    <!--Start Single Sidebar-->
-                    @{ var userInfomatiom = (YTeAspMVC.Models.User)Session["USER"]; }
-                    <div class="single-sidebar">
-                        <div class="sidebar-appoinment">
-                            <div class="title">
-                                <h3>Đặt lịch hẹn</h3>
-                            </div>
-                            @if (userInfomatiom == null)
-                            {
-                                <div class="row" style="margin : 0px auto !important">
-                                    <div class="col-md-12">
-                                        <a class="btn btn-danger" href="/Authencation/Login">Đăng nhập để đặt lịch</a>
-                                    </div>
-                                </div>
-                            }
-                            else
-                            {
-                                <form class="appoinment-form" action="/Booking/Add" method="post">
+<div class="dp-wrap">
 
-                                    <div class="col-md-12">
-                                        <label style="font-weight : bold">Người dùng</label>
-                                        <div class="input-box">
-                                            <input type="text" class="form-control" name="form_name" value="@userInfomatiom.FullName" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label style="font-weight : bold">Bác sĩ</label>
-                                        <div class="input-box">
-                                            <select id="IdDoctor" name="IdDoctor" class="form-control" required>
-                                                <option selected value="">-- Chọn bác sĩ --</option>
-                                                @foreach (var item in ViewBag.List)
-                                                {
-                                                    <option value="@item.IdDoctor">@item.FullName</option>
-                                                }
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label style="font-weight : bold">Ngày</label>
-                                        <div class="input-box">
-                                            <input type="date" name="Day" min="@ViewBag.CurrentDate" id="dateStr" onchange="validateToday()" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label style="font-weight : bold">Thời gian</label>
-                                        <div class="input-box" id="TimeStr">
-                                            <select name="Time" class="form-control">
-                                                <option selected value="">-- Chọn giờ --</option>
-
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label style="font-weight : bold">Lý do sức khỏe</label>
-                                        <div class="input-box">
-                                            <textarea name="Reason" class="form-control" placeholder="Nhập lý do ..." required></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <button class="btn-one" type="submit">Đặt lịch</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            }
-
-                        </div>
-                    </div>
-                    <!--End Single Sidebar-->
+    <!-- ═══════════════════════════════════════
+         PHẦN 1 – HERO: Search + Stats
+    ═══════════════════════════════════════ -->
+    <section class="dp-hero">
+        <div class="dp-container">
+            <!-- Search form V2 -->
+            <form action="/Doctor/Index" method="post" class="dp-search-form-v2">
+                <div class="dp-search-row-v2">
+                    <i class="fa fa-search"></i>
+                    <input type="text" name="namedoctor" placeholder="Tìm kiếm bác sĩ, chuyên khoa..." />
                 </div>
-            </div>
-            <div class="col-xl-8">
-                <div class="doctor-content">
-                    @foreach (var doctor in ViewBag.List)
-                    {
-                        <!--Start Single doctor item-->
-                        <div class="single-doctor-item wow fadeInUp" data-wow-delay="300ms">
-                            <div class="row">
-                                <div class="col-xl-5">
-                                    <div class="img-holder">
-                                        <img src="~/Content/images/@doctor.Image" alt="Awesome Image">
-                                        <!--<div class="overlay">
-                                            <div class="box">-->
-                                              @*  <div class="content">
-                                                    <a class="btn-one" href="#">Đặt Lịch</a>
-                                                </div>*@
-                                            <!--</div>
-                                        </div>-->
-                                    </div>
-                                </div>
-                                <div class="col-xl-7">
-                                    <div class="text-holder">
-                                        <span>@doctor.Specialist</span>
-                                        <h3>@doctor.FullName</h3>
-                                        <p>@doctor.Describe</p>
-                                        <ul>
-                                            <li><span class="flaticon-e-mail-envelope"></span>@doctor.Email</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--End Single doctor item-->
-                    }
+                <div class="dp-search-bottom-v2">
+                    <div class="dp-search-row-v2" style="flex:1">
+                        <select id="doctorQuickSelect" style="width:100%; border:none; outline:none; background:transparent; font-size:14px; color:#1a2e23;">
+                            <option value="">Tất cả</option>
+                            @foreach (var item in doctorList)
+                            {
+                                <option value="@item.IdDoctor">@item.FullName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="dp-search-row-v2" style="flex:1">
+                        <i class="fa fa-calendar-o" style="cursor: pointer;" onclick="this.nextElementSibling.showPicker()"></i>
+                        <input type="date" name="searchDate" style="width:100%; border:none; outline:none; background:transparent; font-size:14px; color:#1a2e23;" />
+                    </div>
+                </div>
+                <button type="submit" style="display:none">Tìm kiếm</button>
+            </form>
 
+            <h1>
+                Đặt lịch khám bệnh dễ dàng
+                <br><span>chỉ trong vài phút</span>
+            </h1>
+            <p class="dp-hero-sub">
+                Kết nối với đội ngũ bác sĩ chuyên môn cao, được chứng nhận và đánh giá tốt từ hàng nghìn bệnh nhân
+            </p>
+
+            <!-- Stats -->
+            <div class="dp-stats">
+                <div class="dp-stat">
+                    <div class="dp-stat-icon"><i class="fa fa-user-md"></i></div>
+                    <strong>100+</strong>
+                    <span>Bác sĩ</span>
+                </div>
+                <div class="dp-stat">
+                    <div class="dp-stat-icon"><i class="fa fa-stethoscope"></i></div>
+                    <strong>10+</strong>
+                    <span>Chuyên khoa</span>
+                </div>
+                <div class="dp-stat">
+                    <div class="dp-stat-icon"><i class="fa fa-clock-o"></i></div>
+                    <strong>24/7</strong>
+                    <span>Hỗ trợ</span>
+                </div>
+                <div class="dp-stat">
+                    <div class="dp-stat-icon"><i class="fa fa-star"></i></div>
+                    <strong>600+</strong>
+                    <span>Đánh giá</span>
                 </div>
             </div>
         </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         PHẦN 2 – DANH SÁCH BÁC SĨ
+    ═══════════════════════════════════════ -->
+    <section class="dp-doctors">
+        <div class="dp-container">
+            <div class="dp-section-head">
+                <div>
+                    <h2>Bác sĩ nổi bật</h2>
+                    <p>Được đánh giá cao và tin tưởng bởi hàng nghìn bệnh nhân</p>
+                </div>
+                <span class="dp-badge">@doctorCount bác sĩ</span>
+            </div>
+
+            <div class="dp-grid">
+                @if (doctorCount == 0)
+                {
+                    <div class="dp-empty">
+                        <i class="fa fa-user-md" style="font-size:48px;display:block;margin-bottom:14px;color:#c8dcd1"></i>
+                        <h3 style="margin:0 0 8px;color:#2a3d32">Không tìm thấy bác sĩ phù hợp</h3>
+                        <p>Thử lại với từ khóa khác để xem danh sách bác sĩ.</p>
+                    </div>
+                }
+                else
+                {
+                    var idx = 0;
+                    foreach (var doctor in doctorList)
+                    {
+                        var i       = idx % expYears.Length;
+                        var exp     = expYears[i];
+                        var nFull   = starFull[i];
+                        var half    = hasHalf[i];
+                        var nReview = reviewCnt[i];
+                        idx++;
+                        <div class="dp-card">
+                            <div class="dp-card-top">
+                                <div class="dp-card-avatar">
+                                    <img src="~/Content/images/@doctor.Image" alt="@doctor.FullName" />
+                                    <span class="dp-dot"></span>
+                                </div>
+                                <div>
+                                    <span class="dp-card-spec">@doctor.Specialist</span>
+                                    <h3 class="dp-card-name">@doctor.FullName</h3>
+                                    <div class="dp-card-exp">
+                                        <i class="fa fa-clock-o"></i>
+                                        <span>@exp năm kinh nghiệm</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="dp-card-stars">
+                                @for (int s = 0; s < nFull; s++) {<i class="fa fa-star"></i>}
+                                @if (half) {<i class="fa fa-star-half-o"></i>}
+                                @for (int s = nFull + (half ? 1 : 0); s < 5; s++) {<i class="fa fa-star-o"></i>}
+                                <span class="star-count">(@nReview)</span>
+                            </div>
+
+                            <p class="dp-card-desc">@doctor.Describe</p>
+
+                            @if (userInfomatiom == null)
+                            {
+                                <a class="dp-login-btn" href="/Authencation/Login">Đăng nhập để đặt lịch</a>
+                            }
+                            else
+                            {
+                                <button type="button"
+                                        class="dp-book-btn js-open-booking"
+                                        data-doctor-id="@doctor.IdDoctor"
+                                        data-doctor-name="@doctor.FullName"
+                                        data-doctor-specialist="@doctor.Specialist">
+                                    Đặt lịch khám
+                                </button>
+                            }
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         PHẦN 3 – ĐÁNH GIÁ TỪ BỆNH NHÂN
+    ═══════════════════════════════════════ -->
+    <section class="dp-reviews">
+        <div class="dp-container">
+            <div class="dp-reviews-head">
+                <h2>Đánh giá từ bệnh nhân</h2>
+                <p>Hàng nghìn bệnh nhân đã tin tưởng và hài lòng với dịch vụ của chúng tôi</p>
+            </div>
+            <div class="dp-reviews-grid">
+                <div class="dp-review-card">
+                    <div class="dp-review-stars">
+                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i><i class="fa fa-star"></i>
+                    </div>
+                    <p class="dp-review-text">"Dịch vụ rất tốt, đặt lịch nhanh chóng và bác sĩ tận tâm. Tôi rất hài lòng!"</p>
+                    <span class="dp-review-author">— Nguyễn Minh Anh</span>
+                </div>
+                <div class="dp-review-card">
+                    <div class="dp-review-stars">
+                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i><i class="fa fa-star"></i>
+                    </div>
+                    <p class="dp-review-text">"Giao diện đơn giản, dễ sử dụng. Quy trình đặt lịch thuận tiện và nhanh gọn."</p>
+                    <span class="dp-review-author">— Trần Văn Hùng</span>
+                </div>
+                <div class="dp-review-card">
+                    <div class="dp-review-stars">
+                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i><i class="fa fa-star"></i>
+                    </div>
+                    <p class="dp-review-text">"Bác sĩ chuyên môn cao, thái độ thân thiện. Chắc chắn sẽ giới thiệu cho bạn bè."</p>
+                    <span class="dp-review-author">— Lê Thị Hương</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- ═══════════════════════════════════════
+     MODAL ĐẶT LỊCH KHÁM  (Figma design)
+     Chỉ hiển thị khi đã đăng nhập
+═══════════════════════════════════════ -->
+@if (userInfomatiom != null)
+{
+    <div class="bm-overlay" id="bmOverlay">
+        <div class="bm-dialog">
+
+            <!-- Header -->
+            <div class="bm-header">
+                <div>
+                    <h3 class="bm-header-title">Đặt lịch khám</h3>
+                    <p class="bm-header-sub" id="bmDoctorSub">Vui lòng chọn bác sĩ</p>
+                </div>
+                <button class="bm-close" id="bmClose" aria-label="Đóng">&times;</button>
+            </div>
+
+            <!-- Body -->
+            <div class="bm-body">
+
+                <!-- Bảo mật -->
+                <div class="bm-security">
+                    <span class="bm-dot"></span>
+                    <span>Thông tin của bạn được bảo mật tuyệt đối</span>
+                </div>
+
+                <form action="/Booking/Add" method="post" id="bmForm">
+                    <input type="hidden" name="IdDoctor" id="bmIdDoctor" />
+                    <input type="hidden" name="Day"      id="bmDay" />
+                    <input type="hidden" name="Time"     id="bmTime" />
+
+                    <!-- Bước 1: Chọn ngày -->
+                    <p class="bm-section-title">Chọn ngày khám</p>
+                    <div class="bm-date-row">
+                        <button type="button" class="bm-nav-btn" id="bmDatePrev" disabled>&#8249;</button>
+                        <div class="bm-date-chips" id="bmDateChips"></div>
+                        <button type="button" class="bm-nav-btn" id="bmDateNext">&#8250;</button>
+                    </div>
+
+                    <!-- Bước 2: Chọn giờ (ẩn cho đến khi chọn ngày) -->
+                    <div class="bm-time-section" id="bmTimeSection">
+                        <p class="bm-section-title">
+                            <i class="fa fa-clock-o"></i> Chọn giờ khám
+                        </p>
+                        <div class="bm-time-grid" id="bmTimeGrid"></div>
+                    </div>
+
+                    <!-- Bước 3: Thông tin bệnh nhân (ẩn cho đến khi chọn giờ) -->
+                    <div class="bm-patient-section" id="bmPatientSection">
+                        <p class="bm-section-title">Thông tin bệnh nhân</p>
+
+                        <div class="bm-form-field">
+                            <label>Họ và tên <span class="req">*</span></label>
+                            <input type="text" value="@userInfomatiom.FullName" readonly />
+                        </div>
+                        <div class="bm-form-field">
+                            <label>Số điện thoại <span class="req">*</span></label>
+                            <input type="text" value="@userInfomatiom.PhoneNumber" readonly />
+                        </div>
+                        <div class="bm-form-field">
+                            <label>Lý do khám</label>
+                            <textarea name="Reason" placeholder="Mô tả triệu chứng hoặc lý do khám (tùy chọn)"></textarea>
+                        </div>
+
+                        <button type="submit" class="bm-submit-btn">Xác nhận đặt lịch</button>
+                        <p class="bm-submit-note">Bạn đang được hỗ trợ bởi đội ngũ y tế tận tâm</p>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <script>
-        function validateToday() {
-            var today = new Date();
-            var dd = String(today.getDate()).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0');
-            var yyyy = today.getFullYear();
-            today = yyyy + '-' + mm + '-' + dd;
-            var dateStr = $("#dateStr").val();
-            if (dateStr.toString() == today) {
-                var data = {
-                    day: dateStr.toString(),
-                    type: "InDay"
-                }
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json",
-                    url: "/Booking/ValidateInDay",
-                    data: JSON.stringify(data),
-                    dataType: 'json',
-                    cache: false,
-                    success: function (t) {
-                        if (t.Status == true) {
-                            var htmlData = `<select name="Time" id="TimeStr" class="form-control">
-                                        <option selected value="">-- Chọn giờ --</option>`
-                            console.log(t.Hours.length)
-                            for (var i = 0; i < t.Hours.length; i++) {
-                                htmlData += `<option value="` + t.Hours[i] + `">` + t.Hours[i] + `</option>`;
-                            }
-                            htmlData += `</select>`
-                            $("#TimeStr").html(htmlData);
-                        } else {
-                            alert(t)
-                        }
-                    },
-                    error: function (e) {
-                        alert(e)
-                    }
-                });
-            } else {
-                var data1 = {
-                    datt: dateStr.toString(),
-                    type: "NotInDay"
-                }
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json",
-                    url: "/Booking/ValidateInDay",
-                    data: JSON.stringify(data1),
-                    dataType: 'json',
-                    cache: false,
-                    success: function (t) {
-                        if (t.Status == true) {
-                            var htmlData = `<select name="Time" id="TimeStr" class="form-control">
-                                        <option selected value="">-- Chọn giờ --</option>`
-                            console.log(t.Hours.length)
-                            for (var i = 0; i < t.Hours.length; i++) {
-                                htmlData += `<option value="` + t.Hours[i] + `">` + t.Hours[i] + `</option>`;
-                            }
-                            htmlData += `</select>`
-                            $("#TimeStr").html(htmlData);
-                        } else {
-                            alert(t)
-                        }
-                    },
-                    error: function (e) {
-                        alert(e)
-                    }
-                });
-            }
+}
 
+<script>
+(function () {
+    var loggedIn = @((userInfomatiom != null).ToString().ToLower());
+    if (!loggedIn) return;
 
+    var overlay          = document.getElementById('bmOverlay');
+    var bmClose          = document.getElementById('bmClose');
+    var bmDoctorSub      = document.getElementById('bmDoctorSub');
+    var bmIdDoctor       = document.getElementById('bmIdDoctor');
+    var bmDay            = document.getElementById('bmDay');
+    var bmTime           = document.getElementById('bmTime');
+    var bmDateChips      = document.getElementById('bmDateChips');
+    var bmDatePrev       = document.getElementById('bmDatePrev');
+    var bmDateNext       = document.getElementById('bmDateNext');
+    var bmTimeSection    = document.getElementById('bmTimeSection');
+    var bmTimeGrid       = document.getElementById('bmTimeGrid');
+    var bmPatientSection = document.getElementById('bmPatientSection');
+    var doctorQuickSel   = document.getElementById('doctorQuickSelect');
 
+    var selectedDate = null;
+    var selectedTime = null;
+    var dateOffset   = 0;
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function toDateStr(d) {
+        return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+    }
+
+    function weekdayLabel(d) {
+        return ['CN','Th 2','Th 3','Th 4','Th 5','Th 6','Th 7'][d.getDay()];
+    }
+
+    /* ── Render date chips ── */
+    function renderDates() {
+        bmDateChips.innerHTML = '';
+        var today = new Date(); today.setHours(0,0,0,0);
+        bmDatePrev.disabled = dateOffset <= 0;
+
+        for (var i = 0; i < 7; i++) {
+            var dt = new Date(today);
+            dt.setDate(today.getDate() + dateOffset + i);
+            var val = toDateStr(dt);
+            var chip = document.createElement('button');
+            chip.type = 'button';
+            chip.className = 'bm-date-chip' + (val === selectedDate ? ' bm-selected' : '');
+            chip.dataset.date = val;
+            chip.innerHTML =
+                '<span class="dc-day">' + weekdayLabel(dt) + '</span>' +
+                '<span class="dc-num">' + pad(dt.getDate()) + '</span>';
+            bmDateChips.appendChild(chip);
         }
-    </script>
-</section>
+    }
 
+    /* ── Render time chips ── */
+    function renderTimes(hours) {
+        bmTimeGrid.innerHTML = '';
+        if (!hours || !hours.length) {
+            bmTimeGrid.innerHTML = '<div class="bm-no-hours">Không còn khung giờ trống trong ngày này.</div>';
+            return;
+        }
+        hours.forEach(function (h) {
+            var chip = document.createElement('button');
+            chip.type = 'button';
+            chip.className = 'bm-time-chip' + (parseInt(selectedTime) === parseInt(h) ? ' bm-selected' : '');
+            chip.dataset.time = h;
+            chip.textContent = pad(h) + ':00';
+            bmTimeGrid.appendChild(chip);
+        });
+    }
+
+    /* ── AJAX load hours ── */
+    function loadHours() {
+        if (!selectedDate) return;
+        bmTimeGrid.innerHTML = '<div class="bm-no-hours" style="text-align:center"><i class="fa fa-spinner fa-spin"></i> Đang tải...</div>';
+        bmTimeSection.classList.add('bm-visible');
+        bmPatientSection.classList.remove('bm-visible');
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/Booking/ValidateInDay', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                try {
+                    var res = JSON.parse(xhr.responseText);
+                    renderTimes(res.Status ? res.Hours : []);
+                } catch (e) { renderTimes([]); }
+            }
+        };
+        var today = toDateStr(new Date());
+        xhr.send(JSON.stringify({ day: selectedDate, type: selectedDate === today ? 'InDay' : 'NotInDay' }));
+    }
+
+    /* ── Reset state ── */
+    function resetState() {
+        selectedDate = null; selectedTime = null;
+        bmDay.value = ''; bmTime.value = '';
+        dateOffset = 0;
+        bmTimeSection.classList.remove('bm-visible');
+        bmPatientSection.classList.remove('bm-visible');
+        bmTimeGrid.innerHTML = '';
+        renderDates();
+    }
+
+    /* ── Open / Close ── */
+    function openModal(doctor) {
+        bmIdDoctor.value = doctor.id;
+        bmDoctorSub.textContent = 'BS. ' + doctor.name + ' – ' + doctor.specialist;
+        resetState();
+        overlay.classList.add('bm-open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        overlay.classList.remove('bm-open');
+        document.body.style.overflow = '';
+    }
+
+    /* ── Event: open booking ── */
+    document.addEventListener('click', function (e) {
+        var btn = e.target.closest('.js-open-booking');
+        if (btn) {
+            openModal({
+                id:         btn.dataset.doctorId,
+                name:       btn.dataset.doctorName,
+                specialist: btn.dataset.doctorSpecialist
+            });
+        }
+    });
+
+    bmClose.addEventListener('click', closeModal);
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && overlay.classList.contains('bm-open')) closeModal();
+    });
+
+    /* ── Date navigation ── */
+    bmDatePrev.addEventListener('click', function () { if (dateOffset > 0) { dateOffset--; renderDates(); } });
+    bmDateNext.addEventListener('click', function () { dateOffset++; renderDates(); });
+
+    /* ── Select date ── */
+    bmDateChips.addEventListener('click', function (e) {
+        var chip = e.target.closest('.bm-date-chip');
+        if (!chip) return;
+        selectedDate = chip.dataset.date;
+        selectedTime = null;
+        bmDay.value  = selectedDate;
+        bmTime.value = '';
+        renderDates();
+        loadHours();
+    });
+
+    /* ── Select time ── */
+    bmTimeGrid.addEventListener('click', function (e) {
+        var chip = e.target.closest('.bm-time-chip');
+        if (!chip) return;
+        selectedTime = chip.dataset.time;
+        bmTime.value = selectedTime;
+        document.querySelectorAll('.bm-time-chip').forEach(function (c) { c.classList.remove('bm-selected'); });
+        chip.classList.add('bm-selected');
+        bmPatientSection.classList.add('bm-visible');
+        // Cuộn xuống đến phần thông tin bệnh nhân
+        document.getElementById('bmPatientSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    /* ── Quick select dropdown ── */
+    if (doctorQuickSel) {
+        doctorQuickSel.addEventListener('change', function () {
+            var val = this.value;
+            if (!val) return;
+            var btn = document.querySelector('.js-open-booking[data-doctor-id="' + val + '"]');
+            if (btn) btn.click();
+            this.value = '';
+        });
+    }
+})();
+</script>

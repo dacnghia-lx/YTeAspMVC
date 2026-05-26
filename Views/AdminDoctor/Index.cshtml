@@ -1,287 +1,349 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    ViewBag.Title = "Quản lý Bác sĩ";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<main>
+<style>
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+    .page-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin: 0;
+    }
+    .card-custom {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+    }
+    .table-custom {
+        margin-bottom: 0;
+    }
+    .table-custom th {
+        background-color: #f8f9fa;
+        color: #495057;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #e9ecef;
+        padding: 1rem;
+    }
+    .table-custom td {
+        vertical-align: middle;
+        color: #2c3e50;
+        padding: 1rem;
+    }
+    .doctor-avatar {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        border: 2px solid #fff;
+    }
+    .btn-action {
+        border-radius: 8px;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+    .btn-action:hover {
+        transform: translateY(-2px);
+    }
+    .btn-add {
+        border-radius: 10px;
+        padding: 0.6rem 1.2rem;
+        font-weight: 600;
+        box-shadow: 0 4px 6px rgba(40, 167, 69, 0.2);
+    }
+    .modal-content {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .modal-header {
+        border-bottom: 1px solid #e9ecef;
+        border-radius: 15px 15px 0 0;
+    }
+    .form-control {
+        border-radius: 8px;
+        padding: 0.6rem 1rem;
+    }
+    .form-control:focus {
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+    }
+    .desc-link {
+        color: #0d6efd;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    .desc-link:hover {
+        text-decoration: underline;
+    }
+    .badge-specialist {
+        background: linear-gradient(135deg, #36b9cc 0%, #258391 100%);
+        color: white;
+        padding: 0.4em 0.8em;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 0.85rem;
+    }
+</style>
+
+<main class="py-4">
     <div class="container-fluid px-4">
-        <h4 class="mt-1">Danh sách bác sĩ</h4>
+        
+        <div class="page-header">
+            <h1 class="page-title"><i class="fas fa-user-md me-2 text-primary"></i>Danh sách Bác sĩ</h1>
+            <button type="button" class="btn btn-success btn-add" data-bs-toggle="modal" data-bs-target="#exampleModalAdd">
+                <i class="fas fa-plus-circle me-1"></i> Thêm mới
+            </button>
+        </div>
 
-        <div class="card mb-4">
-            <div class="card-header">
-                @if (ViewBag.Msg != null)
-                {
-                    if (ViewBag.Msg == "1")
-                    {
-                        <div class="alert alert-success">
-                            <strong>Thành công</strong>
-                        </div>
-                    }
-                    if (ViewBag.Msg == "2")
-                    {
-                        <div class="alert alert-danger">
-                            <strong>Không thể xóa!</strong>
-                        </div>
-                    }
-                }
-                <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                        data-bs-target="#exampleModalAdd">
-                    Thêm mới
-                </button>
-            </div>
+        @if (ViewBag.Msg != null)
+        {
+            if (ViewBag.Msg == "1")
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i><strong>Thành công!</strong> Thao tác đã được thực hiện.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            if (ViewBag.Msg == "2")
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-triangle me-2"></i><strong>Lỗi!</strong> Không thể xóa bản ghi này.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+        }
 
-            <div class="card-body">
-                <table id="datatablesSimple">
-                    <thead style="color:#0d6efd ">
-                        <tr style="background-color: darkgrey">
-                            <th>STT</th>
-                            <th>Họ tên</th>
-                            <th>Ảnh</th>
-                            <th>Email</th>
-                            <th>Chuyên ngành</th>
-                            <th>Mô tả</th>
-                            <th>Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        @{ var stt = 1;}
-                        <input type="hidden" value="@ViewBag.List.Count" id="dodai" />
-                        @foreach (var item in ViewBag.List)
-                        {
-                            var nameModelDes = "exampleModalDes" + item.IdDoctor;
-                    <tr>
-                        <td style="width:10px">@stt</td>
-                        <td>
-                            @item.FullName
-                        </td>
-                        <td>
-                            <img style="width: 200px !important;height: 200px !important;" src="~/Content/images/@item.Image"
-                                 class="img-fluid">
-                        </td>
-                        <td>
-                            @item.Email
-                        </td>
-                        <td>
-                            @item.Specialist
-                        </td>
-                        <td>
-                            <a href="" data-bs-toggle="modal" data-bs-target="#@nameModelDes">Xem</a>
-                        </td>
-                        <td>
-                            @{
+        <div class="card card-custom">
+            <div class="card-body p-0">
+                <div class="table-responsive p-3">
+                    <table id="datatablesSimple" class="table table-hover table-custom">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 5%">STT</th>
+                                <th style="width: 12%">Ảnh</th>
+                                <th style="width: 18%">Họ tên</th>
+                                <th style="width: 20%">Email</th>
+                                <th style="width: 15%">Chuyên ngành</th>
+                                <th class="text-center" style="width: 10%">Mô tả</th>
+                                <th class="text-center" style="width: 20%">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ var stt = 1;}
+                            <input type="hidden" value="@ViewBag.List.Count" id="dodai" />
+                            @foreach (var item in ViewBag.List)
+                            {
+                                var nameModelDes = "exampleModalDes" + item.IdDoctor;
                                 var idEx1 = "exampleModalLabel" + item.IdDoctor;
                                 var idModelDel = "exampleModalDel" + item.IdDoctor;
                                 var edit = "comment" + stt;
+                                
+                                <tr>
+                                    <td class="text-center fw-bold text-muted">@stt</td>
+                                    <td>
+                                        <img src="~/Content/images/@item.Image" class="doctor-avatar" alt="Avatar">
+                                    </td>
+                                    <td class="fw-bold">@item.FullName</td>
+                                    <td><i class="fas fa-envelope text-muted me-1"></i>@item.Email</td>
+                                    <td><span class="badge-specialist">@item.Specialist</span></td>
+                                    <td class="text-center">
+                                        <a href="#" class="desc-link" data-bs-toggle="modal" data-bs-target="#@nameModelDes">
+                                            <i class="fas fa-eye me-1"></i>Xem
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="d-flex justify-content-center gap-2">
+                                            <button type="button" class="btn btn-outline-primary btn-action" data-bs-toggle="modal" data-bs-target="#@idEx1">
+                                                <i class="fas fa-edit"></i> Sửa
+                                            </button>
+                                            <button type="button" class="btn btn-outline-danger btn-action" data-bs-toggle="modal" data-bs-target="#@idModelDel">
+                                                <i class="fas fa-trash-alt"></i> Xóa
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Delete Modal -->
+                                <div class="modal fade" id="@idModelDel" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-danger text-white">
+                                                <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Xác nhận xóa</h5>
+                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-center py-4">
+                                                <h5 class="mb-3">Bạn chắc chắn muốn xóa bác sĩ này?</h5>
+                                                <p class="text-danger fw-bold fs-5 mb-0">@item.FullName</p>
+                                            </div>
+                                            <div class="modal-footer bg-light">
+                                                <form action="/AdminDoctor/Delete" method="post" class="w-100">
+                                                    <input type="hidden" name="IdDoctor" value="@item.IdDoctor">
+                                                    <div class="d-flex justify-content-end gap-2">
+                                                        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Đóng</button>
+                                                        <button type="submit" class="btn btn-danger px-4">Xóa</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Edit Modal -->
+                                <div class="modal fade" id="@idEx1" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title text-primary"><i class="fas fa-user-edit me-2"></i>Cập nhật thông tin Bác sĩ</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <form method="POST" action="/AdminDoctor/Update" enctype="multipart/form-data">
+                                                <div class="modal-body p-4">
+                                                    <input type="hidden" name="IdDoctor" value="@item.IdDoctor">
+                                                    <div class="row g-3">
+                                                        <div class="col-md-6">
+                                                            <label class="form-label fw-bold">Họ tên:</label>
+                                                            <input type="text" class="form-control" name="FullName" required value="@item.FullName">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="form-label fw-bold">Email:</label>
+                                                            <input type="email" class="form-control" name="Email" required value="@item.Email">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="form-label fw-bold">Mật khẩu:</label>
+                                                            <input type="text" class="form-control" name="Password" required value="@item.Password">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="form-label fw-bold">Chuyên ngành:</label>
+                                                            <input type="text" class="form-control" name="Specialist" required value="@item.Specialist">
+                                                        </div>
+                                                        <div class="col-md-12 mt-3">
+                                                            <label class="form-label fw-bold">Ảnh đại diện mới (để trống nếu không đổi):</label>
+                                                            <input type="file" name="file" class="form-control">
+                                                            <div class="mt-2">
+                                                                <small class="text-muted">Ảnh hiện tại:</small>
+                                                                <img src="~/Content/images/@item.Image" class="ms-2 shadow-sm" style="height: 50px; border-radius: 8px;">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 mt-3">
+                                                            <label class="form-label fw-bold">Mô tả:</label>
+                                                            <textarea name="Describe" id="@edit" class="form-control" rows="4">@Html.Raw(item.Describe)</textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer bg-light">
+                                                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Đóng</button>
+                                                    <button type="submit" class="btn btn-primary px-4"><i class="fas fa-save me-2"></i>Lưu</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Description Modal -->
+                                <div class="modal fade" id="@nameModelDes" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title"><i class="fas fa-info-circle me-2 text-info"></i>Thông tin: <span class="fw-bold text-primary">@item.FullName</span></h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body p-4 bg-light">
+                                                <div class="p-3 bg-white rounded shadow-sm border" style="min-height: 100px;">
+                                                    @Html.Raw(item.Describe)
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Đóng</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                stt++;
                             }
-                            <button style="width:100px" type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#@idEx1">
-                                Sửa
-                            </button>
-                            <button type="button" data-bs-toggle="modal" data-bs-target="#@idModelDel" style="width:100px" class="btn btn-danger"> Xóa</button>
-                        </td>
-                        <div class="modal fade" id="@idModelDel" tabindex="-1"
-                             aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Bạn chắc chắn muốn xóa ?</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                    </div>
-
-                                    <div class="modal-body">
-                                        Bác sĩ : @item.FullName
-                                        <form action="/AdminDoctor/Delete" method="post">
-                                            <input type="hidden" class="form-control" id="id" name="IdDoctor" value="@item.IdDoctor">
-                                            <div class="modal-footer" style="margin-top: 20px">
-                                                <button style="width:100px" type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">
-                                                    Đóng
-                                                </button>
-                                                <button style="width:100px" type="submit" class="btn btn-danger"> Xóa</button>
-                                            </div>
-                                        </form>
-
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Modal Update-->
-                        <div class="modal fade" id="@idEx1" tabindex="-1"
-                             aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Cập nhập</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form method="POST" action="/AdminDoctor/Update" class="register-form" id="register-form" enctype="multipart/form-data">
-                                            <input type="hidden" class="form-control" id="id" name="IdDoctor" value="@item.IdDoctor">
-
-                                            <div class="col">
-                                                <div class="row">
-                                                    <div class="col-6 mb-3">
-                                                        <label for="category-film"
-                                                               class="col-form-label">Họ tên:</label>
-                                                        <input type="text" class="form-control" id="category-film" name="FullName" required value="@item.FullName">
-                                                    </div>
-                                                    <div class="col-6 mb-3">
-                                                        <label for="category-film"
-                                                               class="col-form-label">Email:</label>
-                                                        <input type="email" class="form-control" id="category-film" name="Email" required value="@item.Email">
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-6 mb-3">
-                                                        <label for="category-film"
-                                                               class="col-form-label">Mật khẩu:</label>
-                                                        <input type="text" class="form-control" id="category-film" name="Password" required value="@item.Password">
-                                                    </div>
-                                                    <div class="col-6 mb-3">
-                                                        <label for="category-film"
-                                                               class="col-form-label">Chuyên ngành:</label>
-                                                        <input type="text" class="form-control" id="category-film" name="Specialist" required value="@item.Specialist">
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-6 mb-3" style="margin-top : 6px !important">
-                                                        <label for="category-film"
-                                                               class="col-form-label">Ảnh:</label><br />
-                                                        <input type="file" name="file" class="form-control-file"
-                                                               id="exampleFormControlFile1">
-                                                    </div>
-                                                    <div class="col-6 mb-3">
-                                                        <label for="category-film"
-                                                               class="col-form-label">Mô tả:</label>
-                                                        <textarea name="Describe" cols="50"
-                                                                  rows="5"  class="form-control">@Html.Raw(item.Describe)</textarea>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">
-                                                    Đóng
-                                                </button>
-                                                <button type="submit" class="btn btn-primary">Lưu</button>
-                                            </div>
-                                        </form>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Modal Descrip-->
-                        <div class="modal fade" id="@nameModelDes" tabindex="-1"
-                             aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-xl">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">@item.FullName</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>@Html.Raw(item.Describe)</p>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </tr>
-                            stt++;
-                        }
-                        <div class="modal fade" id="exampleModalAdd" tabindex="-1"
-                             aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Thêm mới</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form method="POST" action="/AdminDoctor/Add" class="register-form" id="register-form" enctype="multipart/form-data">
-                                            <div class="col">
-                                                <div class="row">
-                                                    <div class="col-6 mb-3">
-                                                        <label for="category-film"
-                                                               class="col-form-label">Họ tên:</label>
-                                                        <input type="text" class="form-control" id="category-film" name="FullName" required>
-                                                    </div>
-                                                    <div class="col-6 mb-3">
-                                                        <label for="category-film"
-                                                               class="col-form-label">Email:</label>
-                                                        <input type="email" class="form-control" id="category-film" name="Email" required>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-6 mb-3">
-                                                        <label for="category-film"
-                                                               class="col-form-label">Mật khẩu:</label>
-                                                        <input type="text" class="form-control" id="category-film" name="Password" required>
-                                                    </div>
-                                                    <div class="col-6 mb-3">
-                                                        <label for="category-film"
-                                                               class="col-form-label">Chuyên ngành:</label>
-                                                        <input type="text" class="form-control" id="category-film" name="Specialist" required>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-6 mb-3" style="margin-top : 6px !important">
-                                                        <label for="category-film"
-                                                               class="col-form-label">Ảnh:</label><br />
-                                                        <input type="file" name="file" class="form-control-file"
-                                                               id="exampleFormControlFile1">
-                                                    </div>
-                                                    <div class="col-6 mb-3">
-                                                        <label for="category-film"
-                                                               class="col-form-label">Mô tả:</label><br />
-                                                        <textarea name="Describe" cols="50"
-                                                                  rows="5" class="form-control"> </textarea>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">
-                                                    Đóng
-                                                </button>
-                                                <button type="submit" class="btn btn-primary">Lưu </button>
-                                            </div>
-                                        </form>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-    <script>
-
-            CKEDITOR.replace("editor");
-
-    </script>
-    <script>
-            var dodai = document.getElementById("dodai").value;
-
-            for (var i = 1; i <= dodai; i++) {
-                var name = "comment" + i
-                CKEDITOR.replace(name);
-            }
-    </script>
 </main>
 
+<!-- Add Modal -->
+<div class="modal fade" id="exampleModalAdd" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title"><i class="fas fa-user-plus me-2"></i>Thêm Bác sĩ mới</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="/AdminDoctor/Add" enctype="multipart/form-data">
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Họ tên: <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="FullName" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Email: <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" name="Email" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Mật khẩu: <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="Password" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Chuyên ngành: <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="Specialist" required>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <label class="form-label fw-bold">Ảnh đại diện: <span class="text-danger">*</span></label>
+                            <input type="file" name="file" class="form-control" required>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <label class="form-label fw-bold">Mô tả:</label>
+                            <textarea name="Describe" id="editor" class="form-control" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-success px-4"><i class="fas fa-plus me-2"></i>Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        if(typeof CKEDITOR !== 'undefined') {
+            if (document.getElementById("editor")) {
+                CKEDITOR.replace("editor");
+            }
+            var dodaiElem = document.getElementById("dodai");
+            if (dodaiElem) {
+                var dodai = dodaiElem.value;
+                for (var i = 1; i <= dodai; i++) {
+                    var name = "comment" + i;
+                    if (document.getElementById(name)) {
+                        CKEDITOR.replace(name);
+                    }
+                }
+            }
+        }
+    });
+</script>

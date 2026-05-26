@@ -1,68 +1,101 @@
-﻿
-@{
-    ViewBag.Title = "History";
+﻿@{
+    ViewBag.Title = "Lịch sử Lịch hẹn";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<main>
+<style>
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+    .page-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin: 0;
+    }
+    .card-custom {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+    }
+    .table-custom {
+        margin-bottom: 0;
+    }
+    .table-custom th {
+        background-color: #f8f9fa;
+        color: #495057;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #e9ecef;
+        padding: 1rem;
+    }
+    .table-custom td {
+        vertical-align: middle;
+        color: #2c3e50;
+        padding: 1rem;
+    }
+</style>
+
+<main class="py-4">
     <div class="container-fluid px-4">
-        <h4 class="mt-1">Danh sách lịch hẹn</h4>
+        
+        <div class="page-header">
+            <h1 class="page-title"><i class="fas fa-history me-2 text-primary"></i>Lịch sử Lịch hẹn</h1>
+        </div>
 
-        <div class="card mb-4">
-            <div class="card-body">
-                <table id="datatablesSimple">
-                    <thead style="color:#0d6efd ">
-                        <tr style="background-color: darkgrey">
-                            <th>STT</th>
-                            <th>Khoa</th>
-                            <th>Bác sĩ</th>
-                            <th>Người khám</th>
-                            <th>Ngày</th>
-                            <th>Giờ</th>
-                            <th>Lý do</th>
-                            <th>Tình trạng</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        @{ var stt = 1;}
-                        @foreach (var item in ViewBag.List)
-                        {
-                            var nameModelDes = "exampleModalDes" + item.IdBooking;
-                        <tr>
-                            <td style="width:10px">@stt</td>
-                            <td>
-                                @item.Doctor.Specialist
-                            </td>
-                            <td>
-                                @item.Doctor.FullName
-                            </td>
-                            <td>
-                                @item.User.FullName
-                            </td>
-                            <td>
-                                @item.Day
-                            </td>
-                            <td>
-                                @item.Time giờ
-                            </td>
-                            <td>
-                                @item.Reason
-                            </td>
-                            <td>
-                                Đã khám
-                            </td>
-                        </tr>
-                            stt++;
-                        }
-
-                    </tbody>
-                </table>
+        <div class="card card-custom">
+            <div class="card-body p-0">
+                <div class="table-responsive p-3">
+                    <table id="datatablesSimple" class="table table-hover table-custom">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 5%">STT</th>
+                                <th style="width: 15%">Khoa</th>
+                                <th style="width: 15%">Bác sĩ</th>
+                                <th style="width: 15%">Người khám</th>
+                                <th style="width: 12%">Ngày</th>
+                                <th style="width: 10%">Giờ</th>
+                                <th style="width: 15%">Lý do</th>
+                                <th class="text-center" style="width: 13%">Tình trạng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ var stt = 1;}
+                            @if (ViewBag.List != null)
+                            {
+                                foreach (var item in ViewBag.List)
+                                {
+                                    <tr>
+                                        <td class="text-center fw-bold text-muted">@stt</td>
+                                        <td>
+                                            <span class="badge bg-info text-dark px-2 py-1"><i class="fas fa-stethoscope me-1"></i> @item.Doctor.Specialist</span>
+                                        </td>
+                                        <td>
+                                            <div class="text-primary fw-bold">@item.Doctor.FullName</div>
+                                        </td>
+                                        <td>
+                                            <div class="fw-bold fs-6">@item.User.FullName</div>
+                                        </td>
+                                        <td><i class="far fa-calendar-alt text-primary me-1"></i> @item.Day</td>
+                                        <td><i class="far fa-clock text-warning me-1"></i> @item.Time giờ</td>
+                                        <td>@item.Reason</td>
+                                        <td class="text-center">
+                                            <span class="badge bg-success px-3 py-2 rounded-pill"><i class="fas fa-check-double me-1"></i> Đã khám</span>
+                                        </td>
+                                    </tr>
+                                    stt++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </main>
-

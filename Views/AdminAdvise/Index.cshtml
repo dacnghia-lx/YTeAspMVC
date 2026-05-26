@@ -1,105 +1,163 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    ViewBag.Title = "Quản lý Tư vấn";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<main>
+<style>
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+    .page-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin: 0;
+    }
+    .card-custom {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+    }
+    .table-custom {
+        margin-bottom: 0;
+    }
+    .table-custom th {
+        background-color: #f8f9fa;
+        color: #495057;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #e9ecef;
+        padding: 1rem;
+    }
+    .table-custom td {
+        vertical-align: middle;
+        color: #2c3e50;
+        padding: 1rem;
+    }
+    .btn-action {
+        border-radius: 8px;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+    .btn-action:hover {
+        transform: translateY(-2px);
+    }
+    .modal-content {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .modal-header {
+        border-bottom: 1px solid #e9ecef;
+        border-radius: 15px 15px 0 0;
+    }
+    .form-control {
+        border-radius: 8px;
+        padding: 0.6rem 1rem;
+    }
+    .form-control:focus {
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+    }
+</style>
+
+<main class="py-4">
     <div class="container-fluid px-4">
-        <h4 class="mt-1">Danh sách câu hỏi tư vấn</h4>
+        
+        <div class="page-header">
+            <h1 class="page-title"><i class="fas fa-question-circle me-2 text-primary"></i>Danh sách Câu hỏi tư vấn</h1>
+        </div>
 
-        <div class="card mb-4">
-            <div class="card-header">
-                @if (ViewBag.Msg != null)
-                {
-                    if (ViewBag.Msg == "1")
-                    {
-                        <div class="alert alert-success">
-                            <strong>Thành công</strong>
-                        </div>
-                    }
-                }
-            </div>
+        @if (ViewBag.Msg != null)
+        {
+            if (ViewBag.Msg == "1")
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i><strong>Thành công!</strong> Đã gửi câu trả lời tư vấn.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+        }
 
-            <div class="card-body">
-                <table id="datatablesSimple">
-                    <thead style="color:#0d6efd ">
-                        <tr style="background-color: darkgrey">
-                            <th>STT</th>
-                            <th>Họ tên</th>
-                            <th>Email</th>
-                            <th>Câu hỏi</th>
-                            <th>Ngày gửi</th>
-                            <th>Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        @{ var stt = 1;}
-                        @foreach (var item in ViewBag.List)
-                        {
+        <div class="card card-custom">
+            <div class="card-body p-0">
+                <div class="table-responsive p-3">
+                    <table id="datatablesSimple" class="table table-hover table-custom">
+                        <thead>
                             <tr>
-                                <td style="width:10px">@stt</td>
-                                <td>
-                                    @item.FullName
-                                </td>
-                                <td>
-                                    @item.Email
-                                </td>
-                                <td>
-                                    @item.Question
-                                </td>
-                                <td>
-                                    @String.Format("{0:dd-MM-yyyy}", item.Created)
-                                </td>
-                                <td>
-                                    @{
-                                        var idModelDel = "exampleModalDel" + item.IdAdvise;
-                                    }
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#@idModelDel" style="width:100px" class="btn btn-warning"> Trả lời</button>
-                                </td>
-                                <div class="modal fade" id="@idModelDel" tabindex="-1"
-                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Trả lời cho câu hỏi của @item.FullName</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                            </div>
+                                <th class="text-center" style="width: 5%">STT</th>
+                                <th style="width: 15%">Họ tên</th>
+                                <th style="width: 15%">Email</th>
+                                <th style="width: 35%">Câu hỏi</th>
+                                <th style="width: 15%">Ngày gửi</th>
+                                <th class="text-center" style="width: 15%">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ var stt = 1;}
+                            @if (ViewBag.List != null)
+                            {
+                                foreach (var item in ViewBag.List)
+                                {
+                                    var idModelDel = "exampleModalDel" + item.IdAdvise;
+                                    <tr>
+                                        <td class="text-center fw-bold text-muted">@stt</td>
+                                        <td>
+                                            <div class="fw-bold fs-6">@item.FullName</div>
+                                        </td>
+                                        <td><a href="mailto:@item.Email" class="text-decoration-none">@item.Email</a></td>
+                                        <td>@item.Question</td>
+                                        <td><i class="far fa-calendar-alt text-primary me-1"></i> @String.Format("{0:dd-MM-yyyy}", item.Created)</td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-outline-info btn-action" data-bs-toggle="modal" data-bs-target="#@idModelDel">
+                                                <i class="fas fa-reply"></i> Trả lời
+                                            </button>
+                                        </td>
+                                    </tr>
 
-                                            <div class="modal-body">
-                                                Câu hỏi : @item.Question
-                                                <form action="/AdminAdvise/Reply" method="post" style="margin-top : 10px !important">
-                                                    <input type="hidden" class="form-control" id="id" name="IdAdvise" value="@item.IdAdvise">
-                                                    <textarea class="form-control" name="Reply" rows="6" cols="10" placeholder="Nhập câu trả lời"></textarea>
-                                                    <div class="modal-footer" style="margin-top: 20px">
-                                                        <button style="width:100px" type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">
-                                                            Đóng
-                                                        </button>
-                                                        <button style="width:150px" type="submit" class="btn btn-warning"> Gửi câu trả lời</button>
+                                    <!-- Reply Modal -->
+                                    <div class="modal fade" id="@idModelDel" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-info text-white">
+                                                    <h5 class="modal-title"><i class="fas fa-comment-dots me-2"></i>Trả lời câu hỏi tư vấn</h5>
+                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <form action="/AdminAdvise/Reply" method="post">
+                                                    <div class="modal-body p-4">
+                                                        <div class="mb-4 bg-light p-3 rounded border">
+                                                            <div class="fw-bold text-muted mb-1"><i class="fas fa-user me-2"></i>Người hỏi: <span class="text-dark">@item.FullName</span></div>
+                                                            <div class="fst-italic text-secondary mt-2">"@item.Question"</div>
+                                                        </div>
+                                                        
+                                                        <input type="hidden" name="IdAdvise" value="@item.IdAdvise">
+                                                        <div class="form-group">
+                                                            <label class="fw-bold mb-2">Nội dung trả lời: <span class="text-danger">*</span></label>
+                                                            <textarea class="form-control" name="Reply" rows="5" placeholder="Nhập nội dung câu trả lời của bạn..." required></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer bg-light">
+                                                        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Đóng</button>
+                                                        <button type="submit" class="btn btn-info text-white px-4"><i class="fas fa-paper-plane me-2"></i>Gửi câu trả lời</button>
                                                     </div>
                                                 </form>
-
                                             </div>
-
                                         </div>
                                     </div>
-                                </div>
-
-
-                            </tr>
-                            stt++;
-                        }
-
-                    </tbody>
-                </table>
+                                    stt++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </main>
-

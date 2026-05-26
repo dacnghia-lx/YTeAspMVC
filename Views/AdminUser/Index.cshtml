@@ -1,63 +1,310 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    ViewBag.Title = "Quản lý Người dùng";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<main>
+<style>
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+    .page-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin: 0;
+    }
+    .card-custom {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+    }
+    .table-custom {
+        margin-bottom: 0;
+    }
+    .table-custom th {
+        background-color: #f8f9fa;
+        color: #495057;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #e9ecef;
+        padding: 1rem;
+    }
+    .table-custom td {
+        vertical-align: middle;
+        color: #2c3e50;
+        padding: 1rem;
+    }
+    .btn-action {
+        border-radius: 8px;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+    .btn-action:hover {
+        transform: translateY(-2px);
+    }
+    .btn-add {
+        border-radius: 10px;
+        padding: 0.6rem 1.2rem;
+        font-weight: 600;
+        box-shadow: 0 4px 6px rgba(40, 167, 69, 0.2);
+    }
+    .modal-content {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .modal-header {
+        border-bottom: 1px solid #e9ecef;
+        border-radius: 15px 15px 0 0;
+    }
+    .form-control, .form-select {
+        border-radius: 8px;
+        padding: 0.6rem 1rem;
+    }
+    .form-control:focus, .form-select:focus {
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+    }
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+</style>
+
+<main class="py-4">
     <div class="container-fluid px-4">
-        <h4 class="mt-1">Danh sách người dùng</h4>
+        
+        <div class="page-header">
+            <h1 class="page-title"><i class="fas fa-users me-2 text-primary"></i>Danh sách Khách hàng / Người dùng</h1>
+            <button type="button" class="btn btn-success btn-add" data-bs-toggle="modal" data-bs-target="#exampleModalAdd">
+                <i class="fas fa-user-plus me-1"></i> Thêm người dùng mới
+            </button>
+        </div>
 
-        <div class="card mb-4">
-            <div class="card-header">
-            </div>
+        @if (ViewBag.Msg != null)
+        {
+            if (ViewBag.Msg == "1")
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i><strong>Thành công!</strong> Thao tác đã được thực hiện.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            if (ViewBag.Msg == "2")
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-triangle me-2"></i><strong>Lỗi!</strong> Email này đã tồn tại hoặc không thể xóa bản ghi.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+        }
 
-            <div class="card-body">
-                <table id="datatablesSimple">
-                    <thead style="color:#0d6efd ">
-                        <tr style="background-color: darkgrey">
-                            <th>STT</th>
-                            <th>Họ tên</th>
-                            <th>Email</th>
-                            <th>Số điện thoại</th>
-                            <th>Địa chỉ</th>
-                            <th>Giới tính</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        @{ var stt = 1;}
-                        <input type="hidden" value="@ViewBag.List.Count" id="dodai" />
-                        @foreach (var item in ViewBag.List)
-                        {
+        <div class="card card-custom">
+            <div class="card-body p-0">
+                <div class="table-responsive p-3">
+                    <table id="datatablesSimple" class="table table-hover table-custom">
+                        <thead>
                             <tr>
-                                <td style="width:10px">@stt</td>
-                                <td>
-                                    @item.FullName
-                                </td>
-                                <td>
-                                    @item.Email
-                                </td>
-                                <td>
-                                    @item.PhoneNumber
-                                </td>
-                                <td>
-                                    @item.Address
-                                </td>
-                                <td>
-                                    @item.Gender
-                                </td>
+                                <th class="text-center" style="width: 5%">STT</th>
+                                <th style="width: 25%">Họ và tên</th>
+                                <th style="width: 20%">Email</th>
+                                <th style="width: 15%">Số điện thoại</th>
+                                <th style="width: 10%">Giới tính</th>
+                                <th class="text-center" style="width: 25%">Thao tác</th>
                             </tr>
-                            stt++;
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @{ var stt = 1;}
+                            @if (ViewBag.List != null)
+                            {
+                                foreach (var item in ViewBag.List)
+                                {
+                                    var idEx1 = "exampleModalLabel" + item.IdUser;
+                                    var idModelDel = "exampleModalDel" + item.IdUser;
+                                    var firstChar = string.IsNullOrEmpty(item.FullName) ? "U" : item.FullName.Substring(0, 1).ToUpper();
+
+                                    <tr>
+                                        <td class="text-center fw-bold text-muted">@stt</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="user-avatar me-3 shadow-sm">@firstChar</div>
+                                                <div>
+                                                    <div class="fw-bold fs-6">@item.FullName</div>
+                                                    <div class="text-muted small">@item.Address</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><a href="mailto:@item.Email" class="text-decoration-none">@item.Email</a></td>
+                                        <td>@item.PhoneNumber</td>
+                                        <td>
+                                            @if (item.Gender == "Nam")
+                                            {
+                                                <span class="badge bg-primary px-3 py-2 rounded-pill"><i class="fas fa-mars me-1"></i> Nam</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger px-3 py-2 rounded-pill"><i class="fas fa-venus me-1"></i> Nữ</span>
+                                            }
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="d-flex justify-content-center gap-2">
+                                                <button type="button" class="btn btn-outline-primary btn-action" data-bs-toggle="modal" data-bs-target="#@idEx1">
+                                                    <i class="fas fa-edit"></i> Sửa
+                                                </button>
+                                                <button type="button" class="btn btn-outline-danger btn-action" data-bs-toggle="modal" data-bs-target="#@idModelDel">
+                                                    <i class="fas fa-trash-alt"></i> Xóa
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Delete Modal -->
+                                    <div class="modal fade" id="@idModelDel" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-danger text-white">
+                                                    <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Xác nhận xóa</h5>
+                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body text-center py-4">
+                                                    <h5 class="mb-3">Bạn chắc chắn muốn xóa người dùng này?</h5>
+                                                    <p class="text-danger fw-bold fs-5 mb-0">@item.FullName</p>
+                                                    <p class="text-muted small">@item.Email</p>
+                                                </div>
+                                                <div class="modal-footer bg-light">
+                                                    <form action="/AdminUser/Delete" method="post" class="w-100">
+                                                        <input type="hidden" name="IdUser" value="@item.IdUser">
+                                                        <div class="d-flex justify-content-end gap-2">
+                                                            <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Đóng</button>
+                                                            <button type="submit" class="btn btn-danger px-4">Xóa người dùng</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Edit Modal -->
+                                    <div class="modal fade" id="@idEx1" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title text-primary"><i class="fas fa-user-edit me-2"></i>Cập nhật thông tin Người dùng</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <form method="POST" action="/AdminUser/Update">
+                                                    <div class="modal-body p-4">
+                                                        <input type="hidden" name="IdUser" value="@item.IdUser">
+                                                        <div class="row g-3">
+                                                            <div class="col-md-6">
+                                                                <label class="form-label fw-bold">Họ và tên:</label>
+                                                                <input type="text" class="form-control" name="FullName" required value="@item.FullName">
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label class="form-label fw-bold">Email:</label>
+                                                                <input type="email" class="form-control" name="Email" required value="@item.Email">
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label class="form-label fw-bold">Số điện thoại:</label>
+                                                                <input type="text" class="form-control" name="PhoneNumber" value="@item.PhoneNumber">
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label class="form-label fw-bold">Mật khẩu mới (giữ nguyên nếu không đổi):</label>
+                                                                <input type="text" class="form-control" name="Password" value="@item.Password" required>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="form-label fw-bold">Địa chỉ:</label>
+                                                                <input type="text" class="form-control" name="Address" value="@item.Address">
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <label class="form-label fw-bold">Giới tính:</label>
+                                                                <select name="Gender" class="form-select">
+                                                                    <option value="Nam" @(item.Gender == "Nam" ? "selected" : "")>Nam</option>
+                                                                    <option value="Nữ" @(item.Gender == "Nữ" ? "selected" : "")>Nữ</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer bg-light">
+                                                        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Đóng</button>
+                                                        <button type="submit" class="btn btn-primary px-4"><i class="fas fa-save me-2"></i>Lưu thay đổi</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    stt++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-    
 </main>
 
+<!-- Add Modal -->
+<div class="modal fade" id="exampleModalAdd" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title"><i class="fas fa-user-plus me-2"></i>Thêm Người dùng mới</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="/AdminUser/Add">
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Họ và tên: <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="FullName" required placeholder="Nhập họ và tên...">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Email (Tài khoản đăng nhập): <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" name="Email" required placeholder="Nhập email...">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Số điện thoại:</label>
+                            <input type="text" class="form-control" name="PhoneNumber" placeholder="Nhập số điện thoại...">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Mật khẩu: <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="Password" required placeholder="Nhập mật khẩu...">
+                        </div>
+                        <div class="col-md-8">
+                            <label class="form-label fw-bold">Địa chỉ:</label>
+                            <input type="text" class="form-control" name="Address" placeholder="Nhập địa chỉ...">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Giới tính:</label>
+                            <select name="Gender" class="form-select">
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-success px-4"><i class="fas fa-save me-2"></i>Lưu người dùng</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

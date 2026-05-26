@@ -1,125 +1,180 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    ViewBag.Title = "Quản lý Lịch hẹn";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<main>
+<style>
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+    .page-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin: 0;
+    }
+    .card-custom {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+    }
+    .table-custom {
+        margin-bottom: 0;
+    }
+    .table-custom th {
+        background-color: #f8f9fa;
+        color: #495057;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #e9ecef;
+        padding: 1rem;
+    }
+    .table-custom td {
+        vertical-align: middle;
+        color: #2c3e50;
+        padding: 1rem;
+    }
+    .btn-action {
+        border-radius: 8px;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+    .btn-action:hover {
+        transform: translateY(-2px);
+    }
+    .modal-content {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .modal-header {
+        border-bottom: 1px solid #e9ecef;
+        border-radius: 15px 15px 0 0;
+    }
+</style>
+
+<main class="py-4">
     <div class="container-fluid px-4">
-        <h4 class="mt-1">Danh sách lịch hẹn</h4>
+        
+        <div class="page-header">
+            <h1 class="page-title"><i class="fas fa-calendar-check me-2 text-primary"></i>Danh sách Lịch hẹn</h1>
+        </div>
 
-        <div class="card mb-4">
-            <div class="card-header">
-                @if (ViewBag.Msg != null)
-                {
-                    if (ViewBag.Msg == "1")
-                    {
-                        <div class="alert alert-success">
-                            <strong>Thành công</strong>
-                        </div>
-                    }
-                }
-            </div>
+        @if (ViewBag.Msg != null)
+        {
+            if (ViewBag.Msg == "1")
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i><strong>Thành công!</strong> Đã phê duyệt lịch hẹn.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+        }
 
-            <div class="card-body">
-                <table id="datatablesSimple">
-                    <thead style="color:#0d6efd ">
-                        <tr style="background-color: darkgrey">
-                            <th>STT</th>
-                            <th>Người dùng</th>
-                            <th>Ngày đặt lịch</th>
-                            <th>Thời gian</th>
-                            <th>Bác sĩ</th>
-                            <th>Lý do</th>
-                            <th>Tình trạng</th>
-                            <th>Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        @{ var stt = 1;}
-                        <input type="hidden" value="@ViewBag.List.Count" id="dodai" />
-                        @foreach (var item in ViewBag.List)
-                        {
-                            var nameModelDes = "exampleModalDes" + item.IdBooking;
-                    <tr>
-                        <td style="width:10px">@stt</td>
-                        <td>
-                            @item.User.FullName
-                        </td>
-                        <td>
-                            @item.Day
-                        </td>
-                        <td>
-                            @item.Time giờ
-                        </td>
-                        <td>
-                            @item.Doctor.FullName
-                        </td>
-                        <td>
-                            @item.Reason
-                        </td>
-                        <td>
-                            @if (item.Status == 0)
+        <div class="card card-custom">
+            <div class="card-body p-0">
+                <div class="table-responsive p-3">
+                    <table id="datatablesSimple" class="table table-hover table-custom">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 5%">STT</th>
+                                <th style="width: 15%">Người dùng</th>
+                                <th style="width: 15%">Ngày đặt lịch</th>
+                                <th style="width: 10%">Thời gian</th>
+                                <th style="width: 15%">Bác sĩ</th>
+                                <th style="width: 15%">Lý do</th>
+                                <th class="text-center" style="width: 12%">Tình trạng</th>
+                                <th class="text-center" style="width: 13%">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ var stt = 1;}
+                            @if (ViewBag.List != null)
                             {
-                                <p>Chưa duyệt</p>
-                            }
-                            else
-                            {
-                                <p>Đã duyệt</p>
-                            }
-                        </td>
-                        <td>
-                            @{
-                                var idModelDel = "exampleModalDel" + item.IdBooking;
-                            }
-                            @if (item.Status == 0)
-                            {
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#@idModelDel" style="width:100px" class="btn btn-warning"> Phê duyệt</button>
-                            }
-
-                        </td>
-                        <div class="modal fade" id="@idModelDel" tabindex="-1"
-                             aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Bạn chắc chắn phê duyệt ?</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                    </div>
-
-                                    <div class="modal-body">
-                                        Lịch hẹn của người dùng : @item.User.FullName với Bác sĩ : @item.Doctor.FullName
-                                        <form action="/AdminBooking/Approve" method="post">
-                                            <input type="hidden" class="form-control" id="id" name="idBooking" value="@item.IdBooking">
-                                            <div class="modal-footer" style="margin-top: 20px">
-                                                <button style="width:100px" type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">
-                                                    Đóng
+                                <input type="hidden" value="@ViewBag.List.Count" id="dodai" />
+                                foreach (var item in ViewBag.List)
+                                {
+                                    <tr>
+                                        <td class="text-center fw-bold text-muted">@stt</td>
+                                        <td>
+                                            <div class="fw-bold fs-6">@item.User.FullName</div>
+                                        </td>
+                                        <td><i class="far fa-calendar-alt text-primary me-1"></i> @item.Day</td>
+                                        <td><i class="far fa-clock text-warning me-1"></i> @item.Time giờ</td>
+                                        <td>
+                                            <div class="text-primary fw-bold">@item.Doctor.FullName</div>
+                                        </td>
+                                        <td>@item.Reason</td>
+                                        <td class="text-center">
+                                            @if (item.Status == 0)
+                                            {
+                                                <span class="badge bg-warning text-dark px-3 py-2 rounded-pill"><i class="fas fa-hourglass-half me-1"></i> Chưa duyệt</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-success px-3 py-2 rounded-pill"><i class="fas fa-check me-1"></i> Đã duyệt</span>
+                                            }
+                                        </td>
+                                        <td class="text-center">
+                                            @{
+                                                var idModelDel = "exampleModalDel" + item.IdBooking;
+                                            }
+                                            @if (item.Status == 0)
+                                            {
+                                                <button type="button" class="btn btn-outline-warning btn-action" data-bs-toggle="modal" data-bs-target="#@idModelDel">
+                                                    <i class="fas fa-check-circle"></i> Phê duyệt
                                                 </button>
-                                                <button style="width:100px" type="submit" class="btn btn-warning"> Phê duyệt</button>
-                                            </div>
-                                        </form>
+                                            }
+                                        </td>
+                                    </tr>
 
+                                    <!-- Approve Modal -->
+                                    <div class="modal fade" id="@idModelDel" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-warning text-dark">
+                                                    <h5 class="modal-title"><i class="fas fa-clipboard-check me-2"></i>Xác nhận phê duyệt</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body text-center py-4">
+                                                    <h5 class="mb-3">Phê duyệt lịch hẹn này?</h5>
+                                                    <div class="mb-3">
+                                                        <span class="text-muted small d-block mb-1">Khách hàng:</span>
+                                                        <span class="fw-bold fs-5">@item.User.FullName</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="text-muted small d-block mb-1">Bác sĩ phụ trách:</span>
+                                                        <span class="text-primary fw-bold fs-6">@item.Doctor.FullName</span>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer bg-light">
+                                                    <form action="/AdminBooking/Approve" method="post" class="w-100">
+                                                        <input type="hidden" name="idBooking" value="@item.IdBooking">
+                                                        <div class="d-flex justify-content-end gap-2">
+                                                            <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Đóng</button>
+                                                            <button type="submit" class="btn btn-warning px-4"><i class="fas fa-check me-2"></i>Phê duyệt</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </tr>
-                            stt++;
-                        }
-
-                    </tbody>
-                </table>
+                                    stt++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </main>
-

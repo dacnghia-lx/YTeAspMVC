@@ -51,74 +51,245 @@
         </script>
     </div>
 }
-<section class="breadcrumb-area" style="background-image: url(/Content/images/resources/breadcrumb-bg.jpg);">
+<style>
+    .modern-header-area {
+        padding: 50px 0 30px 0;
+        background-color: #fafbfc;
+        border-bottom: 1px solid #f1f5f9;
+        font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+    .modern-breadcrumb {
+        margin-bottom: 15px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+    .modern-breadcrumb a {
+        color: #26a69a;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    .modern-breadcrumb a:hover {
+        color: #148f77;
+    }
+    .modern-breadcrumb span.separator {
+        margin: 0 8px;
+        color: #cbd5e1;
+        font-size: 11px;
+    }
+    .modern-breadcrumb span.current {
+        color: #64748b;
+    }
+    .modern-title h1 {
+        font-size: 38px;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0 0 12px 0;
+    }
+    .modern-title p {
+        color: #64748b;
+        font-size: 16px;
+        margin: 0;
+    }
+</style>
+<section class="modern-header-area">
     <div class="container">
         <div class="row">
-            <div class="col-xl-12">
-                <div class="inner-content clearfix">
-                    <div class="title float-left">
-                        <h2>Lịch sử lịch hẹn</h2>
-                    </div>
-                    <div class="breadcrumb-menu float-right">
-                        <ul class="clearfix">
-                            <li><a href="/Home/Index">Home</a></li>
-                            <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
-                            <li class="active">Lịch sử lịch hẹn</li>
-                        </ul>
-                    </div>
+            <div class="col-xl-12 text-center">
+                <div class="modern-breadcrumb d-flex justify-content-center align-items-center">
+                    <a href="/Home/Index">Trang chủ</a> 
+                    <span class="separator"><i class="fa fa-chevron-right"></i></span> 
+                    <span class="current">Lịch sử lịch hẹn</span>
+                </div>
+                <div class="modern-title">
+                    <h1>Lịch sử lịch hẹn</h1>
+                    <p>Theo dõi và quản lý các lịch hẹn khám bệnh của bạn một cách tiện lợi và nhanh chóng.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<section class="contact-form-area mt-3">
+<style>
+    /* Reset font for the card to ensure Vietnamese fonts don't break */
+    .history-card {
+        font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+        padding: 35px;
+        margin-bottom: 50px;
+        border: 1px solid #f1f5f9;
+    }
+    .history-title {
+        color: #1e293b;
+        font-weight: 700;
+        font-size: 24px;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    .history-title-icon {
+        background: #e0f2f1;
+        color: #26a69a;
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+    }
+    .custom-table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        font-size: 15px;
+    }
+    .custom-table thead th {
+        background-color: #f8fafc;
+        color: #64748b;
+        font-weight: 600;
+        border-bottom: 2px solid #e2e8f0;
+        border-top: none;
+        text-transform: uppercase;
+        font-size: 13px;
+        letter-spacing: 0.5px;
+        padding: 16px 20px;
+    }
+    .custom-table thead th:first-child {
+        border-top-left-radius: 12px;
+        border-bottom-left-radius: 12px;
+    }
+    .custom-table thead th:last-child {
+        border-top-right-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+    .custom-table tbody td {
+        vertical-align: middle;
+        color: #334155;
+        padding: 20px;
+        border-bottom: 1px solid #f1f5f9;
+        font-weight: 400; /* Normal weight helps prevent Vietnamese font fallback issues */
+    }
+    .custom-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+    .custom-table tbody tr {
+        transition: all 0.2s ease;
+    }
+    .custom-table tbody tr:hover {
+        background-color: #f8fafc;
+    }
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #e0f2f1;
+        color: #148f77;
+        padding: 8px 14px;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    .btn-cancel {
+        background-color: #fef2f2;
+        color: #ef4444;
+        border-radius: 10px;
+        padding: 8px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        border: 1px solid transparent;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        text-decoration: none;
+    }
+    .btn-cancel:hover {
+        background-color: #ef4444;
+        color: white;
+        text-decoration: none;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+    }
+    .reason-text {
+        max-width: 250px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #64748b;
+    }
+    .doctor-name {
+        font-weight: 600;
+        color: #0f172a;
+    }
+</style>
+
+<section class="contact-form-area mt-5">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr style="background-color: #8bc43f;color : floralwhite">
-                                <th scope="col">Ngày</th>
-                                <th scope="col">Giờ</th>
-                                <th scope="col">Bác sĩ</th>
-                                <th scope="col">Lý do</th>
-                                <th scope="col">Thao tác</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in ViewBag.List)
-                            {
-
-                                <tr style="color : black">
-                                    <td>@String.Format("{0:dd-MM-yyyy}", item.Day)</td>
-                                    <td>@item.Time giờ</td>
-                                    <td>@item.Doctor.FullName</td>
-                                    <td>@item.Reason</td>
-                                    @{
-                                        DateTime startDate = DateTime.Parse(item.Day);
-
-                                        int result = DateTime.Compare(startDate.Date, DateTime.Now.Date);
-                                    }
-                                    <td>
-                                        @if (item.Status == 0)
-                                        {
-                                            if (result == 0 && startDate.Hour < item.Time)
-                                            {
-                                                <a href="/Booking/Delete/@item.IdBooking"  class="btn btn-warning">Hủy lịch</a>
-                                            }
-                                            else if (result > 0)
-                                            {
-                                                <a href="/Booking/Delete/@item.IdBooking" class="btn btn-warning">Hủy lịch</a>
-                                            }
-
-                                        }
-                                    </td>
+                <div class="history-card">
+                    <div class="history-title">
+                        <div class="history-title-icon">
+                            <i class="fa fa-calendar-check-o"></i>
+                        </div>
+                        Danh sách lịch hẹn của bạn
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table custom-table mb-0">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-center">Ngày khám</th>
+                                    <th scope="col" class="text-center">Giờ</th>
+                                    <th scope="col">Bác sĩ</th>
+                                    <th scope="col">Lý do khám</th>
+                                    <th scope="col" class="text-center">Thao tác</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.List)
+                                {
+                                    <tr>
+                                        <td class="text-center">
+                                            <div class="status-badge">
+                                                <i class="fa fa-calendar"></i>
+                                                @String.Format("{0:dd/MM/yyyy}", item.Day)
+                                            </div>
+                                        </td>
+                                        <td class="text-center" style="color: #475569; font-weight: 500;">
+                                            <i class="fa fa-clock-o" style="color: #94a3b8; margin-right: 4px;"></i>
+                                            @item.Time:00
+                                        </td>
+                                        <td class="doctor-name">
+                                            <i class="fa fa-user-md" style="color: #26a69a; margin-right: 6px;"></i>
+                                            @item.Doctor.FullName
+                                        </td>
+                                        <td>
+                                            <div class="reason-text" title="@item.Reason">@item.Reason</div>
+                                        </td>
+                                        @{
+                                            DateTime startDate = DateTime.Parse(item.Day);
+                                            int result = DateTime.Compare(startDate.Date, DateTime.Now.Date);
+                                        }
+                                        <td class="text-center">
+                                            @if (item.Status == 0)
+                                            {
+                                                if (result == 0 && startDate.Hour < item.Time)
+                                                {
+                                                    <a href="/Booking/Delete/@item.IdBooking" class="btn btn-cancel"><i class="fa fa-ban"></i> Hủy lịch</a>
+                                                }
+                                                else if (result > 0)
+                                                {
+                                                    <a href="/Booking/Delete/@item.IdBooking" class="btn btn-cancel"><i class="fa fa-ban"></i> Hủy lịch</a>
+                                                }
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

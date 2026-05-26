@@ -26,7 +26,7 @@
 @if (ViewBag.mess == "ErrorExist")
 {
     <script>
-        swal({ title: 'Email đã tồn tại!', text: 'Vui lòng sử dụng địa chỉ email khác.', icon: 'error', button: 'Thử lại' });
+        swal({ title: 'Email người dùng đã tồn tại!', text: 'Vui lòng sử dụng địa chỉ email khác.', icon: 'error', button: 'Thử lại' });
     </script>
 }
 
@@ -128,9 +128,27 @@
                     <i class="fa fa-eye-slash hcp-field-icon-right" id="toggleConfirmPwd"></i>
                 </div>
 
-                <!-- Trường ẩn giữ nguyên dữ liệu -->
-                <input type="hidden" name="Address" value="Chưa cập nhật">
-                <input type="hidden" name="Gender" value="Chưa cập nhật">
+                <!-- Địa chỉ & Giới tính -->
+                <div class="hcp-field-row">
+                    <div class="hcp-field-col">
+                        <label class="hcp-field-label">Địa chỉ</label>
+                        <div class="hcp-field-wrap">
+                            <i class="fa fa-map-marker hcp-field-icon-left"></i>
+                            <input type="text" name="Address" class="hcp-auth-input" placeholder="Nhập địa chỉ">
+                        </div>
+                    </div>
+                    <div class="hcp-field-col">
+                        <label class="hcp-field-label">Giới tính</label>
+                        <div class="hcp-field-wrap">
+                            <i class="fa fa-venus-mars hcp-field-icon-left"></i>
+                            <select name="Gender" class="hcp-auth-input">
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                                <option value="Khác">Khác</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Terms -->
                 <div class="hcp-terms-wrap">

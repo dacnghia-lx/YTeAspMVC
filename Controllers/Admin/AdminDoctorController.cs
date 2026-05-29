@@ -1,10 +1,11 @@
-﻿using YTeAspMVC.Daos;
+using YTeAspMVC.Daos;
 using YTeAspMVC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using YTeAspMVC.Utils;
 
 namespace YTeAspMVC.Controllers.Admin
 {
@@ -28,6 +29,7 @@ namespace YTeAspMVC.Controllers.Admin
             file.SaveAs(Server.MapPath("~/Content/images/" + reName));
             doctor.Image = reName;
             doctor.Status = 1;
+            doctor.Password = SecurityUtils.HashSHA256(doctor.Password);
             doctorDao.Add(doctor);
             return RedirectToAction("Index", new { msg = "1" });
         }
@@ -64,6 +66,13 @@ namespace YTeAspMVC.Controllers.Admin
             {
                 return RedirectToAction("Index", new { msg = "2" });
             }
+        }
+
+        [HttpGet]
+        public ActionResult MigratePasswords()
+        {
+            int count = doctorDao.MigrateOldPasswords();
+            return Content($"Migrated {count} doctor passwords to SHA256.");
         }
     }
 }

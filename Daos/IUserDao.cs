@@ -1,4 +1,4 @@
-﻿using YTeAspMVC.Models;
+using YTeAspMVC.Models;
 using System.Collections.Generic; // Cần dòng này để dùng List<User>
 
 namespace YTeAspMVC.Daos
@@ -11,7 +11,8 @@ namespace YTeAspMVC.Daos
         void Add(User user);
         User getById(int id);
         void Update(User user);
-        void Delete(int id);
+        bool Delete(int id);
         bool checkExistEmail(string email);
+        int MigrateOldPasswords();
     }
 }

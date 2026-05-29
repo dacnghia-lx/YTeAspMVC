@@ -1,10 +1,11 @@
-﻿using YTeAspMVC.Daos;
+using YTeAspMVC.Daos;
 using YTeAspMVC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using YTeAspMVC.Utils;
 
 namespace YTeAspMVC.Controllers.Admin
 {
@@ -28,6 +29,8 @@ namespace YTeAspMVC.Controllers.Admin
                 return RedirectToAction("Index", new { msg = "2" });
             }
             user.IdRole = 1;
+            user.TrangThai = true; // default when adding
+            user.Password = SecurityUtils.HashSHA256(user.Password);
             userDao.Add(user);
             return RedirectToAction("Index", new { msg = "1" });
         }
@@ -42,8 +45,22 @@ namespace YTeAspMVC.Controllers.Admin
         [HttpPost]
         public ActionResult Delete(User user)
         {
-            userDao.Delete(user.IdUser);
-            return RedirectToAction("Index", new { msg = "1" });
+            bool isDeleted = userDao.Delete(user.IdUser);
+            if (isDeleted)
+            {
+                return RedirectToAction("Index", new { msg = "1" });
+            }
+            else
+            {
+                return RedirectToAction("Index", new { msg = "2" });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult MigratePasswords()
+        {
+            int count = userDao.MigrateOldPasswords();
+            return Content($"Migrated {count} passwords to SHA256.");
         }
     }
 }

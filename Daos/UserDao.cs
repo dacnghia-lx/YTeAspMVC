@@ -1,11 +1,13 @@
-﻿using YTeAspMVC.Models;
+using YTeAspMVC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using YTeAspMVC.Daos;
+using YTeAspMVC.Utils;
 
 
 
@@ -16,8 +18,19 @@ namespace YTeAspMVC.Daos
         YTeDBContext myDb = new YTeDBContext();
         public bool checkLogin(string email, string password)
         {
-            var obj = myDb.Users.FirstOrDefault(x => x.Email == email && x.Password == password);
-            if (obj == null) { return false; }
+            string hashed = SecurityUtils.HashSHA256(password);
+            var obj = myDb.Users.FirstOrDefault(x => x.Email == email && x.Password == hashed);
+            if (obj == null) 
+            { 
+                // Fallback for unmigrated accounts
+                obj = myDb.Users.FirstOrDefault(x => x.Email == email && x.Password == password);
+                if (obj == null) return false;
+                
+                // Migrate on the fly
+                obj.Password = hashed;
+                myDb.SaveChanges();
+            }
+            if (obj.TrangThai == false) { return false; } // TrangThai = 0 => block login
             return true;
         }
 
@@ -46,17 +59,33 @@ namespace YTeAspMVC.Daos
             var obj = myDb.Users.FirstOrDefault(x => x.IdUser == user.IdUser);
             obj.Email = user.Email;
             obj.FullName = user.FullName;
-            obj.Password = user.Password;
+            if (!string.IsNullOrEmpty(user.Password))
+            {
+                obj.Password = SecurityUtils.HashSHA256(user.Password);
+            }
             obj.PhoneNumber = user.PhoneNumber;
             obj.Address = user.Address;
             obj.Gender = user.Gender;
+            obj.TrangThai = user.TrangThai;
             myDb.SaveChanges();
         }
-        public void Delete(int id)
+        public bool Delete(int id)
         {
-            var obj = myDb.Users.FirstOrDefault(x => x.IdUser == id);
-            myDb.Users.Remove(obj);
-            myDb.SaveChanges();
+            try
+            {
+                var obj = myDb.Users.FirstOrDefault(x => x.IdUser == id);
+                if (obj != null)
+                {
+                    myDb.Users.Remove(obj);
+                    myDb.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public bool checkExistEmail(string email)
@@ -67,6 +96,25 @@ namespace YTeAspMVC.Daos
                 return true;
             }
             return false;
+        }
+
+        public int MigrateOldPasswords()
+        {
+            var users = myDb.Users.ToList();
+            int count = 0;
+            foreach (var u in users)
+            {
+                if (!string.IsNullOrEmpty(u.Password) && u.Password.Length != 64)
+                {
+                    u.Password = SecurityUtils.HashSHA256(u.Password);
+                    count++;
+                }
+            }
+            if (count > 0)
+            {
+                myDb.SaveChanges();
+            }
+            return count;
         }
     }
 }

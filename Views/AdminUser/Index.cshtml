@@ -121,11 +121,12 @@
                         <thead>
                             <tr>
                                 <th class="text-center" style="width: 5%">STT</th>
-                                <th style="width: 25%">Họ và tên</th>
+                                <th style="width: 20%">Họ và tên</th>
                                 <th style="width: 20%">Email</th>
                                 <th style="width: 15%">Số điện thoại</th>
                                 <th style="width: 10%">Giới tính</th>
-                                <th class="text-center" style="width: 25%">Thao tác</th>
+                                <th style="width: 15%">Trạng thái</th>
+                                <th class="text-center" style="width: 15%">Thao tác</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -159,6 +160,16 @@
                                             else
                                             {
                                                 <span class="badge bg-danger px-3 py-2 rounded-pill"><i class="fas fa-venus me-1"></i> Nữ</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (item.TrangThai == false)
+                                            {
+                                                <span class="badge bg-secondary px-3 py-2 rounded-pill"><i class="fas fa-lock me-1"></i> Ngừng hoạt động</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-success px-3 py-2 rounded-pill"><i class="fas fa-check-circle me-1"></i> Hoạt động</span>
                                             }
                                         </td>
                                         <td class="text-center">
@@ -224,18 +235,25 @@
                                                                 <input type="text" class="form-control" name="PhoneNumber" value="@item.PhoneNumber">
                                                             </div>
                                                             <div class="col-md-6">
-                                                                <label class="form-label fw-bold">Mật khẩu mới (giữ nguyên nếu không đổi):</label>
-                                                                <input type="text" class="form-control" name="Password" value="@item.Password" required>
+                                                                <label class="form-label fw-bold">Mật khẩu mới:</label>
+                                                                <input type="text" class="form-control" name="Password" placeholder="Để trống nếu không muốn đổi">
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <label class="form-label fw-bold">Địa chỉ:</label>
                                                                 <input type="text" class="form-control" name="Address" value="@item.Address">
                                                             </div>
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-6">
                                                                 <label class="form-label fw-bold">Giới tính:</label>
                                                                 <select name="Gender" class="form-select">
                                                                     <option value="Nam" @(item.Gender == "Nam" ? "selected" : "")>Nam</option>
                                                                     <option value="Nữ" @(item.Gender == "Nữ" ? "selected" : "")>Nữ</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label class="form-label fw-bold">Trạng thái:</label>
+                                                                <select name="TrangThai" class="form-select">
+                                                                    <option value="true" @(item.TrangThai != false ? "selected" : "")>Hoạt động</option>
+                                                                    <option value="false" @(item.TrangThai == false ? "selected" : "")>Ngừng hoạt động</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -287,15 +305,22 @@
                             <label class="form-label fw-bold">Mật khẩu: <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="Password" required placeholder="Nhập mật khẩu...">
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <label class="form-label fw-bold">Địa chỉ:</label>
                             <input type="text" class="form-control" name="Address" placeholder="Nhập địa chỉ...">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label class="form-label fw-bold">Giới tính:</label>
                             <select name="Gender" class="form-select">
                                 <option value="Nam">Nam</option>
                                 <option value="Nữ">Nữ</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Trạng thái:</label>
+                            <select name="TrangThai" class="form-select">
+                                <option value="true" selected>Hoạt động</option>
+                                <option value="false">Ngừng hoạt động</option>
                             </select>
                         </div>
                     </div>
@@ -308,3 +333,5 @@
         </div>
     </div>
 </div>
+
+

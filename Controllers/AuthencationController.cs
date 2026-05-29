@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using YTeAspMVC.Daos;
 using YTeAspMVC.Models;
+using YTeAspMVC.Utils;
 
 namespace YTeAspMVC.Controllers
 {
@@ -116,7 +117,9 @@ namespace YTeAspMVC.Controllers
             {
                 user.IdRole = 1;
                 user.Status = 1;
+                user.TrangThai = true;
                 user.Created = DateTime.Now.ToString();
+                user.Password = SecurityUtils.HashSHA256(user.Password);
                 userDao.Add(user);
                 ViewBag.mess = "Success";
                 return View("Singup");
